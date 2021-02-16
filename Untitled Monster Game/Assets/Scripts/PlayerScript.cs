@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     Vector3 m_playerLocation;
-	float MovementSpeed = 5.0f;
+	float MovementSpeed = 20.0f;
 	
 	Rigidbody2D rigidbody;
 	
@@ -37,9 +37,9 @@ public class PlayerScript : MonoBehaviour
             moveVec.x += 1.0f;
 	    }
 		
-		rigidbody.AddForce(moveVec);
+		rigidbody.AddForce(moveVec * Time.deltaTime * MovementSpeed, ForceMode2D.Impulse);
 		
-        //m_playerLocation += moveVec * MovementSpeed * Time.deltaTime;
-        //transform.position = m_playerLocation;
+		//For Counterforce
+		rigidbody.AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
     }
 }
