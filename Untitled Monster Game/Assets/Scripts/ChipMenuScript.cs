@@ -11,34 +11,42 @@ public class ChipMenuScript : MonoBehaviour
     public GameObject Background;
 	public int MaxChipSize;
 	public int CurChipSize;
+    bool MenuIsOpen = false;
 	
     // Start is called before the first frame update
     void Start()
     {
         CurChipSize = 0;
-        AttachedChips.Add(new Chip(0, 1, 1, 0, "First"));
-        AttachedChips.Add(new Chip(0, 1, 2, 1, "Second"));
-        AttachedChips.Add(new Chip(0, 1, 3, 2, "Third"));
-        AttachedChips.Add(new Chip(0, 1, 2, 0, "Fourth"));
-        AttachedChips.Add(new Chip(0, 1, 1, 0, "Fifth"));
 
-
-        foreach (Chip c in AttachedChips)
-        {
-            c.EvaluateChip();
-        }
-        
-        SortChips();
-        DisplayChips();
+        //Disable this once chips are in place
+        TestSampleChips();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (MenuIsOpen)
+                OpenMenu();
+            else
+                CloseMenu();
+
+            MenuIsOpen = !MenuIsOpen;
+        }
     }
-	
-	bool CheckChipValidity()
+
+    public void OpenMenu()
+    {
+        Background.SetActive(true);
+    }
+
+    public void CloseMenu()
+    {
+        Background.SetActive(false);
+    }
+
+    bool CheckChipValidity()
 	{
 		int Total = 0;
 		foreach (Chip c in AttachedChips)
@@ -95,9 +103,11 @@ public class ChipMenuScript : MonoBehaviour
                     break;
             }
 
-            //This is to offset Chip Size
-            DisplayedChips.Add(Instantiate(toInstantiate, curPos + new Vector3(0.0f, toInstantiate.GetComponent<SpriteRenderer>().bounds.size.y / -2, 0.0f), Quaternion.identity));
+            GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, toInstantiate.GetComponent<SpriteRenderer>().bounds.size.y / -2, 0.0f), Quaternion.identity);
+            instance.transform.SetParent(Background.transform);
+            DisplayedChips.Add(instance);
 
+            //This is to offset Chip Size
             curPos += new Vector3(0.0f, -0.1f - toInstantiate.GetComponent<SpriteRenderer>().bounds.size.y, 0.0f);
         }
 	}
@@ -106,41 +116,33 @@ public class ChipMenuScript : MonoBehaviour
     {
         AttachedChips.Sort();
 		AttachedChips.Reverse();
-        //List<Chip> TempHolder = new List<Chip>();
-        //List<Chip> TempChips = new List<Chip>();
+    }
 
-        //for (int i = 0; i < AttachedChips.Count; ++i)
-        //{
-        //    Chip c = new Chip();
-        //    c.CopyChip(AttachedChips[i]);
-        //    TempChips.Add(c);
-        //}
+    public void AddChip(Chip newChip)
+    {
+        AttachedChips.Add(newChip);
+        SortChips();
+        DisplayChips();
+    }
 
-        //Chip BestChip = new Chip();
-        //int ID = 0;
-        //int HighestPoints = 0;
+    void TestSampleChips()
+    {
+        AttachedChips.Clear();
 
-        ////Loop X number of chips times
-        //for (int i = 0; i < AttachedChips.Count; ++i)
-        //{
-        //    //Loop through to find best chip
-        //    for (int j = 0; j < TempChips.Count; ++j)
-        //    {
-        //        Chip c = new Chip();
-        //        c.CopyChip(TempChips[j]);
-        //        if (c.ChipPoints > HighestPoints)
-        //        {
-        //            HighestPoints = c.ChipPoints;
-        //            BestChip.CopyChip(c);
-        //            ID = j;
-        //        }
-        //    }
-        //    TempHolder.Add(BestChip);
-        //    TempChips.RemoveAt(ID);
-        //    BestChip = new Chip();
-        //}
+        AttachedChips.Add(new Chip(0, 1, 1, 0, "First"));
+        AttachedChips.Add(new Chip(0, 1, 2, 1, "Second"));
+        AttachedChips.Add(new Chip(0, 1, 3, 2, "Third"));
+        AttachedChips.Add(new Chip(0, 1, 2, 0, "Fourth"));
+        AttachedChips.Add(new Chip(0, 1, 1, 0, "Fifth"));
 
-        //AttachedChips = TempHolder;
+
+        foreach (Chip c in AttachedChips)
+        {
+            c.EvaluateChip();
+        }
+
+        SortChips();
+        DisplayChips();
     }
 
 }
