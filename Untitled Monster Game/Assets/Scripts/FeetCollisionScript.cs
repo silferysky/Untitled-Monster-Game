@@ -18,7 +18,7 @@ public class FeetCollisionScript : MonoBehaviour
 	    
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionStay2D()
     {
         parent.GetComponent<PlayerScript>().isJumping = false;
     }
