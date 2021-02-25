@@ -32,7 +32,14 @@ public class HealthScript : MonoBehaviour
         if (HP == 0)
         {
             isAlive = false;
-            print("YOU DIED!");
+
+            if (CompareTag("Player"))
+                print("YOU DIED!");
         }
+    }
+
+    public bool GetAlive()
+    {
+        return isAlive;
     }
 }

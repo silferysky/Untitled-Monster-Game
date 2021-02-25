@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShittyAIScript : MonoBehaviour
 {
     Rigidbody2D rigidbody;
+    HealthScript healthscript;
 
     public float MovementSpeed = 20.0f;
 
@@ -19,6 +20,7 @@ public class ShittyAIScript : MonoBehaviour
     void Start()
     {
 		rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        healthscript = gameObject.GetComponent<HealthScript>();
 
         isMovingRight = Random.Range(0, 1) != 0; // i.e. 1 means moving right at start
         ResetMovementTimers(); // get a random timer for moving in a direction
@@ -27,9 +29,8 @@ public class ShittyAIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateMovement();
-
-        // TODO: take damage
+        if (healthscript.GetAlive())
+            UpdateMovement();
     }
 
     void UpdateMovement()

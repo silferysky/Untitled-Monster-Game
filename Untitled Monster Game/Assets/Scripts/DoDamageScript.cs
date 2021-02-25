@@ -10,41 +10,60 @@ public class DoDamageScript : MonoBehaviour
     public bool EnableMelee = false;
     public int MeleeDamage = 1;
 
+    public float BasicAttackCooldown = 1.0f;
+    public float cooldownTimer;
+
+    GameObject parent;
+    HealthScript myhealthscript;
+
     // Start is called before the first frame update
     void Start()
     {
+        parent = transform.parent.gameObject;
+        myhealthscript = parent.GetComponent<HealthScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (cooldownTimer > 0.0f)
+            cooldownTimer -= Time.deltaTime;
+
+        if (cooldownTimer < 0.0f)
+            cooldownTimer = 0.0f;
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (tag == "AI")
+        if (CompareTag("AI"))
         {
-            if (other.tag == "Player")
+            if (myhealthscript.GetAlive())
             {
-                HealthScript hs = other.transform.gameObject.GetComponent<HealthScript>();
+                if (other.tag == "Player")
+                {
+                    HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
 
-                if (hs)
-                    hs.TakeDamage(MeleeDamage);
+                    if (other_hs && cooldownTimer == 0.0f)
+                    {
+                        other_hs.TakeDamage(MeleeDamage);
+                        cooldownTimer = BasicAttackCooldown;
+                    }
+                }
             }
         }
 
-        if (tag == "Player")
+        if (CompareTag("Player"))
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
                 if (other.tag == "AI")
                 {
-                    HealthScript hs = other.transform.gameObject.GetComponent<HealthScript>();
+                    HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
 
-                    if (hs)
+                    if (other_hs && cooldownTimer == 0.0f)
                     {
-                        hs.TakeDamage(MeleeDamage);
+                        other_hs.TakeDamage(MeleeDamage);
+                        cooldownTimer = BasicAttackCooldown;
                     }
                 }
             }
