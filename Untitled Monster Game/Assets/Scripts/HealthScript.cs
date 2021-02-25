@@ -35,6 +35,8 @@ public class HealthScript : MonoBehaviour
 
             if (CompareTag("Player"))
                 print("YOU DIED!");
+
+            GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f);
         }
     }
 

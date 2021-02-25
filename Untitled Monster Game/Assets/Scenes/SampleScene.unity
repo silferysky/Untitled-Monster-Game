@@ -1307,7 +1307,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e0508cc2d69cffe49b9ebe0f27955789, type: 3}
-  m_Color: {r: 0.8490566, g: 0.244304, b: 0.244304, a: 1}
+  m_Color: {r: 0.3066038, g: 0.7201726, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1330,7 +1330,7 @@ Transform:
   m_Children:
   - {fileID: 1990370370}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &628311345
 GameObject:
@@ -2536,7 +2536,7 @@ Transform:
   m_Children:
   - {fileID: 114240553}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1216800382
 Rigidbody2D:
