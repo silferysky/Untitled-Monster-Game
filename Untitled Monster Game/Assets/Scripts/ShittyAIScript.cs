@@ -12,6 +12,9 @@ public class ShittyAIScript : MonoBehaviour
     public float duration;
     bool isMovingRight;
 
+    // Sprite Flipping
+    bool isFacingRight = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,10 +48,12 @@ public class ShittyAIScript : MonoBehaviour
         if (!isMovingRight)
         {
             moveVec.x -= 1.0f;
+            FlipSprite(false);
         }
         else if (isMovingRight)
         {
             moveVec.x += 1.0f;
+            FlipSprite(true);
         }
 
         rigidbody.AddForce(moveVec * Time.deltaTime * MovementSpeed, ForceMode2D.Impulse);
@@ -67,5 +72,19 @@ public class ShittyAIScript : MonoBehaviour
     {
         movementTimer = 0.0f;
         duration = Random.Range(3, 5);
+    }
+
+    private void FlipSprite(bool face_right_this_frame)
+    {
+        if (face_right_this_frame && !isFacingRight)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            isFacingRight = true;
+        }
+        else if (!face_right_this_frame && isFacingRight)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            isFacingRight = false;
+        }
     }
 }
