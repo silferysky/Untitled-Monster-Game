@@ -20,6 +20,6 @@ public class FeetCollisionScript : MonoBehaviour
 
     private void OnCollisionStay2D()
     {
-        parent.GetComponent<PlayerScript>().isJumping = false;
+        //parent.GetComponent<PlayerScript>().isJumping = false;
     }
 }

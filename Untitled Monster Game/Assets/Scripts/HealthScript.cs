@@ -37,6 +37,8 @@ public class HealthScript : MonoBehaviour
                 print("YOU DIED!");
 
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f);
+            GetComponent<BoxCollider2D>().isTrigger = true;
+            GetComponent<Rigidbody2D>().velocity = new Vector3();
         }
     }
 

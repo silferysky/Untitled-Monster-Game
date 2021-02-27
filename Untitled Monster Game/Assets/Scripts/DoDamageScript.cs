@@ -54,7 +54,7 @@ public class DoDamageScript : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (other.tag == "AI")
                 {
