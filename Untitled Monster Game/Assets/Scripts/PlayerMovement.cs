@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
 	public float MovementSpeed = 20.0f;
     Rigidbody2D rigidbody;
 
+    public float jumpForce = 2.0f;
+    public bool isJumping = false;
+
     public GameObject PlayerModel;
 	
     // Start is called before the first frame update
@@ -21,16 +24,16 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 	    Vector3 moveVec = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && !isJumping)
         {
-            //rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
-            //isJumping = true;
+            rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
+            isJumping = true;
 
-            moveVec.y += 1.0f;
+            //moveVec.y += 1.0f;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            moveVec.y -= 1.0f;
+            //moveVec.y -= 1.0f;
         }
         if (Input.GetKey(KeyCode.A))
 	    {

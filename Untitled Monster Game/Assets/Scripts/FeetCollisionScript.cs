@@ -9,7 +9,7 @@ public class FeetCollisionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        parent = transform.parent.gameObject;
+        parent = transform.parent.gameObject.transform.parent.gameObject;
     }
 
     // Update is called once per frame
@@ -20,6 +20,6 @@ public class FeetCollisionScript : MonoBehaviour
 
     private void OnCollisionStay2D()
     {
-        //parent.GetComponent<PlayerScript>().isJumping = false;
+        parent.GetComponent<PlayerMovement>().isJumping = false;
     }
 }

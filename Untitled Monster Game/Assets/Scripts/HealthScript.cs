@@ -39,6 +39,7 @@ public class HealthScript : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f);
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<Rigidbody2D>().velocity = new Vector3();
+            GetComponent<Rigidbody2D>().gravityScale = 0.0f;
         }
     }
 

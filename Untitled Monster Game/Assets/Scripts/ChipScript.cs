@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChipScript : IComparable<ChipScript>
+public class ChipScript : MonoBehaviour, IComparable<ChipScript>
 {
 	public int ChipID;
 	public int ChipLevel;
@@ -58,7 +58,6 @@ public class ChipScript : IComparable<ChipScript>
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public int CompareTo(ChipScript rhs)

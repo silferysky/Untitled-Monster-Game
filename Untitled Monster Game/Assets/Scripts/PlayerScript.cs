@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
     Vector3 m_playerLocation;
 	public float MovementSpeed = 20.0f;
     Rigidbody2D rigidbody;
+    HealthScript healthScript;
 
     // Sprite Flipping
     bool isFacingRight = true;
@@ -15,7 +16,8 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         m_playerLocation = new Vector3(0.0f, 0.0f, -5.0f);
-		rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        healthScript = gameObject.GetComponent<HealthScript>();
     }
 
     // Update is called once per frame
@@ -23,10 +25,21 @@ public class PlayerScript : MonoBehaviour
     {
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
         //if (collision.otherCollider.gameObject.tag != "AI")
         //    isJumping = false;
+        if (healthScript.GetAlive())
+        {
+            if (other.tag == "AI")
+            {
+                HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
+
+                if (other_hs && !other_hs.GetAlive())
+                {
+                }
+            }
+        }
     }
 
     public void FlipSprite(bool face_right_this_frame)
