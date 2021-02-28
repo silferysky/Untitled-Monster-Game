@@ -18,6 +18,8 @@ public class ShittyAIScript : MonoBehaviour
 
     public Canvas canvas;
 
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +65,8 @@ public class ShittyAIScript : MonoBehaviour
 
         //For Counterforce
         rigidbody.AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
+
+        animator.SetFloat("Velocity", rigidbody.velocity.x);
     }
 
     //private void OnCollisionEnter(Collision collision)
