@@ -66,7 +66,7 @@ public class ShittyAIScript : MonoBehaviour
         //For Counterforce
         rigidbody.AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
 
-        animator.SetFloat("Velocity", rigidbody.velocity.x);
+        animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
     }
 
     //private void OnCollisionEnter(Collision collision)

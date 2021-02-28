@@ -71,6 +71,7 @@ public class DoDamageScript : MonoBehaviour
                             foreach (Collider2D player in enemiesToDamage)
                             {
                                 player.GetComponent<HealthScript>().TakeDamage(RangedDamage);
+                                animator.SetTrigger("IsAttacking");
                             }
                         }
                     }
@@ -90,8 +91,6 @@ public class DoDamageScript : MonoBehaviour
                     BACooldownTimer = BasicAttackCooldown;
                 }
             }
-
-            animator.SetTrigger("IsAttacking");
         }
 
         if (CompareTag("Player"))
