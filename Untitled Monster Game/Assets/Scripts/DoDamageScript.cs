@@ -11,7 +11,7 @@ public class DoDamageScript : MonoBehaviour
     public int MeleeDamage = 1;
 
     public float BasicAttackCooldown = 1.0f;
-    public float cooldownTimer;
+    public float BACooldownTimer;
 
     GameObject parent;
     HealthScript myhealthscript;
@@ -26,11 +26,23 @@ public class DoDamageScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cooldownTimer > 0.0f)
-            cooldownTimer -= Time.deltaTime;
+        if (BACooldownTimer > 0.0f)
+            BACooldownTimer -= Time.deltaTime;
 
-        if (cooldownTimer < 0.0f)
-            cooldownTimer = 0.0f;
+        if (BACooldownTimer < 0.0f)
+            BACooldownTimer = 0.0f;
+
+        // Account for attacking when not in collision
+        if (CompareTag("Player"))
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L)) // L is temporary because I'm viewing via scene
+            {
+                if (BACooldownTimer == 0.0f)
+                {
+                    BACooldownTimer = BasicAttackCooldown;
+                }
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -43,10 +55,10 @@ public class DoDamageScript : MonoBehaviour
                 {
                     HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
 
-                    if (other_hs && cooldownTimer == 0.0f)
+                    if (other_hs && BACooldownTimer == 0.0f)
                     {
                         other_hs.TakeDamage(MeleeDamage);
-                        cooldownTimer = BasicAttackCooldown;
+                        BACooldownTimer = BasicAttackCooldown;
                     }
                 }
             }
@@ -60,13 +72,23 @@ public class DoDamageScript : MonoBehaviour
                 {
                     HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
 
-                    if (other_hs && cooldownTimer == 0.0f)
+                    if (other_hs && BACooldownTimer == 0.0f)
                     {
                         other_hs.TakeDamage(MeleeDamage);
-                        cooldownTimer = BasicAttackCooldown;
+                        BACooldownTimer = BasicAttackCooldown;
                     }
                 }
             }
         }
+    }
+
+    public float GetBasicAttackCDFraction()
+    {
+        return (BACooldownTimer / BasicAttackCooldown);
+    }
+
+    public float GetBasicAttackCooldownTimer()
+    {
+        return BACooldownTimer;
     }
 }

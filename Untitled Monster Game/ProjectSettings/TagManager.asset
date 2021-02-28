@@ -8,6 +8,7 @@ TagManager:
   - Chip
   - LootChip
   - Button
+  - TimerText
   layers:
   - Default
   - TransparentFX
