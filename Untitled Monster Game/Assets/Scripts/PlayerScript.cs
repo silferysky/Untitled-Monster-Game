@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour
 
     // Sprite Flipping
     bool isFacingRight = true;
+
+    public GameObject ChipMenu;
 	
     // Start is called before the first frame update
     void Start()
@@ -29,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     {
         //if (collision.otherCollider.gameObject.tag != "AI")
         //    isJumping = false;
-        if (healthScript.GetAlive())
+        if (Input.GetKeyDown(KeyCode.F) && healthScript.GetAlive())
         {
             if (other.tag == "AI")
             {
@@ -37,6 +39,20 @@ public class PlayerScript : MonoBehaviour
 
                 if (other_hs && !other_hs.GetAlive())
                 {
+                    ChipMenuScript chipMenu = ChipMenu.GetComponent<ChipMenuScript>();
+                    if (!other_hs.IsLooted)
+                    {
+                        //Generate Loot
+                        other_hs.IsLooted = true;
+                        chipMenu.GenerateLoot(other.gameObject);
+
+                        //Move this to outside if statement once decide to actually code re-visiting bodies
+                        chipMenu.OpenLootInventory();
+                        chipMenu.DisplayLoot(other.gameObject);
+                        chipMenu.LastDeadboi = other.gameObject;
+                    }
+
+                    
                 }
             }
         }

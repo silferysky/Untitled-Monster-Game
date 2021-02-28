@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LootInventoryScript : MonoBehaviour
 {
-	public GameObject[] ItemSprites;
+	public List<GameObject> ItemSprites;
 	
     // Start is called before the first frame update
     void Start()
@@ -20,8 +20,9 @@ public class LootInventoryScript : MonoBehaviour
 	
 	public void SetLootPosition(Vector3 position)
 	{
-		transform.position = new Vector3(position.x, position.y, transform.position.z);
-	}
+        //transform.position = new Vector3(position.x, position.y, transform.position.z);
+        GetComponent<RectTransform>().position = position;
+    }
 	
 	public void SetSprite(Sprite texture, int index)
 	{

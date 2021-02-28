@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Chip = ChipScript;
+using Holder = ChipHolder;
 
 public class ChipMenuScript : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class ChipMenuScript : MonoBehaviour
     bool MenuIsOpen = false;
 
     public bool LootMenuIsOpen = false;
+    public GameObject LootBackground;
+    public List<GameObject> DisplayedLootChips = new List<GameObject>();
+    public List<Chip> LootChips = new List<Chip>();
+    public GameObject LootChipTemplate;
+    public GameObject LastDeadboi;
+
     int SelectedChipInventory = -1;
     int SelectedChipLoot = -1;
 
@@ -84,11 +91,13 @@ public class ChipMenuScript : MonoBehaviour
 
     public void OpenMenu()
     {
+        MenuIsOpen = true;
         Background.SetActive(true);
     }
 
     public void CloseMenu()
     {
+        MenuIsOpen = false;
         Background.SetActive(false);
         SelectedChipInventory = -1;
         SelectedChipLoot = -1;
@@ -96,12 +105,24 @@ public class ChipMenuScript : MonoBehaviour
 
     public void ToggleMenu()
     {
-        MenuIsOpen = !MenuIsOpen;
-
-        if (MenuIsOpen)
+        if (!MenuIsOpen)
             OpenMenu();
         else
             CloseMenu();
+    }
+
+    public void OpenLootInventory()
+    {
+        OpenMenu();
+        LootMenuIsOpen = true;
+        LootBackground.SetActive(true);
+    }
+
+    public void CloseLootInventory()
+    {
+        CloseMenu();
+        LootMenuIsOpen = false;
+        LootBackground.SetActive(false);
     }
 
     void HandleInventoryChip(int selectedChip)
@@ -118,6 +139,16 @@ public class ChipMenuScript : MonoBehaviour
             //Just Select
             SelectedChipInventory = selectedChip;
         }
+    }
+
+    void HandleLootChip(GameObject instance)
+    {
+        Chip chip = instance.GetComponent<Chip>();
+        int selectedChip = chip.ChipPosition;
+        Debug.Log(selectedChip);
+        AddChip(LootChips[selectedChip]);
+        LootChips.RemoveAt(selectedChip);
+        DisplayLoot(LastDeadboi);
     }
 
     bool CheckChipValidity()
@@ -200,9 +231,64 @@ public class ChipMenuScript : MonoBehaviour
 
     public void AddChip(Chip newChip)
     {
+        if (CurChipSize + newChip.ChipSize > MaxChipSize)
+            return;
+
         AttachedChips.Add(newChip);
         SortChips();
         DisplayChips();
+    }
+
+    public void GenerateLoot(GameObject holder)
+    {
+        Holder chipHolder = holder.GetComponent<Holder>();
+        chipHolder.ClearChips();
+
+        chipHolder.AddChip(new Chip(0, 1, 1, 1, "ATK UP"));
+        chipHolder.AddChip(new Chip(0, 1, 1, 1, "DEF UP"));
+
+        LootChips = chipHolder.Chips;
+    }
+
+    public void DisplayLoot(GameObject holder)
+    {
+        foreach (GameObject go in DisplayedLootChips)
+        {
+            Destroy(go);
+        }
+        DisplayedLootChips.Clear();
+
+        Holder chipHolder = holder.GetComponent<Holder>();
+        int loop = 0;
+        foreach (Chip c in LootChips)//chipHolder.Chips)
+        {
+            GameObject toInstantiate = LootChipTemplate;
+            switch (c.ChipType)
+            {
+                case 0:
+                    toInstantiate.GetComponent<Image>().color = new Color(0.55f, 0.21f, 0.25f);
+                    break;
+                case 1:
+                    toInstantiate.GetComponent<Image>().color = new Color(0.45f, 0.41f, 0.27f);
+                    break;
+                case 2:
+                    toInstantiate.GetComponent<Image>().color = new Color(0.5f, 0.55f, 0.47f);
+                    break;
+                default:
+                    toInstantiate.GetComponent<Image>().color = Color.white;
+                    break;
+            }
+
+            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position + new Vector3(65 * (loop % 3 - 1), -65 * (loop / 3 - 1), -1.0f);
+            GameObject instance = Instantiate(toInstantiate, curPos, Quaternion.identity);
+            instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
+            instance.transform.SetParent(LootBackground.transform);
+            instance.tag = "LootChip";
+            instance.GetComponent<Button>().onClick.AddListener(() => HandleLootChip(instance));
+            DisplayedLootChips.Add(instance);
+
+            ++loop;
+        }
     }
 
     void TestSampleChips()

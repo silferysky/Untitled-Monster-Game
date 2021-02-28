@@ -12,6 +12,8 @@ public class ChipScript : MonoBehaviour, IComparable<ChipScript>
 	public string ChipName;
     public int ChipPoints; //Used for ChipMenu calculations
 
+    public int ChipPosition; 
+
     public ChipScript()
     {
         ChipID = 0;

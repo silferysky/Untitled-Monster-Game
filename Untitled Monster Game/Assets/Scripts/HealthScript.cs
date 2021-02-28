@@ -7,6 +7,8 @@ public class HealthScript : MonoBehaviour
     public int HP = 10;
     bool isAlive;
 
+    public bool IsLooted = false;
+
     // Start is called before the first frame update
     void Start()
     {
