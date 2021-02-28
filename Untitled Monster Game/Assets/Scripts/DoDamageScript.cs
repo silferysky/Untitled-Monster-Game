@@ -13,14 +13,20 @@ public class DoDamageScript : MonoBehaviour
     public float BasicAttackCooldown = 1.0f;
     public float BACooldownTimer;
 
-    GameObject parent;
+    public LayerMask EnemyMask;
+    
+    public Transform MeleeAttackPos;
+    public float MeleeAttackRadius = 0.0f;
+
+    public Transform RangedAttackPos;
+    public float RangedAttackRadius = 0.0f;
+
     HealthScript myhealthscript;
 
     // Start is called before the first frame update
     void Start()
     {
-        parent = transform.parent.gameObject;
-        myhealthscript = parent.GetComponent<HealthScript>();
+        myhealthscript = GetComponent<HealthScript>();
     }
 
     // Update is called once per frame
@@ -32,51 +38,84 @@ public class DoDamageScript : MonoBehaviour
         if (BACooldownTimer < 0.0f)
             BACooldownTimer = 0.0f;
 
-        // Account for attacking when not in collision
+        if (CompareTag("Player"))
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                EnableMelee = !EnableMelee;
+                EnableRanged = !EnableRanged;
+            }
+        }
+
+        ActuallyDoDamage();
+    }
+
+    void ActuallyDoDamage()
+    {
+        if (CompareTag("AI"))
+        {
+            if (myhealthscript.GetAlive())
+            {
+                if (BACooldownTimer == 0.0f)
+                {
+                    Collider2D[] enemiesToDamage;
+
+                    if (EnableMelee)
+                    {
+                        enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
+
+                        if (enemiesToDamage.Length > 0)
+                        {
+                            foreach (Collider2D player in enemiesToDamage)
+                            {
+                                player.GetComponent<HealthScript>().TakeDamage(RangedDamage);
+                            }
+                        }
+                    }
+                    if (EnableRanged)
+                    {
+                        enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
+
+                        if (enemiesToDamage.Length > 0)
+                        {
+                            foreach (Collider2D player in enemiesToDamage)
+                            {
+                                player.GetComponent<HealthScript>().TakeDamage(RangedDamage);
+                            }
+                        }
+                    }
+
+                    BACooldownTimer = BasicAttackCooldown;
+                }
+            }
+        }
+
         if (CompareTag("Player"))
         {
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L)) // L is temporary because I'm viewing via scene
             {
                 if (BACooldownTimer == 0.0f)
                 {
+                    Collider2D[] enemiesToDamage = null;
+
+                    if (EnableMelee)
+                        enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
+                    if (EnableRanged)
+                        enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
+
+                    foreach (Collider2D enemy in enemiesToDamage)
+                    {
+                        if (EnableMelee)
+                        {
+                            enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage);
+                        }
+                        if (EnableRanged)
+                        {
+                            enemy.GetComponent<HealthScript>().TakeDamage(RangedDamage);
+                        }
+                    }
+
                     BACooldownTimer = BasicAttackCooldown;
-                }
-            }
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (CompareTag("AI"))
-        {
-            if (myhealthscript.GetAlive())
-            {
-                if (other.tag == "Player")
-                {
-                    HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
-
-                    if (other_hs && BACooldownTimer == 0.0f)
-                    {
-                        other_hs.TakeDamage(MeleeDamage);
-                        BACooldownTimer = BasicAttackCooldown;
-                    }
-                }
-            }
-        }
-
-        if (CompareTag("Player"))
-        {
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L)) // L is temporary because I'm viewing via scene
-            {
-                if (other.tag == "AI")
-                {
-                    HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
-
-                    if (other_hs && BACooldownTimer == 0.0f)
-                    {
-                        other_hs.TakeDamage(MeleeDamage);
-                        BACooldownTimer = BasicAttackCooldown;
-                    }
                 }
             }
         }

@@ -16,6 +16,8 @@ public class ShittyAIScript : MonoBehaviour
     // Sprite Flipping
     bool isFacingRight = true;
 
+    public Canvas canvas;
+
     // Start is called before the first frame update
     void Start()
     {
