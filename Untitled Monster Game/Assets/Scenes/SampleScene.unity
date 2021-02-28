@@ -2685,6 +2685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ea842b35105fb47b69170b6c90cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   HP_Max: 10
   HP_Current: 0
   IsLooted: 0
@@ -3464,6 +3465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ea842b35105fb47b69170b6c90cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   HP_Max: 100
   HP_Current: 0
   IsLooted: 0
@@ -4593,6 +4595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ea842b35105fb47b69170b6c90cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1216800379}
   HP_Max: 10
   HP_Current: 0
   IsLooted: 0

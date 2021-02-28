@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
+    public Animator animator;
+
     public int HP_Max = 10;
     public int HP_Current;
     bool isAlive;
@@ -44,6 +46,8 @@ public class HealthScript : MonoBehaviour
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<Rigidbody2D>().velocity = new Vector3();
             GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+
+            animator.SetTrigger("IsDead");
         }
     }
 
