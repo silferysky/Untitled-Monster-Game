@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
-    public int HP = 10;
+    public int HP_Max = 10;
+    public int HP_Current;
     bool isAlive;
 
     public bool IsLooted = false;
@@ -13,6 +14,7 @@ public class HealthScript : MonoBehaviour
     void Start()
     {
         isAlive = true;
+        HP_Current = HP_Max;
     }
 
     // Update is called once per frame
@@ -25,13 +27,13 @@ public class HealthScript : MonoBehaviour
         if (!isAlive)
             return;
 
-        HP -= damage;
+        HP_Current -= damage;
 
         // Hard limit minimal hp to 0
-        if (HP < 0)
-            HP = 0;
+        if (HP_Current < 0)
+            HP_Current = 0;
 
-        if (HP == 0)
+        if (HP_Current == 0)
         {
             isAlive = false;
 
@@ -48,5 +50,10 @@ public class HealthScript : MonoBehaviour
     public bool GetAlive()
     {
         return isAlive;
+    }
+
+    public float GetHPFraction()
+    {
+        return ((float)HP_Current / (float)HP_Max);
     }
 }

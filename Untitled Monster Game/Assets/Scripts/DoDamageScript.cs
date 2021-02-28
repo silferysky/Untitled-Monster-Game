@@ -54,7 +54,7 @@ public class DoDamageScript : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L)) // L is temporary because I'm viewing via scene
             {
                 if (other.tag == "AI")
                 {
