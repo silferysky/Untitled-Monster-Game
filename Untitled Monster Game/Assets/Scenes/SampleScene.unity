@@ -2705,6 +2705,7 @@ MonoBehaviour:
   movementTimer: 0
   duration: 0
   canvas: {fileID: 439464790}
+  animator: {fileID: 626515884}
 --- !u!61 &626515882
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2876,6 +2877,7 @@ MonoBehaviour:
   RangedAttackPos: {fileID: 0}
   RangedAttackRadius: 0
   animator: {fileID: 626515884}
+  projectile: {fileID: 0}
 --- !u!1 &628311345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3455,6 +3457,7 @@ MonoBehaviour:
   RangedAttackPos: {fileID: 0}
   RangedAttackRadius: 0
   animator: {fileID: 0}
+  projectile: {fileID: 0}
 --- !u!114 &781627364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4585,6 +4588,7 @@ MonoBehaviour:
   movementTimer: 0
   duration: 0
   canvas: {fileID: 439464790}
+  animator: {fileID: 1216800379}
 --- !u!114 &1216800385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4640,6 +4644,8 @@ MonoBehaviour:
   RangedAttackPos: {fileID: 114240553}
   RangedAttackRadius: 1
   animator: {fileID: 1216800379}
+  projectile: {fileID: 6785574707469092835, guid: 3f37397b319846b419d458698fd2b4e4,
+    type: 3}
 --- !u!1 &1271932030
 GameObject:
   m_ObjectHideFlags: 0

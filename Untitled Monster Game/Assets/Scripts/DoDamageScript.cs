@@ -22,6 +22,7 @@ public class DoDamageScript : MonoBehaviour
     public float RangedAttackRadius = 0.0f;
 
     public Animator animator;
+    public GameObject projectile;
 
     HealthScript myhealthscript;
 
@@ -77,6 +78,9 @@ public class DoDamageScript : MonoBehaviour
                     }
                     if (EnableRanged)
                     {
+                        GameObject p = Instantiate(projectile, transform.position, transform.rotation);
+                        p.GetComponent<Rigidbody>().velocity = transform.forward * 4;
+
                         enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
 
                         if (enemiesToDamage.Length > 0)
