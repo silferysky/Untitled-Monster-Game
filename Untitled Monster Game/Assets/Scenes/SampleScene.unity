@@ -2685,7 +2685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ea842b35105fb47b69170b6c90cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 626515884}
   HP_Max: 10
   HP_Current: 0
   IsLooted: 0
@@ -2762,7 +2762,7 @@ Animator:
   m_GameObject: {fileID: 626515879}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 989d3e3c75b3de34fb5574bd630aad16, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7d44bd9873a9252459ebb1e607da0418, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2875,6 +2875,7 @@ MonoBehaviour:
   MeleeAttackRadius: 0.5
   RangedAttackPos: {fileID: 0}
   RangedAttackRadius: 0
+  animator: {fileID: 626515884}
 --- !u!1 &628311345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,6 +3454,7 @@ MonoBehaviour:
   MeleeAttackRadius: 0.5
   RangedAttackPos: {fileID: 0}
   RangedAttackRadius: 0
+  animator: {fileID: 0}
 --- !u!114 &781627364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4637,6 +4639,7 @@ MonoBehaviour:
   MeleeAttackRadius: 0
   RangedAttackPos: {fileID: 114240553}
   RangedAttackRadius: 1
+  animator: {fileID: 1216800379}
 --- !u!1 &1271932030
 GameObject:
   m_ObjectHideFlags: 0

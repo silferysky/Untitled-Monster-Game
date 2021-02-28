@@ -21,6 +21,8 @@ public class DoDamageScript : MonoBehaviour
     public Transform RangedAttackPos;
     public float RangedAttackRadius = 0.0f;
 
+    public Animator animator;
+
     HealthScript myhealthscript;
 
     // Start is called before the first frame update
@@ -88,6 +90,8 @@ public class DoDamageScript : MonoBehaviour
                     BACooldownTimer = BasicAttackCooldown;
                 }
             }
+
+            animator.SetTrigger("IsAttacking");
         }
 
         if (CompareTag("Player"))
