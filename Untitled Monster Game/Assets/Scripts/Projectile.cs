@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour
 
         Collider2D enemyToDamage = Physics2D.OverlapCircle(transform.position, transform.localScale.x * 0.5f, enemyMask);
 
-        if (enemyToDamage)
+        if (enemyToDamage && enemyToDamage.gameObject.GetComponent<HealthScript>().GetAlive())
         {
             enemyToDamage.GetComponent<HealthScript>().TakeDamage(damage);
             Destroy(this.gameObject);

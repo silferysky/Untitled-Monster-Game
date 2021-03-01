@@ -81,11 +81,15 @@ public class ShittyAIScript : MonoBehaviour
         {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
             isFacingRight = true;
+
+            canvas.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         else if (!face_right_this_frame && isFacingRight)
         {
             transform.localRotation = Quaternion.Euler(0, 180, 0);
             isFacingRight = false;
+
+            canvas.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
     }
 }

@@ -4749,7 +4749,7 @@ MonoBehaviour:
   MovementSpeed: 20
   movementTimer: 0
   duration: 0
-  canvas: {fileID: 439464790}
+  canvas: {fileID: 526364579}
   animator: {fileID: 1216800379}
 --- !u!114 &1216800385
 MonoBehaviour:
