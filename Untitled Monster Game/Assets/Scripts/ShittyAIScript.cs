@@ -69,12 +69,6 @@ public class ShittyAIScript : MonoBehaviour
         animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    ResetMovementTimers();
-    //    isMovingRight = !isMovingRight;
-    //}
-
     void ResetMovementTimers()
     {
         movementTimer = 0.0f;

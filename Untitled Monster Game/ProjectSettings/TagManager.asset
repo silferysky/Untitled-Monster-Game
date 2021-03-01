@@ -9,6 +9,7 @@ TagManager:
   - LootChip
   - Button
   - TimerText
+  - RangeAttackStart
   layers:
   - Default
   - TransparentFX

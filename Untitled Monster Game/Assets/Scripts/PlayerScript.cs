@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour
     HealthScript healthScript;
 
     // Sprite Flipping
-    bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     public GameObject ChipMenu;
 	

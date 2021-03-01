@@ -23,6 +23,8 @@ public class DoDamageScript : MonoBehaviour
 
     public Animator animator;
     public GameObject projectile;
+    public float ProjectileSpeed = 1.0f;
+    public float ProjectileLifetime = 2.0f;
 
     HealthScript myhealthscript;
 
@@ -79,7 +81,12 @@ public class DoDamageScript : MonoBehaviour
                     if (EnableRanged)
                     {
                         GameObject p = Instantiate(projectile, transform.position, transform.rotation);
-                        p.GetComponent<Rigidbody>().velocity = transform.forward * 4;
+                        p.GetComponent<Projectile>().SetParams(RangedDamage, ProjectileLifetime, EnemyMask);
+
+                        Vector3 velocity = transform.forward;
+                        velocity.Normalize();
+
+                        p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
 
                         enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
 
@@ -103,22 +110,33 @@ public class DoDamageScript : MonoBehaviour
             {
                 if (BACooldownTimer == 0.0f)
                 {
-                    Collider2D[] enemiesToDamage = null;
+                    if (EnableRanged)
+                    {
+                        Vector3 endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Vector3 velocity = endPos - RangedAttackPos.position;
+                        velocity.z = 0.0f; // So that normalize will ignore the magnitude of z
+                        velocity.Normalize();
+                                                      
+                        GameObject p;
+                        p = Instantiate(projectile, RangedAttackPos.position, transform.rotation);
+                        p.GetComponent<Projectile>().SetParams(RangedDamage, ProjectileLifetime, EnemyMask);
+
+                        p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
+
+                        PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
+                        if (playerscript.isFacingRight && velocity.x < 0)
+                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
+                        if (!playerscript.isFacingRight && velocity.x > 0)
+                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
+                    }
 
                     if (EnableMelee)
-                        enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
-                    if (EnableRanged)
-                        enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
-
-                    foreach (Collider2D enemy in enemiesToDamage)
                     {
-                        if (EnableMelee)
+                        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
+
+                        foreach (Collider2D enemy in enemiesToDamage)
                         {
                             enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage);
-                        }
-                        if (EnableRanged)
-                        {
-                            enemy.GetComponent<HealthScript>().TakeDamage(RangedDamage);
                         }
                     }
 
