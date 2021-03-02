@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,9 +28,11 @@ static class GameStateManager
             {
                 case GameState.Pause:
                     gameState = GameState.Running;
+                    Console.WriteLine("UNPAUSED");
                     break;
                 case GameState.Running:
                     gameState = GameState.Pause;
+                    Console.WriteLine("PAUSED");
                     break;
                 default:
                     break;

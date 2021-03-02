@@ -3237,24 +3237,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca56663191b394797f7f1cd8fa14e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 512
+  animator: {fileID: 626515884}
   EnableRanged: 0
   RangedDamage: 1
   EnableMelee: 1
   MeleeDamage: 10
-  BasicAttackCooldown: 1
-  BACooldownTimer: 0
-  EnemyMask:
-    serializedVersion: 2
-    m_Bits: 512
+  RangedBasicAttackCooldown: 1
+  MeleeBasicAttackCooldown: 1
   MeleeAttackPos: {fileID: 1990370370}
   MeleeAttackRadius: 0.5
   RangedAttackPos: {fileID: 0}
   RangedAttackRadius: 0
-  animator: {fileID: 626515884}
   projectile: {fileID: 0}
   ProjectileSpeed: 1
   ProjectileLifetime: 2
-  player: {fileID: 0}
 --- !u!1 &628311345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,6 +3696,7 @@ GameObject:
   - component: {fileID: 781627364}
   - component: {fileID: 781627363}
   - component: {fileID: 781627365}
+  - component: {fileID: 781627366}
   m_Layer: 9
   m_Name: PlayerModel
   m_TagString: Player
@@ -3823,25 +3824,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca56663191b394797f7f1cd8fa14e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 256
+  animator: {fileID: 0}
   EnableRanged: 0
   RangedDamage: 1
   EnableMelee: 1
   MeleeDamage: 2
-  BasicAttackCooldown: 0.3
-  BACooldownTimer: 0
-  EnemyMask:
-    serializedVersion: 2
-    m_Bits: 256
+  RangedBasicAttackCooldown: 1
+  MeleeBasicAttackCooldown: 1
   MeleeAttackPos: {fileID: 628311346}
   MeleeAttackRadius: 0.5
   RangedAttackPos: {fileID: 42268043}
   RangedAttackRadius: 0
-  animator: {fileID: 0}
   projectile: {fileID: 6785574707469092835, guid: 3f37397b319846b419d458698fd2b4e4,
     type: 3}
   ProjectileSpeed: 10
   ProjectileLifetime: 2
-  player: {fileID: 0}
 --- !u!114 &781627364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3872,6 +3873,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityCooldown: 2
   AbilityCooldownTimer: 0
+--- !u!50 &781627366
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781627358}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &827265088
 GameObject:
   m_ObjectHideFlags: 0
@@ -5276,25 +5298,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca56663191b394797f7f1cd8fa14e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 781627358}
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 512
+  animator: {fileID: 1216800379}
   EnableRanged: 1
   RangedDamage: 1
   EnableMelee: 0
   MeleeDamage: 1
-  BasicAttackCooldown: 1
-  BACooldownTimer: 0
-  EnemyMask:
-    serializedVersion: 2
-    m_Bits: 512
+  RangedBasicAttackCooldown: 1
+  MeleeBasicAttackCooldown: 1
   MeleeAttackPos: {fileID: 0}
   MeleeAttackRadius: 0
   RangedAttackPos: {fileID: 360070897}
   RangedAttackRadius: 1
-  animator: {fileID: 1216800379}
   projectile: {fileID: 6785574707469092835, guid: 3f37397b319846b419d458698fd2b4e4,
     type: 3}
   ProjectileSpeed: 10
   ProjectileLifetime: 2
-  player: {fileID: 781627358}
 --- !u!1 &1271932030
 GameObject:
   m_ObjectHideFlags: 0
@@ -6874,7 +6896,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1646739424}
   - component: {fileID: 1646739425}
-  - component: {fileID: 1646739426}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -6919,27 +6940,6 @@ MonoBehaviour:
   SprintDuration: 5
   SprintRegenRate: 2
   jumpForce: 5
---- !u!50 &1646739426
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646739423}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!1001 &1660772963
 PrefabInstance:
   m_ObjectHideFlags: 0

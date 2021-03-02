@@ -37,10 +37,20 @@ public class BasicAttackCooldownScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cooldown_fill.fillAmount = dmgScript.GetBasicAttackCDFraction();
+        float cooldown_timer = 0.0f;
 
-        float cooldown_timer = dmgScript.GetBasicAttackCooldownTimer();
-        if (cooldown_timer > 0)
+        if (dmgScript.EnableMelee)
+        {
+            cooldown_fill.fillAmount = dmgScript.GetRangedBasicCooldownAsFraction();
+            cooldown_timer = dmgScript.GetRangedBasicCooldownTimer();
+        }
+        //else if (dmgScript.EnableRanged)
+        //{
+        //    cooldown_fill.fillAmount = dmgScript.GetMeleeBasicCooldownAsFraction();
+        //    cooldown_timer = dmgScript.GetMeleeBasicCooldownTimer();
+        //}
+        
+        if (cooldown_timer > 0.0f)
             timerText.text = string.Format("{0:0.#}", cooldown_timer);
         else
             timerText.text = "";

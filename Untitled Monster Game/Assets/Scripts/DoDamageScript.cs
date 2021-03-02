@@ -4,33 +4,34 @@ using UnityEngine;
 
 public class DoDamageScript : MonoBehaviour
 {
+    public GameObject player;
+    public LayerMask EnemyMask;
+    public Animator animator;
+
     public bool EnableRanged = false;
     public int RangedDamage = 1;
 
     public bool EnableMelee = false;
     public int MeleeDamage = 1;
 
-    public float BasicAttackCooldown = 1.0f;
-    public float BACooldownTimer;
+    public float RangedBasicAttackCooldown = 1.0f;
+    public float MeleeBasicAttackCooldown = 1.0f;
 
-    public LayerMask EnemyMask;
-    
     public Transform MeleeAttackPos;
     public float MeleeAttackRadius = 0.0f;
 
     public Transform RangedAttackPos;
     public float RangedAttackRadius = 0.0f;
 
-    public Animator animator;
     public GameObject projectile;
     public float ProjectileSpeed = 1.0f;
     public float ProjectileLifetime = 2.0f;
 
-    public GameObject player;
-
     HealthScript myhealthscript;
-
     ShittyAIScript movement;
+
+    float RangedBasicCooldownTimer;
+    float MeleeBasicCooldownTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -45,11 +46,15 @@ public class DoDamageScript : MonoBehaviour
         if (GameStateManager.gameState != GameState.Running)
             return;
 
-        if (BACooldownTimer > 0.0f)
-            BACooldownTimer -= Time.deltaTime;
+        if (RangedBasicCooldownTimer > 0.0f)
+            RangedBasicCooldownTimer -= Time.deltaTime;
+        if (MeleeBasicCooldownTimer > 0.0f)
+            MeleeBasicCooldownTimer -= Time.deltaTime;
 
-        if (BACooldownTimer < 0.0f)
-            BACooldownTimer = 0.0f;
+        if (RangedBasicCooldownTimer < 0.0f)
+            RangedBasicCooldownTimer = 0.0f;
+        if (MeleeBasicCooldownTimer < 0.0f)
+            MeleeBasicCooldownTimer = 0.0f;
 
         if (CompareTag("Player"))
         {
@@ -69,7 +74,8 @@ public class DoDamageScript : MonoBehaviour
         {
             if (myhealthscript.GetAlive())
             {
-                if (BACooldownTimer == 0.0f)
+                if ((EnableRanged && RangedBasicCooldownTimer == 0.0f) ||
+                    (EnableMelee && MeleeBasicCooldownTimer == 0.0f))
                 {
                     Collider2D[] enemiesToDamage;
 
@@ -124,19 +130,12 @@ public class DoDamageScript : MonoBehaviour
 
                             movement.isAttacking = true;
                         }
-
-                        /* enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
-
-                        if (enemiesToDamage.Length > 0)
-                        {
-                            foreach (Collider2D player in enemiesToDamage)
-                            {
-                                player.GetComponent<HealthScript>().TakeDamage(RangedDamage);
-                            }
-                        } */
                     }
 
-                    BACooldownTimer = BasicAttackCooldown;
+                    if (EnableRanged)
+                        RangedBasicCooldownTimer = RangedBasicAttackCooldown;
+                    if (EnableMelee)
+                        MeleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
             }
         }
@@ -145,7 +144,8 @@ public class DoDamageScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (BACooldownTimer == 0.0f)
+                if ((EnableRanged && RangedBasicCooldownTimer == 0.0f) ||
+                    (EnableMelee && MeleeBasicCooldownTimer == 0.0f))
                 {
                     if (EnableRanged)
                     {
@@ -177,19 +177,33 @@ public class DoDamageScript : MonoBehaviour
                         }
                     }
 
-                    BACooldownTimer = BasicAttackCooldown;
+                    if (EnableRanged)
+                        RangedBasicCooldownTimer = RangedBasicAttackCooldown;
+                    if (EnableMelee)
+                        MeleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
             }
         }
     }
 
-    public float GetBasicAttackCDFraction()
+    public float GetRangedBasicCooldownAsFraction()
     {
-        return (BACooldownTimer / BasicAttackCooldown);
+        return (RangedBasicCooldownTimer / RangedBasicAttackCooldown);
     }
 
-    public float GetBasicAttackCooldownTimer()
+    public float GetMeleeBasicCooldownAsFraction()
     {
-        return BACooldownTimer;
+        return (MeleeBasicCooldownTimer / MeleeBasicAttackCooldown);
     }
+
+    public float GetRangedBasicCooldownTimer()
+    {
+        return RangedBasicCooldownTimer;
+    }
+
+    public float GetMeleeBasicCooldownTimer()
+    {
+        return MeleeBasicCooldownTimer;
+    }
+
 }
