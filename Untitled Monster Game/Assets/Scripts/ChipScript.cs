@@ -47,8 +47,8 @@ public class ChipScript : MonoBehaviour, IComparable<ChipScript>
 
     public void EvaluateChip()
     {
-        //ChipType > ChipSize > ChipLevel
-        ChipPoints = 100 * (3 - ChipType) + 10 * (ChipSize) + 1 * (ChipLevel);
+        //ChipType > ChipSize > ChipLevel > ChipID
+        ChipPoints = 1000 * (3 - ChipType) + 100 * (ChipSize) + 10 * (ChipLevel) + 1 * (ChipID);
     }
 
     // Start is called before the first frame update

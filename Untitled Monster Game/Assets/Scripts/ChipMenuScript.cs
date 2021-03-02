@@ -22,6 +22,10 @@ public class ChipMenuScript : MonoBehaviour
     public GameObject LootChipTemplate;
     public GameObject LastDeadboi;
 
+    List<Chip> ChipLibraryStats = new List<Chip>();
+    List<Chip> ChipLibraryUI = new List<Chip>();
+    List<Chip> ChipLibraryAttacks = new List<Chip>();
+
     int SelectedChipInventory = -1;
     int SelectedChipLoot = -1;
 
@@ -32,10 +36,12 @@ public class ChipMenuScript : MonoBehaviour
     {
         CurChipSize = 0;
 
+        GenerateChipLibrary();
+
         Buttons[0].onClick.AddListener(ToggleMenu);
 
         //Disable this once chips are in place
-        TestSampleChips();
+        //TestSampleChips();
     }
 
     // Update is called once per frame
@@ -106,21 +112,24 @@ public class ChipMenuScript : MonoBehaviour
     public void ToggleMenu()
     {
         if (!MenuIsOpen)
+        {
             OpenMenu();
+        }
         else
+        {
             CloseMenu();
+            CloseLootInventory();
+        }
     }
 
     public void OpenLootInventory()
     {
-        OpenMenu();
         LootMenuIsOpen = true;
         LootBackground.SetActive(true);
     }
 
     public void CloseLootInventory()
     {
-        CloseMenu();
         LootMenuIsOpen = false;
         LootBackground.SetActive(false);
     }
@@ -225,8 +234,20 @@ public class ChipMenuScript : MonoBehaviour
 
     void SortChips()
     {
-        AttachedChips.Sort();
-		AttachedChips.Reverse();
+        AttachedChips.Sort(delegate(Chip lhs, Chip rhs)
+        {
+            if (lhs.ChipPoints == rhs.ChipPoints) return 0;
+            else if (lhs.ChipPoints < rhs.ChipPoints) return -1;
+            else return 1;
+        });
+		//AttachedChips.Reverse();
+
+        //string chipString = "";
+        //foreach (Chip c in AttachedChips)
+        //{
+        //    chipString += c.ChipPoints + "|";
+        //}
+        //Debug.Log(chipString);
     }
 
     public void AddChip(Chip newChip)
@@ -239,14 +260,76 @@ public class ChipMenuScript : MonoBehaviour
         DisplayChips();
     }
 
+    void GenerateChipLibrary()
+    {
+        //STATS CHIPS
+        ChipLibraryStats.Add(new Chip(0, 1, 1, 1, "ATK UP"));
+        ChipLibraryStats.Add(new Chip(0, 2, 2, 1, "ATK UP+"));
+        ChipLibraryStats.Add(new Chip(1, 1, 1, 1, "DEF UP"));
+        ChipLibraryStats.Add(new Chip(1, 2, 2, 1, "DEF UP+"));
+        ChipLibraryStats.Add(new Chip(2, 1, 1, 1, "SPD UP"));
+        ChipLibraryStats.Add(new Chip(2, 2, 2, 1, "SPD UP+"));
+        ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "ATK SLOT"));
+
+        //UI CHIPS
+        ChipLibraryUI.Add(new Chip(0, 1, 1, 2, "SELF HP BAR"));
+        ChipLibraryUI.Add(new Chip(1, 1, 2, 2, "ENEMY HP BAR"));
+        ChipLibraryUI.Add(new Chip(2, 1, 2, 2, "COOLDOWN BAR"));
+
+        //ATTACK CHIPS
+        ChipLibraryAttacks.Add(new Chip(0, 1, 1, 0, "STRIKE"));
+        ChipLibraryAttacks.Add(new Chip(1, 1, 1, 0, "SHOOT"));
+    }
+
     public void GenerateLoot(GameObject holder)
     {
         Holder chipHolder = holder.GetComponent<Holder>();
         chipHolder.ClearChips();
 
-        chipHolder.AddChip(new Chip(0, 1, 1, 1, "ATK UP"));
-        chipHolder.AddChip(new Chip(0, 1, 1, 1, "DEF UP"));
+        //Easiest to get stats chips, medium to get attack chips, hard to get UI chips
+        int StatsChipWeightage = ChipLibraryStats.Count * 3;
+        int AttackChipsWeightage = ChipLibraryAttacks.Count * 2;
+        int UIChipWeightage = ChipLibraryUI.Count * 1;
+        int MaxWeightage = StatsChipWeightage + AttackChipsWeightage + UIChipWeightage;
+        int NumberOfChips = Random.Range(8, 10);
 
+        for (int i = 0; i < NumberOfChips; ++i)
+        {
+            int ID = 0;
+            int ChipWeightage = Random.Range(0, MaxWeightage + 1);
+            if (ChipWeightage >= StatsChipWeightage)
+            {
+                ChipWeightage -= StatsChipWeightage;
+                ++ID;
+
+                if (ChipWeightage >= UIChipWeightage)
+                {
+                    ChipWeightage -= UIChipWeightage;
+                    ++ID;
+                }
+            }
+
+            Chip newChip = new Chip();
+            switch (ID)
+            {
+                //Stats Chip
+                case 0:
+                    newChip.CopyChip(ChipLibraryStats[ChipWeightage / 3]);
+                    break;
+                case 1:
+                    newChip.CopyChip(ChipLibraryUI[ChipWeightage / 1]);
+                    break;
+                case 2:
+                    newChip.CopyChip(ChipLibraryAttacks[ChipWeightage / 2]);
+                    break;
+                default:
+                    break;
+            }
+            chipHolder.AddChip(newChip);
+        }
+
+        //chipHolder.AddChip(ChipLibraryStats[0]);
+        //chipHolder.AddChip(ChipLibraryStats[1]);
         LootChips = chipHolder.Chips;
     }
 
