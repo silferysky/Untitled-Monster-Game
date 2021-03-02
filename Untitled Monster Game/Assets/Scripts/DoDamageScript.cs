@@ -42,6 +42,9 @@ public class DoDamageScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameStateManager.gameState != GameState.Running)
+            return;
+
         if (BACooldownTimer > 0.0f)
             BACooldownTimer -= Time.deltaTime;
 
@@ -127,7 +130,7 @@ public class DoDamageScript : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L)) // L is temporary because I'm viewing via scene
+            if (Input.GetMouseButtonDown(0))
             {
                 if (BACooldownTimer == 0.0f)
                 {

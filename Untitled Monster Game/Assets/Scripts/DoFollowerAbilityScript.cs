@@ -19,6 +19,9 @@ public class DoFollowerAbilityScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameStateManager.gameState != GameState.Running)
+            return;
+
         if (AbilityCooldownTimer > 0.0f)
             AbilityCooldownTimer -= Time.deltaTime;
 

@@ -41,7 +41,7 @@ public class ChipMenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             ToggleMenu();
         }
@@ -113,6 +113,7 @@ public class ChipMenuScript : MonoBehaviour
 
     public void OpenLootInventory()
     {
+        GameStateManager.gameState = GameState.ChipMenu;
         OpenMenu();
         LootMenuIsOpen = true;
         LootBackground.SetActive(true);
@@ -120,6 +121,7 @@ public class ChipMenuScript : MonoBehaviour
 
     public void CloseLootInventory()
     {
+        GameStateManager.gameState = GameState.Running;
         CloseMenu();
         LootMenuIsOpen = false;
         LootBackground.SetActive(false);

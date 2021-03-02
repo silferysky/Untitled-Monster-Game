@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameStateManager.gameState != GameState.Running)
+            return;
+
         Vector3 moveVec = Vector3.zero;
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isJumping)
         {
