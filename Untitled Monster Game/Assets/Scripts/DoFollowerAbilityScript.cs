@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class DoFollowerAbilityScript : MonoBehaviour
 {
-    HealthScript myhealthscript;
-
-    public float AbilityCooldown = 1.0f;
-    public float AbilityCooldownTimer;
+    IAbility[] abilities = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        myhealthscript = GetComponent<HealthScript>();
-        AbilityCooldownTimer = 0.0f;
+        abilities = GetComponents<IAbility>();
     }
 
     // Update is called once per frame
@@ -22,38 +18,26 @@ public class DoFollowerAbilityScript : MonoBehaviour
         if (GameStateManager.gameState != GameState.Running)
             return;
 
-        if (AbilityCooldownTimer > 0.0f)
-            AbilityCooldownTimer -= Time.deltaTime;
-
-        if (AbilityCooldownTimer < 0.0f)
-            AbilityCooldownTimer = 0.0f;
-
-        DoAbility();
-    }
-
-    void DoAbility()
-    {
-        if (AbilityCooldownTimer == 0.0f)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                // Do Ability
-
-
-                // Cooldown
-                AbilityCooldownTimer = AbilityCooldown;
-            }
-
+            if (abilities.Length > 0)
+                abilities[0].CallAbility();
         }
     }
 
     public float GetCooldownAsFraction()
     {
-        return (AbilityCooldownTimer / AbilityCooldown);
+        if (abilities.Length > 0)
+            return abilities[0].GetAbilityCooldownAsFraction();
+        else
+            return 0.0f;
     }
 
     public float GetCooldownTimer()
     {
-        return AbilityCooldownTimer;
+        if (abilities.Length > 0)
+            return abilities[0].GetAbilityCooldownTimer();
+        else
+            return 0.0f;
     }
 }

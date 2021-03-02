@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class HealAbilityScript : MonoBehaviour
+class HealAbilityScript : IAbility
 {
     /*
         Default Variables:
@@ -23,8 +23,10 @@ class HealAbilityScript : MonoBehaviour
     public int HealAmount;
 
     // Interal variables
+    bool wasCalled;
     float cooldownTimer;
 
+    HealthScript healthScript;
 
     /*
         Always have this CallAbility function for standardization.
@@ -32,21 +34,35 @@ class HealAbilityScript : MonoBehaviour
         Use this function to call for the ability to trigger 
         in your driver script in case of manual trigger
     */
-    public void CallAbility()
+    public override void CallAbility()
     {
-        // Do stuff here
+        wasCalled = true;
+    }
+
+    public override void DoAbility()
+    {
+        if (Autocast && (healthScript.HP_Current < healthScript.HP_Max))
         {
-            Target.GetComponent<HealthScript>().HealCheat(HealAmount);
+            healthScript.HealCheat(HealAmount);
+
+            cooldownTimer = Cooldown;
         }
+        else if (wasCalled)
+        {
+            healthScript.HealCheat(HealAmount);
 
-        cooldownTimer = Cooldown;
+            cooldownTimer = Cooldown;
+        }
     }
 
-    void Start()
+    public override void Start()
     {
+        wasCalled = false;
+
+        healthScript = Target.GetComponent<HealthScript>();
     }
 
-    void Update()
+    public override void Update()
     {
         if (GameStateManager.gameState != GameState.Running)
             return;
@@ -56,19 +72,23 @@ class HealAbilityScript : MonoBehaviour
         if (cooldownTimer < 0.0f)
             cooldownTimer = 0.0f;
 
-        if (Autocast || Input.GetKeyDown(KeyCode.E))
+        if (cooldownTimer == 0.0)
         {
-            if (cooldownTimer == 0.0)
-                CallAbility();
+            if (Autocast || wasCalled)
+            {
+                DoAbility();
+            }
         }
+
+        wasCalled = false;
     }
 
-    public float GetAbilityCooldownAsFraction()
+    public override float GetAbilityCooldownAsFraction()
     {
         return (cooldownTimer / Cooldown);
     }
 
-    public float GetAbilityCooldownTimer()
+    public override float GetAbilityCooldownTimer()
     {
         return cooldownTimer;
     }

@@ -17,8 +17,8 @@ public class HealthScript : MonoBehaviour
     Color originalColour;
     Color newColour = new Vector4(0.0f, 1.0f, 0.0f, 1.0f); // rgba
     int numFlickers = 2; // How many times to switch to the new colour
-    float originalColDuration = 0.5f;
-    float newColDuration = 1.0f;
+    float originalColDuration = 0.3f;
+    float newColDuration = 0.3f;
     int flickerCount;
     bool isFlickering;
     float flickerTimer;
@@ -100,7 +100,14 @@ public class HealthScript : MonoBehaviour
     {
         flickerTimer += Time.deltaTime;
 
-        if (flickerCount < numFlickers)
+        if (flickerCount == 0)
+        {
+            spriteRenderer.color = newColour;
+            flickerTimer = 0.0f;
+            ++flickerCount;
+        }
+
+        if (flickerCount <= numFlickers)
         {
             if (spriteRenderer.color == originalColour)
             {
@@ -108,7 +115,7 @@ public class HealthScript : MonoBehaviour
                 {
                     spriteRenderer.color = newColour;
                     flickerTimer = 0.0f;
-                    ++numFlickers;
+                    ++flickerCount;
                 }
             }
             else if (spriteRenderer.color == newColour)

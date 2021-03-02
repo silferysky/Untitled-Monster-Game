@@ -3871,8 +3871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45978952aad5c0a43b563d6b39ba27e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityCooldown: 2
-  AbilityCooldownTimer: 0
 --- !u!114 &781627366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3890,8 +3888,8 @@ MonoBehaviour:
   TargetMask:
     serializedVersion: 2
     m_Bits: 0
-  Cooldown: 3
-  Autocast: 0
+  Cooldown: 8
+  Autocast: 1
   HealAmount: 5
 --- !u!1 &827265088
 GameObject:
