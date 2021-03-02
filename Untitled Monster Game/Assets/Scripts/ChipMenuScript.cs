@@ -113,10 +113,12 @@ public class ChipMenuScript : MonoBehaviour
     {
         if (!MenuIsOpen)
         {
+            GameStateManager.gameState = GameState.ChipMenu;
             OpenMenu();
         }
         else
         {
+            GameStateManager.gameState = GameState.Running;
             CloseMenu();
             CloseLootInventory();
         }
