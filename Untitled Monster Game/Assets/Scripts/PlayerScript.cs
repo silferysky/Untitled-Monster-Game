@@ -47,6 +47,7 @@ public class PlayerScript : MonoBehaviour
                         chipMenu.GenerateLoot(other.gameObject);
 
                         //Move this to outside if statement once decide to actually code re-visiting bodies
+                        chipMenu.OpenMenu();
                         chipMenu.OpenLootInventory();
                         chipMenu.DisplayLoot(other.gameObject);
                         chipMenu.LastDeadboi = other.gameObject;
