@@ -12,16 +12,32 @@ public class HealthScript : MonoBehaviour
 
     public bool IsLooted = false;
 
+    // Flicker function variables
+    SpriteRenderer spriteRenderer;
+    Color originalColour;
+    Color newColour = new Vector4(0.0f, 1.0f, 0.0f, 1.0f); // rgba
+    int numFlickers = 2; // How many times to switch to the new colour
+    float originalColDuration = 0.5f;
+    float newColDuration = 1.0f;
+    int flickerCount;
+    bool isFlickering;
+    float flickerTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         isAlive = true;
         HP_Current = HP_Max;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        isFlickering = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isFlickering)
+            FlickerColour();
     }
 
     public void TakeDamage(int damage)
@@ -31,9 +47,10 @@ public class HealthScript : MonoBehaviour
 
         HP_Current -= damage;
 
-        // Hard limit minimal hp to 0
         if (HP_Current < 0)
             HP_Current = 0;
+        if (HP_Current > HP_Max)
+            HP_Current = HP_Max;
 
         if (HP_Current == 0)
         {
@@ -59,5 +76,54 @@ public class HealthScript : MonoBehaviour
     public float GetHPFraction()
     {
         return ((float)HP_Current / (float)HP_Max);
+    }
+
+    public void HealCheat(int amount)
+    {
+        if (spriteRenderer)
+        {
+            originalColour = spriteRenderer.color;
+            flickerCount = 0;
+            isFlickering = true;
+            flickerTimer = 0.0f;
+        }
+
+        TakeDamage(-amount);
+    }
+
+    public void DamageSelfCheat(int damage)
+    {
+        TakeDamage(damage);
+    }
+
+    void FlickerColour()
+    {
+        flickerTimer += Time.deltaTime;
+
+        if (flickerCount < numFlickers)
+        {
+            if (spriteRenderer.color == originalColour)
+            {
+                if (flickerTimer > originalColDuration)
+                {
+                    spriteRenderer.color = newColour;
+                    flickerTimer = 0.0f;
+                    ++numFlickers;
+                }
+            }
+            else if (spriteRenderer.color == newColour)
+            {
+                if (flickerTimer > newColDuration)
+                {
+                    spriteRenderer.color = originalColour;
+                    flickerTimer = 0.0f;
+                }
+            }
+        }
+        else // Revert back to original colour
+        {
+            spriteRenderer.color = originalColour;
+            isFlickering = false;
+        }
     }
 }

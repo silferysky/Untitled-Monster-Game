@@ -441,7 +441,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
-  m_Color: {r: 0.9528302, g: 0.24719654, b: 0.74570656, a: 1}
+  m_Color: {r: 0.9528302, g: 0.24719654, b: 0.74570656, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -549,7 +549,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
-  m_Color: {r: 0.9803922, g: 1, b: 0, a: 0.36862746}
+  m_Color: {r: 0.9803922, g: 1, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2110,7 +2110,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
-  m_Color: {r: 0.9528302, g: 0.24719654, b: 0.74570656, a: 1}
+  m_Color: {r: 0.9528302, g: 0.24719654, b: 0.74570656, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3326,7 +3326,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
-  m_Color: {r: 0.9818833, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9818833, g: 1, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3696,6 +3696,7 @@ GameObject:
   - component: {fileID: 781627364}
   - component: {fileID: 781627363}
   - component: {fileID: 781627365}
+  - component: {fileID: 781627366}
   m_Layer: 9
   m_Name: PlayerModel
   m_TagString: Player
@@ -3783,8 +3784,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f1b7a1d921f797d40aa88aca64143848, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
+  m_Color: {r: 0, g: 0.63529414, b: 0.9058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3872,6 +3873,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityCooldown: 2
   AbilityCooldownTimer: 0
+--- !u!114 &781627366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781627358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84596087403e2c4981d9e7d597ce6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerModel: {fileID: 781627359}
+  Target: {fileID: 781627358}
+  TargetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  Cooldown: 3
+  Autocast: 0
+  HealAmount: 5
 --- !u!1 &827265088
 GameObject:
   m_ObjectHideFlags: 0
@@ -5609,7 +5630,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
-  m_Color: {r: 0.9818833, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9818833, g: 1, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8540,7 +8561,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 46b2f818b6cd42a4681a2384f9d61be4, type: 3}
-  m_Color: {r: 0.9818833, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9818833, g: 1, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

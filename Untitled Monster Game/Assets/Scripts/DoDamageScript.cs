@@ -30,8 +30,8 @@ public class DoDamageScript : MonoBehaviour
     HealthScript myhealthscript;
     ShittyAIScript movement;
 
-    float RangedBasicCooldownTimer;
-    float MeleeBasicCooldownTimer;
+    float rangedBasicCooldownTimer;
+    float meleeBasicCooldownTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +39,8 @@ public class DoDamageScript : MonoBehaviour
         myhealthscript = GetComponent<HealthScript>();
         movement = GetComponent<ShittyAIScript>();
 
-        RangedBasicCooldownTimer = 0.0f;
-        MeleeBasicCooldownTimer = 0.0f;
+        rangedBasicCooldownTimer = 0.0f;
+        meleeBasicCooldownTimer = 0.0f;
     }
 
     // Update is called once per frame
@@ -49,15 +49,15 @@ public class DoDamageScript : MonoBehaviour
         if (GameStateManager.gameState != GameState.Running)
             return;
 
-        if (RangedBasicCooldownTimer > 0.0f)
-            RangedBasicCooldownTimer -= Time.deltaTime;
-        if (MeleeBasicCooldownTimer > 0.0f)
-            MeleeBasicCooldownTimer -= Time.deltaTime;
+        if (rangedBasicCooldownTimer > 0.0f)
+            rangedBasicCooldownTimer -= Time.deltaTime;
+        if (meleeBasicCooldownTimer > 0.0f)
+            meleeBasicCooldownTimer -= Time.deltaTime;
 
-        if (RangedBasicCooldownTimer < 0.0f)
-            RangedBasicCooldownTimer = 0.0f;
-        if (MeleeBasicCooldownTimer < 0.0f)
-            MeleeBasicCooldownTimer = 0.0f;
+        if (rangedBasicCooldownTimer < 0.0f)
+            rangedBasicCooldownTimer = 0.0f;
+        if (meleeBasicCooldownTimer < 0.0f)
+            meleeBasicCooldownTimer = 0.0f;
 
         if (CompareTag("Player"))
         {
@@ -66,6 +66,11 @@ public class DoDamageScript : MonoBehaviour
                 EnableMelee = !EnableMelee;
                 EnableRanged = !EnableRanged;
             }
+
+            if (Input.GetKeyDown(KeyCode.H))
+                myhealthscript.HealCheat(5);
+            if (Input.GetKeyDown(KeyCode.J))
+                myhealthscript.DamageSelfCheat(5);
         }
 
         ActuallyDoDamage();
@@ -77,8 +82,8 @@ public class DoDamageScript : MonoBehaviour
         {
             if (myhealthscript.GetAlive())
             {
-                if ((EnableRanged && RangedBasicCooldownTimer == 0.0f) ||
-                    (EnableMelee && MeleeBasicCooldownTimer == 0.0f))
+                if ((EnableRanged && rangedBasicCooldownTimer == 0.0f) ||
+                    (EnableMelee && meleeBasicCooldownTimer == 0.0f))
                 {
                     Collider2D[] enemiesToDamage;
 
@@ -136,9 +141,9 @@ public class DoDamageScript : MonoBehaviour
                     }
 
                     if (EnableRanged)
-                        RangedBasicCooldownTimer = RangedBasicAttackCooldown;
+                        rangedBasicCooldownTimer = RangedBasicAttackCooldown;
                     if (EnableMelee)
-                        MeleeBasicCooldownTimer = MeleeBasicAttackCooldown;
+                        meleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
             }
         }
@@ -147,8 +152,8 @@ public class DoDamageScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if ((EnableRanged && RangedBasicCooldownTimer == 0.0f) ||
-                    (EnableMelee && MeleeBasicCooldownTimer == 0.0f))
+                if ((EnableRanged && rangedBasicCooldownTimer == 0.0f) ||
+                    (EnableMelee && meleeBasicCooldownTimer == 0.0f))
                 {
                     if (EnableRanged)
                     {
@@ -181,9 +186,9 @@ public class DoDamageScript : MonoBehaviour
                     }
 
                     if (EnableRanged)
-                        RangedBasicCooldownTimer = RangedBasicAttackCooldown;
+                        rangedBasicCooldownTimer = RangedBasicAttackCooldown;
                     if (EnableMelee)
-                        MeleeBasicCooldownTimer = MeleeBasicAttackCooldown;
+                        meleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
             }
         }
@@ -191,22 +196,23 @@ public class DoDamageScript : MonoBehaviour
 
     public float GetRangedBasicCooldownAsFraction()
     {
-        return (RangedBasicCooldownTimer / RangedBasicAttackCooldown);
+        return (rangedBasicCooldownTimer / RangedBasicAttackCooldown);
     }
 
     public float GetMeleeBasicCooldownAsFraction()
     {
-        return (MeleeBasicCooldownTimer / MeleeBasicAttackCooldown);
+        return (meleeBasicCooldownTimer / MeleeBasicAttackCooldown);
     }
 
     public float GetRangedBasicCooldownTimer()
     {
-        return RangedBasicCooldownTimer;
+        return rangedBasicCooldownTimer;
     }
 
     public float GetMeleeBasicCooldownTimer()
     {
-        return MeleeBasicCooldownTimer;
+        return meleeBasicCooldownTimer;
     }
 
+    
 }
