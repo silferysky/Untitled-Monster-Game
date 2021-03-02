@@ -31,10 +31,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Vector3 moveVec = Vector3.zero;
-        if (Input.GetKey(KeyCode.W) && !isJumping)
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isJumping)
         {
-            rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
             isJumping = true;
+            rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
 
             //moveVec.y += 1.0f;
         }
@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
             else if (sprintTimer < 0.0f)
                 sprintTimer = 0.0f;
         }
-
+        
         rigidbody.AddForce(moveVec * Time.deltaTime * newMoveSpd, ForceMode2D.Impulse);
 
         //For Counterforce
