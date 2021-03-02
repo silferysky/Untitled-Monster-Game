@@ -39,18 +39,16 @@ public class BasicAttackCooldownScript : MonoBehaviour
     {
         float cooldown_timer = 0.0f;
 
-        if (dmgScript.EnableMelee)
+        if (dmgScript.EnableRanged)
         {
             cooldown_fill.fillAmount = dmgScript.GetRangedBasicCooldownAsFraction();
             cooldown_timer = dmgScript.GetRangedBasicCooldownTimer();
         }
-        else if (dmgScript.EnableRanged)
+        else if (dmgScript.EnableMelee)
         {
             cooldown_fill.fillAmount = dmgScript.GetMeleeBasicCooldownAsFraction();
             cooldown_timer = dmgScript.GetMeleeBasicCooldownTimer();
         }
-
-        print(cooldown_timer);
 
         if (cooldown_timer > 0.0f)
             timerText.text = string.Format("{0:0.#}", cooldown_timer);

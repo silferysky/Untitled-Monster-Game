@@ -38,6 +38,9 @@ public class DoDamageScript : MonoBehaviour
     {
         myhealthscript = GetComponent<HealthScript>();
         movement = GetComponent<ShittyAIScript>();
+
+        RangedBasicCooldownTimer = 0.0f;
+        MeleeBasicCooldownTimer = 0.0f;
     }
 
     // Update is called once per frame
