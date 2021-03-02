@@ -14,7 +14,11 @@ public class ShittyAIScript : MonoBehaviour
     bool isMovingRight;
 
     // Sprite Flipping
-    bool isFacingRight = true;
+    public bool isFacingRight = true;
+
+    public bool isAttacking = false;
+    public float pauseTimer;
+    public float pauseDuration = 0.01f;
 
     public Canvas canvas;
 
@@ -34,7 +38,20 @@ public class ShittyAIScript : MonoBehaviour
     void Update()
     {
         if (healthscript.GetAlive())
-            UpdateMovement();
+        {
+            /* if (isAttacking)
+            {
+                pauseTimer += Time.deltaTime;
+
+                if (pauseTimer >= pauseDuration)
+                {
+                    isAttacking = false;
+                    pauseTimer = 0.0f;
+                }
+            }
+            //else */
+                UpdateMovement();
+        }
     }
 
     void UpdateMovement()

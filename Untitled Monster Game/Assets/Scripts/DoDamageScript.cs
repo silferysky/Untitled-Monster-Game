@@ -26,12 +26,17 @@ public class DoDamageScript : MonoBehaviour
     public float ProjectileSpeed = 1.0f;
     public float ProjectileLifetime = 2.0f;
 
+    public GameObject player;
+
     HealthScript myhealthscript;
+
+    ShittyAIScript movement;
 
     // Start is called before the first frame update
     void Start()
     {
         myhealthscript = GetComponent<HealthScript>();
+        movement = GetComponent<ShittyAIScript>();
     }
 
     // Update is called once per frame
@@ -80,15 +85,31 @@ public class DoDamageScript : MonoBehaviour
                     }
                     if (EnableRanged)
                     {
-                        GameObject p = Instantiate(projectile, transform.position, transform.rotation);
-                        p.GetComponent<Projectile>().SetParams(RangedDamage, ProjectileLifetime, EnemyMask);
+                        Vector3 endPos = player.transform.position;
+                        Vector3 velocity = endPos - RangedAttackPos.position;
+                        velocity.z = 0.0f; // So that normalize will ignore the magnitude of z
 
-                        Vector3 velocity = transform.forward;
-                        velocity.Normalize();
+                        if (!movement.isFacingRight)
+                        {
+                            GameObject p;
+                            p = Instantiate(projectile, RangedAttackPos.position, transform.rotation);
 
-                        p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
+                            velocity.Normalize();
 
-                        enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
+                            p.GetComponent<Projectile>().SetParams(RangedDamage, ProjectileLifetime, EnemyMask);
+
+                            p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
+
+                            if (movement.isFacingRight && velocity.x < 0)
+                                p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
+                            if (!movement.isFacingRight && velocity.x > 0)
+                                p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
+
+                            movement.isAttacking = true;
+                            animator.SetTrigger("IsAttacking");
+                        }
+
+                        /* enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
 
                         if (enemiesToDamage.Length > 0)
                         {
@@ -96,7 +117,7 @@ public class DoDamageScript : MonoBehaviour
                             {
                                 player.GetComponent<HealthScript>().TakeDamage(RangedDamage);
                             }
-                        }
+                        } */
                     }
 
                     BACooldownTimer = BasicAttackCooldown;
@@ -123,11 +144,11 @@ public class DoDamageScript : MonoBehaviour
 
                         p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
 
-                        PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
+                        /* PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
                         if (playerscript.isFacingRight && velocity.x < 0)
                             p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
                         if (!playerscript.isFacingRight && velocity.x > 0)
-                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
+                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0); */
                     }
 
                     if (EnableMelee)
