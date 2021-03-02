@@ -31,15 +31,20 @@ public class PlayerScript : MonoBehaviour
     {
         //if (collision.otherCollider.gameObject.tag != "AI")
         //    isJumping = false;
-        if (Input.GetKeyDown(KeyCode.F) && healthScript.GetAlive())
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            if (other.tag == "AI")
+            ChipMenuScript chipMenu = ChipMenu.GetComponent<ChipMenuScript>();
+            if (chipMenu.LootMenuIsOpen)
+            {
+                chipMenu.CloseMenu();
+                chipMenu.CloseLootInventory();
+            }
+            else if (healthScript.GetAlive() && other.tag == "AI")
             {
                 HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
 
                 if (other_hs && !other_hs.GetAlive())
                 {
-                    ChipMenuScript chipMenu = ChipMenu.GetComponent<ChipMenuScript>();
                     if (!other_hs.IsLooted)
                     {
                         //Generate Loot
@@ -52,7 +57,6 @@ public class PlayerScript : MonoBehaviour
                         chipMenu.DisplayLoot(other.gameObject);
                         chipMenu.LastDeadboi = other.gameObject;
                     }
-
                     
                 }
             }

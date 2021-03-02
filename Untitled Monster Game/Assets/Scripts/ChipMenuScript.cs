@@ -30,13 +30,18 @@ public class ChipMenuScript : MonoBehaviour
     int SelectedChipLoot = -1;
 
     public List<Button> Buttons = new List<Button>();
+    public GameObject HUDGameObject;
 
     // Start is called before the first frame update
     void Start()
     {
         CurChipSize = 0;
 
+        Vector3 startPos = new Vector3(Screen.width / -2.0f + 200.0f, 0.0f, 0.0f);
+        Background.GetComponent<RectTransform>().anchoredPosition = startPos;
+
         GenerateChipLibrary();
+        CreateDefaultChips();
 
         Buttons[0].onClick.AddListener(ToggleMenu);
 
@@ -156,9 +161,20 @@ public class ChipMenuScript : MonoBehaviour
     {
         Chip chip = instance.GetComponent<Chip>();
         int selectedChip = chip.ChipPosition;
-        Debug.Log(selectedChip);
+        //Debug.Log(selectedChip);
+
         AddChip(LootChips[selectedChip]);
+        if (LootChips[selectedChip].ChipType == 2)
+        {
+            UpdateUIChips();
+        }
         LootChips.RemoveAt(selectedChip);
+
+        foreach(Chip c in LootChips)
+        {
+            if (c.ChipPosition > selectedChip)
+                --c.ChipPosition;
+        }
         DisplayLoot(LastDeadboi);
     }
 
@@ -242,7 +258,7 @@ public class ChipMenuScript : MonoBehaviour
             else if (lhs.ChipPoints < rhs.ChipPoints) return -1;
             else return 1;
         });
-		//AttachedChips.Reverse();
+		AttachedChips.Reverse();
 
         //string chipString = "";
         //foreach (Chip c in AttachedChips)
@@ -265,18 +281,19 @@ public class ChipMenuScript : MonoBehaviour
     void GenerateChipLibrary()
     {
         //STATS CHIPS
-        ChipLibraryStats.Add(new Chip(0, 1, 1, 1, "ATK UP"));
-        ChipLibraryStats.Add(new Chip(0, 2, 2, 1, "ATK UP+"));
-        ChipLibraryStats.Add(new Chip(1, 1, 1, 1, "DEF UP"));
-        ChipLibraryStats.Add(new Chip(1, 2, 2, 1, "DEF UP+"));
-        ChipLibraryStats.Add(new Chip(2, 1, 1, 1, "SPD UP"));
-        ChipLibraryStats.Add(new Chip(2, 2, 2, 1, "SPD UP+"));
-        ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "ATK SLOT"));
+        ChipLibraryStats.Add(new Chip(0, 1, 1, 1, "MELEE ATK UP"));
+        ChipLibraryStats.Add(new Chip(0, 2, 2, 1, "MELEE ATK UP+"));
+        ChipLibraryStats.Add(new Chip(1, 1, 1, 1, "MELEE SPD UP"));
+        ChipLibraryStats.Add(new Chip(1, 2, 2, 1, "MELEE SPD UP+"));
+        ChipLibraryStats.Add(new Chip(2, 1, 1, 1, "PROJ ATK UP"));
+        ChipLibraryStats.Add(new Chip(2, 2, 2, 1, "PROJ ATK UP+"));
+        ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "PROJ SPD UP"));
+        ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "PROJ SPD UP+"));
 
         //UI CHIPS
-        ChipLibraryUI.Add(new Chip(0, 1, 1, 2, "SELF HP BAR"));
-        ChipLibraryUI.Add(new Chip(1, 1, 2, 2, "ENEMY HP BAR"));
-        ChipLibraryUI.Add(new Chip(2, 1, 2, 2, "COOLDOWN BAR"));
+        ChipLibraryUI.Add(new Chip(0, 1, 1, 2, "SELF STATUS"));
+        ChipLibraryUI.Add(new Chip(1, 1, 2, 2, "COOLDOWN STATUS"));
+        ChipLibraryUI.Add(new Chip(2, 1, 2, 2, "WEAPON MODE STATUS"));
 
         //ATTACK CHIPS
         ChipLibraryAttacks.Add(new Chip(0, 1, 1, 0, "STRIKE"));
@@ -293,7 +310,7 @@ public class ChipMenuScript : MonoBehaviour
         int AttackChipsWeightage = ChipLibraryAttacks.Count * 2;
         int UIChipWeightage = ChipLibraryUI.Count * 1;
         int MaxWeightage = StatsChipWeightage + AttackChipsWeightage + UIChipWeightage;
-        int NumberOfChips = Random.Range(8, 10);
+        int NumberOfChips = Random.Range(1, 4);
 
         for (int i = 0; i < NumberOfChips; ++i)
         {
@@ -374,6 +391,63 @@ public class ChipMenuScript : MonoBehaviour
 
             ++loop;
         }
+    }
+
+    void UpdateUIChips()
+    {
+        Transform Canvas = HUDGameObject.transform.GetChild(0);
+        int UINum = Canvas.transform.childCount;
+        for (int i = 0; i < UINum; ++i)
+        {
+            Canvas.GetChild(i).gameObject.SetActive(false);
+        }
+
+        foreach (Chip c in AttachedChips)
+        {
+            if (c.ChipType != 2)
+                return;
+
+            //Refer to GenerateChipLibrary
+            switch (c.ChipID)
+            {
+                case 0:
+                    Canvas.GetChild(0).gameObject.SetActive(true);
+                    Canvas.GetChild(1).gameObject.SetActive(true);
+                    break;
+                case 1:
+                    Canvas.GetChild(2).gameObject.SetActive(true);
+                    Canvas.GetChild(3).gameObject.SetActive(true);
+                    break;
+                case 2:
+                    Canvas.GetChild(4).gameObject.SetActive(true);
+                    Canvas.GetChild(5).gameObject.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    void CreateDefaultChips()
+    {
+        Chip newChip;
+        foreach (Chip c in ChipLibraryUI)
+        {
+            newChip = new Chip();
+            newChip.CopyChip(c);
+            AttachedChips.Add(newChip);
+        }
+
+        foreach (Chip c in ChipLibraryAttacks)
+        {
+            newChip = new Chip();
+            newChip.CopyChip(c);
+            AttachedChips.Add(newChip);
+        }
+
+        UpdateUIChips();
+        SortChips();
+        DisplayChips();
     }
 
     void TestSampleChips()
