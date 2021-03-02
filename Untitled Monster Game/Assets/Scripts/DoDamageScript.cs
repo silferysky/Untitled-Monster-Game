@@ -88,6 +88,20 @@ public class DoDamageScript : MonoBehaviour
                     }
                     if (EnableRanged && movement.isAttacking)
                     {
+                        enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
+
+                        if (CompareTag("Follower"))
+                        {
+                            foreach (Collider2D enemy in enemiesToDamage)
+                            {
+                                if (enemy.CompareTag("AI"))
+                                {
+                                    player = enemy.gameObject;
+                                    break;
+                                }
+                            }
+                        }
+
                         Vector3 endPos = player.transform.position;
                         Vector3 velocity = endPos - RangedAttackPos.position;
                         velocity.z = 0.0f; // So that normalize will ignore the magnitude of z
@@ -109,7 +123,6 @@ public class DoDamageScript : MonoBehaviour
                                 p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
 
                             movement.isAttacking = true;
-                           
                         }
 
                         /* enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
