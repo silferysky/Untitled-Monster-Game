@@ -144,11 +144,11 @@ public class DoDamageScript : MonoBehaviour
 
                         p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
 
-                        /* PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
+                        PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
                         if (playerscript.isFacingRight && velocity.x < 0)
                             p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
                         if (!playerscript.isFacingRight && velocity.x > 0)
-                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0); */
+                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
                     }
 
                     if (EnableMelee)
