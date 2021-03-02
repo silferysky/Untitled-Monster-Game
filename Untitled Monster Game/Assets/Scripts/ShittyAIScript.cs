@@ -17,8 +17,10 @@ public class ShittyAIScript : MonoBehaviour
     public bool isFacingRight = true;
 
     public bool isAttacking = false;
-    public float pauseTimer;
-    public float pauseDuration = 0.01f;
+    public Transform AttackPos;
+    public float AttackRange = 0.0f;
+
+    public LayerMask PlayerMask;
 
     public Canvas canvas;
 
@@ -42,19 +44,11 @@ public class ShittyAIScript : MonoBehaviour
 
         if (healthscript.GetAlive())
         {
-            /* if (isAttacking)
-            {
-                pauseTimer += Time.deltaTime;
-
-                if (pauseTimer >= pauseDuration)
-                {
-                    isAttacking = false;
-                    pauseTimer = 0.0f;
-                }
-            }
-            //else */
+            if (!isAttacking)
                 UpdateMovement();
         }
+
+        CheckAttackRange();
     }
 
     void UpdateMovement()
@@ -93,6 +87,21 @@ public class ShittyAIScript : MonoBehaviour
     {
         movementTimer = 0.0f;
         duration = Random.Range(3, 5);
+    }
+
+    void CheckAttackRange()
+    {
+        Collider2D[] player = Physics2D.OverlapCircleAll(AttackPos.position, AttackRange, PlayerMask);
+
+        if (player.Length > 0)
+        {
+            rigidbody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
+            animator.SetFloat("Velocity", 0.0f);
+
+            isAttacking = true;
+        }
+        else
+            isAttacking = false;
     }
 
     private void FlipSprite(bool face_right_this_frame)

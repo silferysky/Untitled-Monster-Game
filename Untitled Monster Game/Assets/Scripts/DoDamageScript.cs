@@ -73,7 +73,7 @@ public class DoDamageScript : MonoBehaviour
                 {
                     Collider2D[] enemiesToDamage;
 
-                    if (EnableMelee)
+                    if (EnableMelee && movement.isAttacking)
                     {
                         enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
 
@@ -86,7 +86,7 @@ public class DoDamageScript : MonoBehaviour
                             }
                         }
                     }
-                    if (EnableRanged)
+                    if (EnableRanged && movement.isAttacking)
                     {
                         Vector3 endPos = player.transform.position;
                         Vector3 velocity = endPos - RangedAttackPos.position;
@@ -109,7 +109,7 @@ public class DoDamageScript : MonoBehaviour
                                 p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
 
                             movement.isAttacking = true;
-                            animator.SetTrigger("IsAttacking");
+                           
                         }
 
                         /* enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
