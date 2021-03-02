@@ -34,12 +34,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             ChipMenuScript chipMenu = ChipMenu.GetComponent<ChipMenuScript>();
-            if (chipMenu.LootMenuIsOpen)
-            {
-                chipMenu.CloseMenu();
-                chipMenu.CloseLootInventory();
-            }
-            else if (healthScript.GetAlive() && other.tag == "AI")
+            if (healthScript.GetAlive() && other.tag == "AI")
             {
                 HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
 

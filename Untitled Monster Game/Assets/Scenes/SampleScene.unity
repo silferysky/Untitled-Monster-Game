@@ -5810,6 +5810,7 @@ MonoBehaviour:
   - {fileID: 827265090}
   - {fileID: 186073070}
   HUDGameObject: {fileID: 2130206925}
+  PlayerStatsObject: {fileID: 781627358}
 --- !u!114 &1311480989
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,6 +31,7 @@ public class ChipMenuScript : MonoBehaviour
 
     public List<Button> Buttons = new List<Button>();
     public GameObject HUDGameObject;
+    public GameObject PlayerStatsObject;
 
     // Start is called before the first frame update
     void Start()
@@ -148,6 +149,10 @@ public class ChipMenuScript : MonoBehaviour
             //Transfer to Loot Menu if selected twice
             if (SelectedChipInventory == selectedChip)
             {
+                Chip newChip = new Chip();
+                newChip.CopyChip(AttachedChips[selectedChip]);
+                LootChips.Add(newChip);
+                AttachedChips.RemoveAt(selectedChip);
             }
         }
         else
@@ -167,6 +172,10 @@ public class ChipMenuScript : MonoBehaviour
         if (LootChips[selectedChip].ChipType == 2)
         {
             UpdateUIChips();
+        }
+        else if (LootChips[selectedChip].ChipType == 1)
+        {
+            UpdateStatsChips();
         }
         LootChips.RemoveAt(selectedChip);
 
@@ -287,7 +296,7 @@ public class ChipMenuScript : MonoBehaviour
         ChipLibraryStats.Add(new Chip(1, 2, 2, 1, "MELEE SPD UP+"));
         ChipLibraryStats.Add(new Chip(2, 1, 1, 1, "PROJ ATK UP"));
         ChipLibraryStats.Add(new Chip(2, 2, 2, 1, "PROJ ATK UP+"));
-        ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "PROJ SPD UP"));
+        ChipLibraryStats.Add(new Chip(3, 1, 1, 1, "PROJ SPD UP"));
         ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "PROJ SPD UP+"));
 
         //UI CHIPS
@@ -307,15 +316,15 @@ public class ChipMenuScript : MonoBehaviour
 
         //Easiest to get stats chips, medium to get attack chips, hard to get UI chips
         int StatsChipWeightage = ChipLibraryStats.Count * 3;
-        int AttackChipsWeightage = ChipLibraryAttacks.Count * 2;
-        int UIChipWeightage = ChipLibraryUI.Count * 1;
+        int AttackChipsWeightage = ChipLibraryAttacks.Count * 2 * 0; //For this demo set Attack Chip Weightage to 0
+        int UIChipWeightage = ChipLibraryUI.Count * 1 * 0; //For this demo set UI Chip Weightage to 0
         int MaxWeightage = StatsChipWeightage + AttackChipsWeightage + UIChipWeightage;
         int NumberOfChips = Random.Range(1, 4);
 
         for (int i = 0; i < NumberOfChips; ++i)
         {
             int ID = 0;
-            int ChipWeightage = Random.Range(0, MaxWeightage + 1);
+            int ChipWeightage = Random.Range(0, MaxWeightage);
             if (ChipWeightage >= StatsChipWeightage)
             {
                 ChipWeightage -= StatsChipWeightage;
@@ -328,6 +337,8 @@ public class ChipMenuScript : MonoBehaviour
                 }
             }
 
+            //Debug.Log("CHIP WEIGHTAGE" + ChipWeightage);
+            //Debug.Log("TYPE" + ID);
             Chip newChip = new Chip();
             switch (ID)
             {
@@ -405,7 +416,7 @@ public class ChipMenuScript : MonoBehaviour
         foreach (Chip c in AttachedChips)
         {
             if (c.ChipType != 2)
-                return;
+                continue;
 
             //Refer to GenerateChipLibrary
             switch (c.ChipID)
@@ -426,6 +437,42 @@ public class ChipMenuScript : MonoBehaviour
                     break;
             }
         }
+    }
+
+    void UpdateStatsChips()
+    {
+        int BaseMeleeATK = 2, BaseRangedATK = 1;
+        float BaseMeleeCD = 0.3f, BaseRangedCD = 0.3f;
+
+        foreach (Chip c in AttachedChips)
+        {
+            if (c.ChipType != 1)
+                continue;
+
+            switch (c.ChipID)
+            {
+                case 0:
+                    BaseMeleeATK += c.ChipLevel;
+                    break;
+                case 1:
+                    BaseMeleeCD -= 0.05f * c.ChipLevel;
+                    break;
+                case 2:
+                    BaseRangedATK += c.ChipLevel;
+                    break;
+                case 3:
+                    BaseRangedCD -= 0.05f * c.ChipLevel;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        DoDamageScript damageScript = PlayerStatsObject.GetComponent<DoDamageScript>();
+        damageScript.MeleeDamage = BaseMeleeATK;
+        damageScript.MeleeBasicAttackCooldown = BaseMeleeCD;
+        damageScript.RangedDamage = BaseRangedATK;
+        damageScript.RangedBasicAttackCooldown = BaseRangedCD;
     }
 
     void CreateDefaultChips()
