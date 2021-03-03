@@ -33,6 +33,8 @@ public class ChipMenuScript : MonoBehaviour
     public GameObject HUDGameObject;
     public GameObject PlayerStatsObject;
 
+    public GameObject AbilityScripts;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -342,8 +344,8 @@ public class ChipMenuScript : MonoBehaviour
         ChipLibraryUI.Add(new Chip(2, 1, 2, 2, "WEAPON MODE STATUS"));
 
         //ATTACK CHIPS
-        ChipLibraryAttacks.Add(new Chip(0, 1, 1, 0, "STRIKE"));
-        ChipLibraryAttacks.Add(new Chip(1, 1, 1, 0, "SHOOT"));
+        ChipLibraryAttacks.Add(new Chip(4, 1, 1, 0, "HEAL"));
+        ChipLibraryAttacks.Add(new Chip(5, 1, 1, 0, "LIGHTNING"));
     }
 
     public void GenerateLoot(GameObject holder)
@@ -507,6 +509,13 @@ public class ChipMenuScript : MonoBehaviour
                 case 3:
                     BaseRangedCD -= 0.05f * c.ChipLevel;
                     break;
+                //case 4:
+                    //AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
+                    //break;
+                /* case 5:
+                    PlayerStatsObject.GetComponent<PlayerScript>.activeAbility.SetIsActive(false);
+                    PlayerStatsObject.GetComponent<LightningAbility>().SetIsActive(true);
+                    break; */
                 default:
                     break;
             }
