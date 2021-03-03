@@ -45,6 +45,7 @@ public class ChipMenuScript : MonoBehaviour
         CreateDefaultChips();
 
         Buttons[0].onClick.AddListener(ToggleMenu);
+        Buttons[1].onClick.AddListener(DestroyChip);
 
         //Disable this once chips are in place
         //TestSampleChips();
@@ -144,6 +145,7 @@ public class ChipMenuScript : MonoBehaviour
 
     void HandleInventoryChip(int selectedChip)
     {
+        //Debug.Log(selectedChip);
         if (LootMenuIsOpen)
         {
             //Transfer to Loot Menu if selected twice
@@ -153,6 +155,23 @@ public class ChipMenuScript : MonoBehaviour
                 newChip.CopyChip(AttachedChips[selectedChip]);
                 LootChips.Add(newChip);
                 AttachedChips.RemoveAt(selectedChip);
+
+                if (newChip.ChipType == 1)
+                {
+                    UpdateStatsChips();
+                }
+                else if (newChip.ChipType == 2)
+                {
+                    UpdateUIChips();
+                }
+
+
+                DisplayChips();
+                DisplayLoot(LastDeadboi);
+            }
+            else
+            {
+                SelectedChipInventory = selectedChip;
             }
         }
         else
@@ -260,12 +279,13 @@ public class ChipMenuScript : MonoBehaviour
                     break;
             }
 
+            int tempInt = loop; //This is a must, since otherwise the value will always be same (max value of loop)
             GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
             //instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.x, chipSize.y);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(Background.transform);
             instance.tag = "Chip";
-            instance.GetComponent<Button>().onClick.AddListener(() => HandleInventoryChip(loop));
+            instance.GetComponent<Button>().onClick.AddListener(() => HandleInventoryChip(tempInt));
             instance.SetActive(true);
             DisplayedChips.Add(instance);
 
@@ -337,7 +357,7 @@ public class ChipMenuScript : MonoBehaviour
         int AttackChipsWeightage = ChipLibraryAttacks.Count * 2 * 0; //For this demo set Attack Chip Weightage to 0
         int UIChipWeightage = ChipLibraryUI.Count * 1 * 0; //For this demo set UI Chip Weightage to 0
         int MaxWeightage = StatsChipWeightage + AttackChipsWeightage + UIChipWeightage;
-        int NumberOfChips = Random.Range(8, 10);
+        int NumberOfChips = Random.Range(1, 4);
 
         for (int i = 0; i < NumberOfChips; ++i)
         {
@@ -415,7 +435,8 @@ public class ChipMenuScript : MonoBehaviour
 
             //65
             toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff / 3, yDiff / 3);
-            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(xDiff * (loop % 3 - 1) * 0.35f, -yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
+            //Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(xDiff * (loop % 3 - 1) * 0.35f, -yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
+            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(-xDiff * (loop % 3 - 1) * 0.35f, yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
             GameObject instance = Instantiate(toInstantiate, curPos, Quaternion.identity);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(LootBackground.transform);
@@ -541,4 +562,13 @@ public class ChipMenuScript : MonoBehaviour
         DisplayChips();
     }
 
+    void DestroyChip()
+    {
+        if (SelectedChipInventory != -1)
+        {
+            AttachedChips.RemoveAt(SelectedChipInventory);
+            DisplayChips();
+            SelectedChipInventory = -1;
+        }
+    }
 }
