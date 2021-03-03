@@ -82,6 +82,8 @@ public class DoDamageScript : MonoBehaviour
 
             if (EnableRanged)
                 DrawRangedGuideline();
+            else
+                GetComponent<LineRenderer>().enabled = false;
         }
 
         ActuallyDoDamage();
@@ -254,5 +256,6 @@ public class DoDamageScript : MonoBehaviour
             points[1] = endPos;
 
         GetComponent<LineRenderer>().SetPositions(points);
+        GetComponent<LineRenderer>().enabled = true;
     }
 }
