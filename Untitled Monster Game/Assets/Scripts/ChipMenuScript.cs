@@ -38,8 +38,8 @@ public class ChipMenuScript : MonoBehaviour
     {
         CurChipSize = 0;
 
-        //Vector3 startPos = new Vector3(Screen.width / -2.0f, 0.0f, 0.0f);
-        //Background.GetComponent<RectTransform>().anchoredPosition = startPos;
+        Vector3 startPos = new Vector3(Screen.width / -2.0f, 0.0f, 0.0f);
+        Background.GetComponent<RectTransform>().anchoredPosition = startPos;
 
         GenerateChipLibrary();
         CreateDefaultChips();
@@ -211,16 +211,18 @@ public class ChipMenuScript : MonoBehaviour
 		}
 		DisplayedChips.Clear();
 
-        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, + Background.GetComponent<RectTransform>().rect.height * 0.45f, -1.0f);
+        //Magic fucking numbers
+        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, Background.GetComponent<RectTransform>().rect.height * 0.275f, -1.0f);
         //Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, +Background.GetComponent<RectTransform>().rect.height * 0.1f, -1.0f);
-
-        Rect chipSize = new Rect();
-        chipSize.width = Background.GetComponent<RectTransform>().rect.width * 8 / 15;
-        chipSize.height = Background.GetComponent<RectTransform>().rect.height * 2 / 85;
+        float baseHeight = Background.GetComponent<RectTransform>().rect.height * 2 / 85;
 
         int loop = 0;
 		foreach (Chip c in AttachedChips)
-		{
+        {
+            Vector2 chipSize = new Vector2();
+            chipSize.x = Background.GetComponent<RectTransform>().rect.width * 8 / 15;
+            chipSize.y = baseHeight;
+
             //Instantiate
             GameObject toInstantiate;
             if (c.ChipSize == 1)
@@ -230,13 +232,17 @@ public class ChipMenuScript : MonoBehaviour
             else if (c.ChipSize == 2)
             {
                 toInstantiate = ChipTemplate[1];
-                chipSize.height *= 2;
+                chipSize.y *= 2;
             }
             else //if (c.ChipSize == 3)
             {
                 toInstantiate = ChipTemplate[2];
-                chipSize.height *= 3;
+                chipSize.y *= 3;
             }
+
+            Debug.Log("CHIP SIZE: " + chipSize.x + "|" + chipSize.y);
+            //Add small offset based off current size
+            curPos -= new Vector3(0.0f, chipSize.y / 2.0f, 0.0f);
 
             switch (c.ChipType)
             {
@@ -254,16 +260,18 @@ public class ChipMenuScript : MonoBehaviour
                     break;
             }
 
-            GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, toInstantiate.GetComponent<RectTransform>().rect.height / -2, 0.0f), Quaternion.identity);
-            instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.width, chipSize.height);
+            GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+            //instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.x, chipSize.y);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(Background.transform);
             instance.tag = "Chip";
             instance.GetComponent<Button>().onClick.AddListener(() => HandleInventoryChip(loop));
+            instance.SetActive(true);
             DisplayedChips.Add(instance);
 
             //This is to offset Chip Size
-            curPos += new Vector3(0.0f, toInstantiate.GetComponent<RectTransform>().rect.height * -1.2f, 0.0f);
+            //curPos += new Vector3(0.0f, toInstantiate.GetComponent<RectTransform>().rect.height * -1.2f, 0.0f);
+            curPos -= new Vector3(0.0f, chipSize.y * 0.5f + baseHeight * 0.2f, 0.0f);
 
             ++loop;
         }
@@ -408,6 +416,7 @@ public class ChipMenuScript : MonoBehaviour
             instance.transform.SetParent(LootBackground.transform);
             instance.tag = "LootChip";
             instance.GetComponent<Button>().onClick.AddListener(() => HandleLootChip(instance));
+            instance.SetActive(true);
             DisplayedLootChips.Add(instance);
 
             ++loop;
