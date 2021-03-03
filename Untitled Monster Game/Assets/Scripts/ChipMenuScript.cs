@@ -177,9 +177,11 @@ public class ChipMenuScript : MonoBehaviour
         {
             UpdateStatsChips();
         }
-        LootChips.RemoveAt(selectedChip);
+        //instance.GetComponent<ChipHolder>().Chips.RemoveAt(selectedChip);
+        LastDeadboi.GetComponent<ChipHolder>().Chips.RemoveAt(selectedChip);
+        //LootChips.RemoveAt(selectedChip);
 
-        foreach(Chip c in LootChips)
+        foreach(Chip c in LastDeadboi.GetComponent<ChipHolder>().Chips)
         {
             if (c.ChipPosition > selectedChip)
                 --c.ChipPosition;
