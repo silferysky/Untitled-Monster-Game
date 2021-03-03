@@ -205,12 +205,10 @@ public class DoDamageScript : MonoBehaviour
     public void DoParry()
     {
         Collider2D[] projectilesToDestroy = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, ProjectileLayerForParrying);
-
-        print(projectilesToDestroy.Length);
-
+        
         foreach (Collider2D projectile in projectilesToDestroy)
         {
-            print("Parry projectile");
+            print("Parried!");
             Destroy(projectile.gameObject);
         }
     }

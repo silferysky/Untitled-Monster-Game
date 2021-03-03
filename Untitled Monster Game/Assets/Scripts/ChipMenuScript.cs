@@ -211,7 +211,8 @@ public class ChipMenuScript : MonoBehaviour
 		}
 		DisplayedChips.Clear();
 
-        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, + Background.GetComponent<RectTransform>().rect.height * 0.45f, -1.0f);
+        //Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, + Background.GetComponent<RectTransform>().rect.height * 0.45f, -1.0f);
+        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, +Background.GetComponent<RectTransform>().rect.height * 0.1f, -1.0f);
 
         int loop = 0;
 		foreach (Chip c in AttachedChips)
