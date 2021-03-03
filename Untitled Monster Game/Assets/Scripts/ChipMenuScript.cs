@@ -235,13 +235,16 @@ public class ChipMenuScript : MonoBehaviour
         Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, Background.GetComponent<RectTransform>().rect.height * 0.275f, -1.0f);
         //Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, +Background.GetComponent<RectTransform>().rect.height * 0.1f, -1.0f);
         float baseHeight = Background.GetComponent<RectTransform>().rect.height * 2 / 85;
-
+        
         int loop = 0;
 		foreach (Chip c in AttachedChips)
         {
             Vector2 chipSize = new Vector2();
             chipSize.x = Background.GetComponent<RectTransform>().rect.width * 8 / 15;
             chipSize.y = baseHeight;
+
+            //float xDiff = chipSize.x * 0.525f;//* 3 / 5;
+            //float yDiff = chipSize.y * 0.525f;//* 3 / 5;
 
             //Instantiate
             GameObject toInstantiate;
@@ -281,6 +284,7 @@ public class ChipMenuScript : MonoBehaviour
             }
 
             int tempInt = loop; //This is a must, since otherwise the value will always be same (max value of loop)
+            //toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff / 3, yDiff / 3);
             GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
             //instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.x, chipSize.y);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
@@ -355,7 +359,7 @@ public class ChipMenuScript : MonoBehaviour
 
         //Easiest to get stats chips, medium to get attack chips, hard to get UI chips
         int StatsChipWeightage = ChipLibraryStats.Count * 3;
-        int AttackChipsWeightage = ChipLibraryAttacks.Count * 2 * 0; //For this demo set Attack Chip Weightage to 0
+        int AttackChipsWeightage = ChipLibraryAttacks.Count * 2; //For this demo set Attack Chip Weightage to 0
         int UIChipWeightage = ChipLibraryUI.Count * 1 * 0; //For this demo set UI Chip Weightage to 0
         int MaxWeightage = StatsChipWeightage + AttackChipsWeightage + UIChipWeightage;
         int NumberOfChips = Random.Range(1, 4);
@@ -537,12 +541,12 @@ public class ChipMenuScript : MonoBehaviour
             AttachedChips.Add(newChip);
         }
 
-        foreach (Chip c in ChipLibraryAttacks)
+        /* foreach (Chip c in ChipLibraryAttacks)
         {
             newChip = new Chip();
             newChip.CopyChip(c);
             AttachedChips.Add(newChip);
-        }
+        } */
 
         UpdateUIChips();
         SortChips();
