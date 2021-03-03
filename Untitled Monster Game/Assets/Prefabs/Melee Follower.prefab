@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4205853034504462684}
   - component: {fileID: 4205853034504462682}
   - component: {fileID: 4205853034504462685}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Melee Attack Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,8 +275,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 20
+  moveVec: {x: 0, y: 0, z: 0}
   movementTimer: 0
   duration: 0
+  isMovingRight: 0
   isFacingRight: 1
   isAttacking: 0
   AttackPos: {fileID: 4205853034504462684}
@@ -314,21 +316,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca56663191b394797f7f1cd8fa14e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 256
+  animator: {fileID: 4205853034626920743}
   EnableRanged: 0
   RangedDamage: 1
   EnableMelee: 1
   MeleeDamage: 10
-  BasicAttackCooldown: 1
-  BACooldownTimer: 0
-  EnemyMask:
-    serializedVersion: 2
-    m_Bits: 256
+  RangedBasicAttackCooldown: 1
+  MeleeBasicAttackCooldown: 1
   MeleeAttackPos: {fileID: 4205853034504462684}
   MeleeAttackRadius: 0.5
   RangedAttackPos: {fileID: 0}
   RangedAttackRadius: 0
-  animator: {fileID: 4205853034626920743}
   projectile: {fileID: 0}
   ProjectileSpeed: 1
   ProjectileLifetime: 2
-  player: {fileID: 0}
+  ProjectileLayerForParrying:
+    serializedVersion: 2
+    m_Bits: 0
+  ParryDuration: 0.5
+  ParryCooldown: 1

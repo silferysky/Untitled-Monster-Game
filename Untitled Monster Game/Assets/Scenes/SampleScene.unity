@@ -3087,7 +3087,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.48, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -3098,7 +3098,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 2.2, y: 4}
   m_EdgeRadius: 0
 --- !u!212 &781627361
 SpriteRenderer:
@@ -4650,8 +4650,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309709827}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.1300001, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.5, z: 1}
+  m_LocalPosition: {x: -0.36, y: -1.94, z: 0}
+  m_LocalScale: {x: 0.29, y: 0.23, z: 1}
   m_Children: []
   m_Father: {fileID: 781627362}
   m_RootOrder: 0
@@ -6220,11 +6220,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerModel: {fileID: 781627358}
   Follower: {fileID: 1799587606}
-  MovementSpeed: 20
-  SprintMovSpdMultiplier: 2
-  SprintDuration: 5
+  MovementSpeed: 35
+  SprintMovSpdMultiplier: 1.4
+  SprintDuration: 3
   SprintRegenRate: 2
-  jumpForce: 5
+  jumpForce: 8
   animator: {fileID: 781627367}
 --- !u!50 &1646739426
 Rigidbody2D:
@@ -6241,7 +6241,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -6501,9 +6501,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerModel: {fileID: 781627359}
   Target: {fileID: 0}
-  TargetMask:
+  ProjectileLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   Cooldown: 10
   Autocast: 0
   Shield: {fileID: 164402593}
@@ -8339,6 +8339,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 198720499313597351, guid: 502d23420d20d1947b9e2820c7d95ffe,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 233902482007622850, guid: 502d23420d20d1947b9e2820c7d95ffe,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282769297143113213, guid: 502d23420d20d1947b9e2820c7d95ffe,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1573471591250942724, guid: 502d23420d20d1947b9e2820c7d95ffe,
         type: 3}
       propertyPath: m_Name
@@ -8359,6 +8374,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 781627358}
+    - target: {fileID: 7190368597023819544, guid: 502d23420d20d1947b9e2820c7d95ffe,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7869615557490164571, guid: 502d23420d20d1947b9e2820c7d95ffe,
         type: 3}
       propertyPath: m_RootOrder
@@ -8482,6 +8502,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205853034626920742, guid: a79f80266b1ae81438c67297ff349816,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205853034626920745, guid: a79f80266b1ae81438c67297ff349816,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4205853034626920747, guid: a79f80266b1ae81438c67297ff349816,
         type: 3}
