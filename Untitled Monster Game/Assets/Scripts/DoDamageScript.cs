@@ -33,6 +33,13 @@ public class DoDamageScript : MonoBehaviour
     float rangedBasicCooldownTimer;
     float meleeBasicCooldownTimer;
 
+    public LayerMask ProjectileLayerForParrying;
+    bool isParrying;
+    public float ParryDuration = 0.5f;
+    public float ParryCooldown = 1.0f;
+    float parryTimer;
+    float parryCDTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,10 +68,16 @@ public class DoDamageScript : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1)) // RMB
             {
                 EnableMelee = !EnableMelee;
                 EnableRanged = !EnableRanged;
+            }
+
+            if (Input.GetMouseButtonDown(0)) // LMB
+            {
+                if (EnableMelee)
+                    DoParry();
             }
         }
 
@@ -186,6 +199,19 @@ public class DoDamageScript : MonoBehaviour
                         meleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
             }
+        }
+    }
+
+    public void DoParry()
+    {
+        Collider2D[] projectilesToDestroy = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, ProjectileLayerForParrying);
+
+        print(projectilesToDestroy.Length);
+
+        foreach (Collider2D projectile in projectilesToDestroy)
+        {
+            print("Parry projectile");
+            Destroy(projectile.gameObject);
         }
     }
 
