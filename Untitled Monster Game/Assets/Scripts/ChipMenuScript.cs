@@ -40,8 +40,12 @@ public class ChipMenuScript : MonoBehaviour
     {
         CurChipSize = 0;
 
-        Vector3 startPos = new Vector3(Screen.width * -0.5f, 0.0f, 0.0f);
+        Vector3 startPos = new Vector3(Screen.width * -0.25f, 0.0f, 0.0f);
         Background.GetComponent<RectTransform>().anchoredPosition = startPos;
+        Background.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 300 / 1920, Screen.height * 850 / 1080, 1.0f);
+
+        LootBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3();
+        LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.height * 400 / 1080, 1.0f);
 
         GenerateChipLibrary();
         CreateDefaultChips();
@@ -232,15 +236,15 @@ public class ChipMenuScript : MonoBehaviour
 		DisplayedChips.Clear();
 
         //Magic fucking numbers
-        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, Background.GetComponent<RectTransform>().rect.height * 0.275f, -1.0f);
-        //Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, +Background.GetComponent<RectTransform>().rect.height * 0.1f, -1.0f);
-        float baseHeight = Background.GetComponent<RectTransform>().rect.height * 2 / 85;
+        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, Background.GetComponent<RectTransform>().rect.height * 0.45f, -1.0f);
+        float baseHeight = Background.GetComponent<RectTransform>().rect.height * 4 / 85;
+        float baseWidth = Background.GetComponent<RectTransform>().rect.width * 14 /15;
         
         int loop = 0;
 		foreach (Chip c in AttachedChips)
         {
             Vector2 chipSize = new Vector2();
-            chipSize.x = Background.GetComponent<RectTransform>().rect.width * 8 / 15;
+            chipSize.x = baseWidth;
             chipSize.y = baseHeight;
 
             //float xDiff = chipSize.x * 0.525f;//* 3 / 5;
@@ -284,9 +288,8 @@ public class ChipMenuScript : MonoBehaviour
             }
 
             int tempInt = loop; //This is a must, since otherwise the value will always be same (max value of loop)
-            //toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff / 3, yDiff / 3);
             GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
-            //instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.x, chipSize.y);
+            instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.x, chipSize.y);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(Background.transform);
             instance.tag = "Chip";
@@ -295,8 +298,8 @@ public class ChipMenuScript : MonoBehaviour
             DisplayedChips.Add(instance);
 
             //This is to offset Chip Size
-            //curPos += new Vector3(0.0f, toInstantiate.GetComponent<RectTransform>().rect.height * -1.2f, 0.0f);
-            curPos -= new Vector3(0.0f, chipSize.y * 0.5f + baseHeight * 0.2f, 0.0f);
+            curPos += new Vector3(0.0f, toInstantiate.GetComponent<RectTransform>().rect.height * -0.6f, 0.0f);
+            //curPos -= new Vector3(0.0f, chipSize.y * 0.5f + baseHeight * 0.2f, 0.0f);
 
             ++loop;
         }
@@ -343,7 +346,7 @@ public class ChipMenuScript : MonoBehaviour
         ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "PROJ SPD UP+"));
 
         //UI CHIPS
-        ChipLibraryUI.Add(new Chip(0, 1, 1, 2, "SELF STATUS"));
+        ChipLibraryUI.Add(new Chip(0, 1, 2, 2, "SELF STATUS"));
         ChipLibraryUI.Add(new Chip(1, 1, 2, 2, "COOLDOWN STATUS"));
         ChipLibraryUI.Add(new Chip(2, 1, 2, 2, "WEAPON MODE STATUS"));
 
@@ -439,9 +442,9 @@ public class ChipMenuScript : MonoBehaviour
             }
 
             int tempInt = loop;
-            toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff / 3, yDiff / 3);
+            toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff * 0.6f, yDiff * 0.6f);
             //Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(xDiff * (loop % 3 - 1) * 0.35f, -yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
-            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(-xDiff * (loop % 3 - 1) * 0.35f, yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
+            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(-xDiff * (loop % 3 - 1) * 0.6f, yDiff * (loop / 3 - 1) * 0.6f, -1.0f);
             GameObject instance = Instantiate(toInstantiate, curPos, Quaternion.identity);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(LootBackground.transform);
