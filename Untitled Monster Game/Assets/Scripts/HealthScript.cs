@@ -38,6 +38,15 @@ public class HealthScript : MonoBehaviour
     {
         if (isFlickering)
             FlickerColour();
+
+        if (CompareTag("Player"))
+        {
+            // Cheats
+            if (Input.GetKeyDown(KeyCode.H))
+                HealCheat(5);
+            if (Input.GetKeyDown(KeyCode.J))
+                DamageSelfCheat(5);
+        }
     }
 
     public void TakeDamage(int damage)

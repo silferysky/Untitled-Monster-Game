@@ -9,6 +9,8 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D rigidbody;
     HealthScript healthScript;
 
+    public IAbility activeAbility { get; set; }
+
     // Sprite Flipping
     public bool isFacingRight = true;
 
@@ -17,6 +19,8 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        activeAbility = null;
+
         m_playerLocation = new Vector3(0.0f, 0.0f, -5.0f);
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         healthScript = gameObject.GetComponent<HealthScript>();

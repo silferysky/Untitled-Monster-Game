@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DoFollowerAbilityScript : MonoBehaviour
 {
-    IAbility[] abilities = null;
+    PlayerScript playerScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        abilities = GetComponents<IAbility>();
+        playerScript = GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -20,23 +20,22 @@ public class DoFollowerAbilityScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (abilities.Length > 0)
-                abilities[0].CallAbility();
+            playerScript.activeAbility.CallAbility();
         }
     }
 
     public float GetCooldownAsFraction()
     {
-        if (abilities.Length > 0)
-            return abilities[0].GetAbilityCooldownAsFraction();
+        if (playerScript.activeAbility)
+            return playerScript.activeAbility.GetAbilityCooldownAsFraction();
         else
             return 0.0f;
     }
 
     public float GetCooldownTimer()
     {
-        if (abilities.Length > 0)
-            return abilities[0].GetAbilityCooldownTimer();
+        if (playerScript.activeAbility)
+            return playerScript.activeAbility.GetAbilityCooldownTimer();
         else
             return 0.0f;
     }

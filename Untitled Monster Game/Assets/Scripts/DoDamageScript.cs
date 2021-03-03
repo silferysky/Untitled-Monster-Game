@@ -66,12 +66,6 @@ public class DoDamageScript : MonoBehaviour
                 EnableMelee = !EnableMelee;
                 EnableRanged = !EnableRanged;
             }
-
-            // Cheats
-            if (Input.GetKeyDown(KeyCode.H))
-                myhealthscript.HealCheat(5);
-            if (Input.GetKeyDown(KeyCode.J))
-                myhealthscript.DamageSelfCheat(5);
         }
 
         ActuallyDoDamage();
