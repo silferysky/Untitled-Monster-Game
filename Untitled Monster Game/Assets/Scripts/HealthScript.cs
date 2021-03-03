@@ -12,6 +12,10 @@ public class HealthScript : MonoBehaviour
 
     public bool IsLooted = false;
 
+    // Ignore damage variables
+    bool ignoreDamage = false;
+    float ignoreDamageTimer;
+
     // Flicker function variables
     SpriteRenderer spriteRenderer;
     Color originalColour;
@@ -47,6 +51,19 @@ public class HealthScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.J))
                 DamageSelfCheat(5);
         }
+
+        if (ignoreDamage)
+        {
+            if (ignoreDamageTimer > 0.0f)
+            {
+                ignoreDamageTimer -= Time.deltaTime;
+            }
+            else
+            {
+                ignoreDamageTimer = 0.0f;
+                ignoreDamage = false;
+            }
+        }
     }
 
     public void TakeDamage(int damage)
@@ -54,7 +71,13 @@ public class HealthScript : MonoBehaviour
         if (!isAlive)
             return;
 
-        HP_Current -= damage;
+        if (ignoreDamage)
+        {
+            if (damage < 0) // Allow heals
+                HP_Current -= damage;
+        }
+        else // Carry on as normal
+            HP_Current -= damage;
 
         if (HP_Current < 0)
             HP_Current = 0;
@@ -141,5 +164,11 @@ public class HealthScript : MonoBehaviour
             spriteRenderer.color = originalColour;
             isFlickering = false;
         }
+    }
+
+    public void IgnoreDamage(float duration)
+    {
+        ignoreDamage = true;
+        ignoreDamageTimer = duration;
     }
 }

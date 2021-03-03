@@ -514,11 +514,11 @@ public class ChipMenuScript : MonoBehaviour
                     BaseRangedCD -= 0.05f * c.ChipLevel;
                     break;
                 case 4:
-                    AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
+                    //AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
                     break;
-                //case 5:
-                    //AbilityScripts.GetComponent<ShieldAbilityScript>().SetIsActive(true);
-                    //break;
+                case 5:
+                    AbilityScripts.GetComponent<ShieldAbilityScript>().SetIsActive(true);
+                    break;
                 default:
                     break;
             }
