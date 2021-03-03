@@ -581,7 +581,14 @@ public class ChipMenuScript : MonoBehaviour
     {
         if (SelectedChipInventory != -1)
         {
+            int type = AttachedChips[SelectedChipInventory].ChipType;
             AttachedChips.RemoveAt(SelectedChipInventory);
+
+            if (type == 2)
+                UpdateUIChips();
+            else if (type == 1)
+                UpdateStatsChips();
+
             DisplayChips();
             SelectedChipInventory = -1;
         }
