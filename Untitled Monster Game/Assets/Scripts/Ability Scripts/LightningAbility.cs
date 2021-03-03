@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class _TemplateAbilityScript : IAbility
+class LightningAbility : IAbility
 {
     // NOTE: Make sure you have DoFamiliarAbilityScript in the Player as well! *******
     
@@ -22,9 +22,36 @@ class _TemplateAbilityScript : IAbility
     public float Cooldown = 10.0f;
     public bool Autocast = false;
 
+    public int MaxTargets = 1;
+    public float MaxRange = 1.0f;
+    public GameObject Lightning;
+    List<GameObject> lightnings = null;
+
     // Interal variables
     float cooldownTimer;
     bool wasCalled;
+    public List<GameObject> targets;
+    float fadeoutDuration = 2.0f;
+    float fadeoutTimer;
+    Color origColor;
+    bool isCasting;
+
+    List<GameObject> GetTargets()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(gameObject.transform.position, MaxRange, TargetMask);
+        foreach (Collider2D enemy in enemies)
+        {
+            targets.Add(enemy.gameObject);
+        }
+        targets = targets.SortByDistance(gameObject.transform.position);
+
+        if (targets.Count < MaxTargets)
+            targets.GetRange(0, targets.Count);
+        else
+            targets.GetRange(0, MaxTargets);
+
+        return targets;
+    }
 
     /*
         Always have this CallAbility function for standardization.
@@ -36,11 +63,21 @@ class _TemplateAbilityScript : IAbility
     {
         wasCalled = true;
     }
-
+    
     public override void DoAbility()
     {
-        // Do stuff here
+        origColor = Lightning.GetComponent<SpriteRenderer>().color;
 
+        foreach (GameObject target in targets)
+        {
+            GameObject lightning;
+            lightning = Instantiate(Lightning, target.transform.position, target.transform.rotation);
+            lightnings.Add(lightning);
+
+            print("Add");
+        }
+
+        fadeoutTimer = 0.0f;
         cooldownTimer = Cooldown;
     }
 
@@ -49,14 +86,20 @@ class _TemplateAbilityScript : IAbility
         base.SetIsActive(set); // Must have this
 
         if (set)
+        {
             PlayerModel.activeAbility = this;
+        }
         else
             PlayerModel.activeAbility = null;
     }
 
     public override void Start()
     {
+        //SetIsActive(true);
         wasCalled = false;
+
+        if (MaxTargets < 0)
+            MaxTargets = 0;
     }
 
     public override void Update()
@@ -73,11 +116,35 @@ class _TemplateAbilityScript : IAbility
         {
             if (Autocast || wasCalled)
             {
+                targets = GetTargets();
+                isCasting = true;
                 DoAbility();
             }
         }
 
         wasCalled = false;
+
+        if (isCasting)
+        {
+            if (fadeoutTimer < fadeoutDuration)// Fade out lighting
+            {
+                foreach (GameObject ln in lightnings)
+                {
+                    Color color = ln.GetComponent<SpriteRenderer>().color;
+                    ln.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, Mathf.Lerp(origColor.a, 0.0f, fadeoutTimer / fadeoutDuration));
+                }
+
+                fadeoutTimer += Time.deltaTime;
+            }
+            else
+            {
+                foreach (GameObject ln in lightnings)
+                {
+                    Destroy(ln);
+                }
+                isCasting = false;
+            }
+        }
     }
 
     public override float GetAbilityCooldownAsFraction()
@@ -89,4 +156,5 @@ class _TemplateAbilityScript : IAbility
     {
         return cooldownTimer;
     }
+    
 }
