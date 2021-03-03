@@ -11,8 +11,8 @@ public class WeaponSelectUIScript : MonoBehaviour
     public Image MeleeIcon;
     public Image RangedIcon;
 
-    Vector3 inactiveScale = new Vector3(1.0f, 1.0f, 1.0f);
-    Vector3 activeScale = new Vector3(1.2f, 1.2f, 1.0f);
+    Vector3 inactiveScale = new Vector3(0.75f, 0.75f, 1.0f);
+    Vector3 activeScale = new Vector3(1.5f, 1.5f, 1.0f);
 
     // Start is called before the first frame update
     void Start()
