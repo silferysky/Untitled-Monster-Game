@@ -345,7 +345,7 @@ public class ChipMenuScript : MonoBehaviour
 
         //ATTACK CHIPS
         ChipLibraryAttacks.Add(new Chip(4, 1, 1, 1, "HEAL"));
-        ChipLibraryAttacks.Add(new Chip(5, 1, 1, 1, "LIGHTNING"));
+        ChipLibraryAttacks.Add(new Chip(5, 1, 1, 1, "SHIELD"));
     }
 
     public void GenerateLoot(GameObject holder)
@@ -512,10 +512,9 @@ public class ChipMenuScript : MonoBehaviour
                 case 4:
                     AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
                     break;
-                /* case 5:
-                    PlayerStatsObject.GetComponent<PlayerScript>.activeAbility.SetIsActive(false);
-                    PlayerStatsObject.GetComponent<LightningAbility>().SetIsActive(true);
-                    break; */
+                //case 5:
+                    //AbilityScripts.GetComponent<ShieldAbilityScript>().SetIsActive(true);
+                    //break;
                 default:
                     break;
             }
