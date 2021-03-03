@@ -38,8 +38,8 @@ public class ChipMenuScript : MonoBehaviour
     {
         CurChipSize = 0;
 
-        Vector3 startPos = new Vector3(Screen.width / -2.0f + 200.0f, 0.0f, 0.0f);
-        Background.GetComponent<RectTransform>().anchoredPosition = startPos;
+        //Vector3 startPos = new Vector3(Screen.width / -2.0f, 0.0f, 0.0f);
+        //Background.GetComponent<RectTransform>().anchoredPosition = startPos;
 
         GenerateChipLibrary();
         CreateDefaultChips();
@@ -211,8 +211,12 @@ public class ChipMenuScript : MonoBehaviour
 		}
 		DisplayedChips.Clear();
 
-        //Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, + Background.GetComponent<RectTransform>().rect.height * 0.45f, -1.0f);
-        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, +Background.GetComponent<RectTransform>().rect.height * 0.1f, -1.0f);
+        Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, + Background.GetComponent<RectTransform>().rect.height * 0.45f, -1.0f);
+        //Vector3 curPos = Background.GetComponent<RectTransform>().position + new Vector3(0.0f, +Background.GetComponent<RectTransform>().rect.height * 0.1f, -1.0f);
+
+        Rect chipSize = new Rect();
+        chipSize.width = Background.GetComponent<RectTransform>().rect.width * 8 / 15;
+        chipSize.height = Background.GetComponent<RectTransform>().rect.height * 2 / 85;
 
         int loop = 0;
 		foreach (Chip c in AttachedChips)
@@ -226,10 +230,12 @@ public class ChipMenuScript : MonoBehaviour
             else if (c.ChipSize == 2)
             {
                 toInstantiate = ChipTemplate[1];
+                chipSize.height *= 2;
             }
             else //if (c.ChipSize == 3)
             {
                 toInstantiate = ChipTemplate[2];
+                chipSize.height *= 3;
             }
 
             switch (c.ChipType)
@@ -249,6 +255,7 @@ public class ChipMenuScript : MonoBehaviour
             }
 
             GameObject instance = Instantiate(toInstantiate, curPos + new Vector3(0.0f, toInstantiate.GetComponent<RectTransform>().rect.height / -2, 0.0f), Quaternion.identity);
+            instance.GetComponent<RectTransform>().sizeDelta = new Vector2(chipSize.width, chipSize.height);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(Background.transform);
             instance.tag = "Chip";
