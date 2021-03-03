@@ -80,20 +80,21 @@ public class DoDamageScript : MonoBehaviour
                     DoParry();
             }
 
-            if (EnableRanged)
-            {
-                DrawRangedGuideline();
+            // Attack guide lines and stuff
+            //if (EnableRanged)
+            //{
+            //    DrawRangedGuideline();
 
-                Color color = MeleeAttackPos.GetComponent<SpriteRenderer>().color;
-                MeleeAttackPos.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.0f);
-            }
-            else if (EnableMelee)
-            {
-                GetComponent<LineRenderer>().enabled = false;
+            //    Color color = MeleeAttackPos.GetComponent<SpriteRenderer>().color;
+            //    MeleeAttackPos.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.0f);
+            //}
+            //else if (EnableMelee)
+            //{
+            //    GetComponent<LineRenderer>().enabled = false;
 
-                Color color = MeleeAttackPos.GetComponent<SpriteRenderer>().color;
-                MeleeAttackPos.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.5f);
-            }
+            //    Color color = MeleeAttackPos.GetComponent<SpriteRenderer>().color;
+            //    MeleeAttackPos.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.5f);
+            //}
         }
 
         ActuallyDoDamage();
