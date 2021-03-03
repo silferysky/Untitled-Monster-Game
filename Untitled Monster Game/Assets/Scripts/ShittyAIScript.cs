@@ -8,10 +8,11 @@ public class ShittyAIScript : MonoBehaviour
     HealthScript healthscript;
 
     public float MovementSpeed = 20.0f;
+    public Vector3 moveVec;
 
     public float movementTimer;
     public float duration;
-    bool isMovingRight;
+    public bool isMovingRight;
 
     // Sprite Flipping
     public bool isFacingRight = true;
@@ -53,7 +54,7 @@ public class ShittyAIScript : MonoBehaviour
 
     void UpdateMovement()
     {
-        Vector3 moveVec = Vector3.zero;
+        moveVec = Vector3.zero;
 
         movementTimer += Time.deltaTime;
 
@@ -83,7 +84,7 @@ public class ShittyAIScript : MonoBehaviour
         animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
     }
 
-    void ResetMovementTimers()
+    public void ResetMovementTimers()
     {
         movementTimer = 0.0f;
         duration = Random.Range(3, 5);

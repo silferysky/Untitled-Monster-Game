@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rigidbody;
     public GameObject PlayerModel;
+    public GameObject Follower;
     Vector3 m_playerLocation;
 
     public float MovementSpeed = 20.0f;
