@@ -6398,7 +6398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerModel: {fileID: 781627358}
   Follower: {fileID: 1799587606}
-  MovementSpeed: 35
+  MovementSpeed: 25
   SprintMovSpdMultiplier: 1.4
   SprintDuration: 3
   SprintRegenRate: 2
