@@ -38,7 +38,7 @@ public class ChipMenuScript : MonoBehaviour
     {
         CurChipSize = 0;
 
-        Vector3 startPos = new Vector3(Screen.width / -2.0f, 0.0f, 0.0f);
+        Vector3 startPos = new Vector3(Screen.width * -0.5f, 0.0f, 0.0f);
         Background.GetComponent<RectTransform>().anchoredPosition = startPos;
 
         GenerateChipLibrary();
@@ -240,7 +240,7 @@ public class ChipMenuScript : MonoBehaviour
                 chipSize.y *= 3;
             }
 
-            Debug.Log("CHIP SIZE: " + chipSize.x + "|" + chipSize.y);
+            //Debug.Log("CHIP SIZE: " + chipSize.x + "|" + chipSize.y);
             //Add small offset based off current size
             curPos -= new Vector3(0.0f, chipSize.y / 2.0f, 0.0f);
 
@@ -337,7 +337,7 @@ public class ChipMenuScript : MonoBehaviour
         int AttackChipsWeightage = ChipLibraryAttacks.Count * 2 * 0; //For this demo set Attack Chip Weightage to 0
         int UIChipWeightage = ChipLibraryUI.Count * 1 * 0; //For this demo set UI Chip Weightage to 0
         int MaxWeightage = StatsChipWeightage + AttackChipsWeightage + UIChipWeightage;
-        int NumberOfChips = Random.Range(1, 4);
+        int NumberOfChips = Random.Range(8, 10);
 
         for (int i = 0; i < NumberOfChips; ++i)
         {
@@ -389,6 +389,9 @@ public class ChipMenuScript : MonoBehaviour
         }
         DisplayedLootChips.Clear();
 
+        float xDiff = LootBackground.GetComponent<RectTransform>().rect.height * 0.525f;//* 3 / 5;
+        float yDiff = LootBackground.GetComponent<RectTransform>().rect.width * 0.525f;//* 3 / 5;
+
         Holder chipHolder = holder.GetComponent<Holder>();
         int loop = 0;
         foreach (Chip c in LootChips)//chipHolder.Chips)
@@ -410,7 +413,9 @@ public class ChipMenuScript : MonoBehaviour
                     break;
             }
 
-            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position + new Vector3(65 * (loop % 3 - 1), -65 * (loop / 3 - 1), -1.0f);
+            //65
+            toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff / 3, yDiff / 3);
+            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(xDiff * (loop % 3 - 1) * 0.35f, -yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
             GameObject instance = Instantiate(toInstantiate, curPos, Quaternion.identity);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(LootBackground.transform);
