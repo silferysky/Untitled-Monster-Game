@@ -4867,6 +4867,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8808331330628031076, guid: bc1ea211126da2143b566fba47db6693,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 781627358}
     - target: {fileID: 8808331330628031130, guid: bc1ea211126da2143b566fba47db6693,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5505,6 +5510,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Melee Enemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 107387622025685310, guid: b2314ad756710fb448b7fb4a1c793679,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 781627358}
     - target: {fileID: 107387623257586601, guid: b2314ad756710fb448b7fb4a1c793679,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -5982,6 +5992,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Melee Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 107387622025685310, guid: b2314ad756710fb448b7fb4a1c793679,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 781627358}
     - target: {fileID: 107387623257586601, guid: b2314ad756710fb448b7fb4a1c793679,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -6670,6 +6685,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8808331330628031076, guid: bc1ea211126da2143b566fba47db6693,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 781627358}
     - target: {fileID: 8808331330628031130, guid: bc1ea211126da2143b566fba47db6693,
         type: 3}
       propertyPath: m_LocalPosition.x
