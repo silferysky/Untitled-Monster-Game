@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour
     public bool isFacingRight = true;
 
     public GameObject ChipMenu;
+
+    public GameObject AbilityScripts;
 	
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,12 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            AbilityScripts.GetComponent<ShieldAbilityScript>().SetIsActive(true);
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            AbilityScripts.GetComponent<LightningAbility>().SetIsActive(true);
     }
 
     private void OnTriggerStay2D(Collider2D other)
