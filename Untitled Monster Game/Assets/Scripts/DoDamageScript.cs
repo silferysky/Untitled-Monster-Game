@@ -109,10 +109,18 @@ public class DoDamageScript : MonoBehaviour
                     (EnableMelee && meleeBasicCooldownTimer == 0.0f))
                 {
                     Collider2D[] enemiesToDamage;
-
+                    
                     if (EnableMelee && movement.isAttacking)
                     {
                         enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
+
+                        foreach (Collider2D player in enemiesToDamage)
+                        {
+                            if (!player.GetComponent<HealthScript>().GetAlive())
+                            {
+                                movement.isAttacking = false;
+                            }
+                        }
 
                         if (enemiesToDamage.Length > 0)
                         {
@@ -123,9 +131,18 @@ public class DoDamageScript : MonoBehaviour
                             }
                         }
                     }
+
                     if (EnableRanged && movement.isAttacking)
                     {
                         enemiesToDamage = Physics2D.OverlapCircleAll(RangedAttackPos.position, RangedAttackRadius, EnemyMask);
+
+                        foreach (Collider2D player in enemiesToDamage)
+                        {
+                            if (!player.GetComponent<HealthScript>().GetAlive())
+                            {
+                                movement.isAttacking = false;
+                            }
+                        }
 
                         if (CompareTag("Follower"))
                         {
@@ -160,6 +177,8 @@ public class DoDamageScript : MonoBehaviour
                                 p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
 
                             movement.isAttacking = true;
+
+                            animator.SetTrigger("IsAttacking");
                         }
                     }
 
@@ -196,6 +215,8 @@ public class DoDamageScript : MonoBehaviour
                             p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
                         if (!playerscript.isFacingRight && velocity.x > 0)
                             p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
+
+                        animator.SetTrigger("IsShooting");
                     }
 
                     if (EnableMelee)
@@ -206,6 +227,8 @@ public class DoDamageScript : MonoBehaviour
                         {
                             enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage);
                         }
+
+                        animator.SetTrigger("IsMeleeing");
                     }
 
                     if (EnableRanged)

@@ -91,9 +91,9 @@ public class ShittyAIScript : MonoBehaviour
 
     void CheckAttackRange()
     {
-        Collider2D[] player = Physics2D.OverlapCircleAll(AttackPos.position, AttackRange, PlayerMask);
-
-        if (player.Length > 0)
+        Collider2D[] other = Physics2D.OverlapCircleAll(AttackPos.position, AttackRange, PlayerMask);
+        
+        if (other.Length > 0)
         {
             rigidbody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
             animator.SetFloat("Velocity", 0.0f);
@@ -102,6 +102,14 @@ public class ShittyAIScript : MonoBehaviour
         }
         else
             isAttacking = false;
+
+        foreach (Collider2D otherCollider in other)
+        {
+            if (!otherCollider.GetComponent<HealthScript>().GetAlive())
+            {
+                isAttacking = false;
+            }
+        }
     }
 
     private void FlipSprite(bool face_right_this_frame)

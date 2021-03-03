@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 2.0f;
     bool isJumping = false;
 
+    public Animator animator;
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
 
+            animator.SetTrigger("IsJumping");
             //moveVec.y += 1.0f;
         }
         if (Input.GetKey(KeyCode.S))
@@ -77,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
 
         //For Counterforce
         rigidbody.AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
+
+        animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
     }
 
     public float GetStaminaAsFraction()
