@@ -3152,6 +3152,7 @@ MonoBehaviour:
   activeAbility: {fileID: 0}
   isFacingRight: 1
   ChipMenu: {fileID: 1311480986}
+  AbilityScripts: {fileID: 1684814233}
 --- !u!61 &781627360
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6602,8 +6603,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1684814235}
   - component: {fileID: 1684814234}
-  - component: {fileID: 1684814236}
   - component: {fileID: 1684814237}
+  - component: {fileID: 1684814238}
   m_Layer: 0
   m_Name: AbilityScriptsPreloaded
   m_TagString: Untagged
@@ -6645,25 +6646,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1684814236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684814233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd79558724025b5479d22b1f867ae52a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerModel: {fileID: 0}
-  Target: {fileID: 0}
-  TargetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  Cooldown: 10
-  Autocast: 0
 --- !u!114 &1684814237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6680,11 +6662,36 @@ MonoBehaviour:
   Target: {fileID: 0}
   ProjectileLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   Cooldown: 10
   Autocast: 0
   Shield: {fileID: 164402593}
-  ShieldDuration: 5
+  ShieldDuration: 3
+--- !u!114 &1684814238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684814233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7cd89c943132f47994abc82b7f6da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerModel: {fileID: 781627359}
+  Target: {fileID: 0}
+  TargetMask:
+    serializedVersion: 2
+    m_Bits: 256
+  Cooldown: 10
+  Autocast: 0
+  MaxTargets: 3
+  MaxRange: 50
+  LightningPrefab: {fileID: 803168799446339571, guid: 05bd74710ba6eda48b52b5c42b1f511d,
+    type: 3}
+  Damage: 5
+  targets: []
 --- !u!1 &1694546717
 GameObject:
   m_ObjectHideFlags: 0

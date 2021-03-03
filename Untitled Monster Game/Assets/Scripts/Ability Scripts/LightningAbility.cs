@@ -24,21 +24,21 @@ class LightningAbility : IAbility
 
     public int MaxTargets = 1;
     public float MaxRange = 1.0f;
-    public GameObject Lightning;
-    List<GameObject> lightnings = null;
+    public GameObject LightningPrefab;
+    public int Damage = 1;
 
     // Interal variables
     float cooldownTimer;
     bool wasCalled;
     public List<GameObject> targets;
-    float fadeoutDuration = 2.0f;
-    float fadeoutTimer;
     Color origColor;
-    bool isCasting;
+    float fadeoutDuration = 2.0f;
 
     List<GameObject> GetTargets()
     {
+        List<GameObject> targets = new List<GameObject>();
         Collider2D[] enemies = Physics2D.OverlapCircleAll(gameObject.transform.position, MaxRange, TargetMask);
+
         foreach (Collider2D enemy in enemies)
         {
             targets.Add(enemy.gameObject);
@@ -49,7 +49,7 @@ class LightningAbility : IAbility
             targets.GetRange(0, targets.Count);
         else
             targets.GetRange(0, MaxTargets);
-
+        
         return targets;
     }
 
@@ -66,18 +66,16 @@ class LightningAbility : IAbility
     
     public override void DoAbility()
     {
-        origColor = Lightning.GetComponent<SpriteRenderer>().color;
+        origColor = LightningPrefab.GetComponent<SpriteRenderer>().color;
 
-        foreach (GameObject target in targets)
+        foreach (GameObject target in GetTargets())
         {
-            GameObject lightning;
-            lightning = Instantiate(Lightning, target.transform.position, target.transform.rotation);
-            lightnings.Add(lightning);
-
-            print("Add");
+            GameObject ln;
+            ln = Instantiate(LightningPrefab, target.transform.position, target.transform.rotation);
+            ln.GetComponent<Lightning>().SetParams(fadeoutDuration, origColor);
+            target.GetComponent<HealthScript>().TakeDamage(Damage);
         }
 
-        fadeoutTimer = 0.0f;
         cooldownTimer = Cooldown;
     }
 
@@ -117,34 +115,11 @@ class LightningAbility : IAbility
             if (Autocast || wasCalled)
             {
                 targets = GetTargets();
-                isCasting = true;
                 DoAbility();
             }
         }
 
         wasCalled = false;
-
-        if (isCasting)
-        {
-            if (fadeoutTimer < fadeoutDuration)// Fade out lighting
-            {
-                foreach (GameObject ln in lightnings)
-                {
-                    Color color = ln.GetComponent<SpriteRenderer>().color;
-                    ln.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, Mathf.Lerp(origColor.a, 0.0f, fadeoutTimer / fadeoutDuration));
-                }
-
-                fadeoutTimer += Time.deltaTime;
-            }
-            else
-            {
-                foreach (GameObject ln in lightnings)
-                {
-                    Destroy(ln);
-                }
-                isCasting = false;
-            }
-        }
     }
 
     public override float GetAbilityCooldownAsFraction()

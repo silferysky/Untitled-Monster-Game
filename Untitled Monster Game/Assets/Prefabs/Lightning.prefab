@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 803168799446339569}
   - component: {fileID: 803168799446339568}
+  - component: {fileID: 1519826031982193381}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Untagged
@@ -81,3 +82,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1519826031982193381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803168799446339571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc299bef5d43994cb626a663cc99ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
