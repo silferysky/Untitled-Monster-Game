@@ -181,10 +181,9 @@ public class ChipMenuScript : MonoBehaviour
         }
     }
 
-    void HandleLootChip(GameObject instance)
+    void HandleLootChip(int selectedChip)
     {
-        Chip chip = instance.GetComponent<Chip>();
-        int selectedChip = chip.ChipPosition;
+        Chip chip = LootChips[selectedChip];
         //Debug.Log(selectedChip);
 
         AddChip(LootChips[selectedChip]);
@@ -433,7 +432,7 @@ public class ChipMenuScript : MonoBehaviour
                     break;
             }
 
-            //65
+            int tempInt = loop;
             toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff / 3, yDiff / 3);
             //Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(xDiff * (loop % 3 - 1) * 0.35f, -yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
             Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(-xDiff * (loop % 3 - 1) * 0.35f, yDiff * (loop / 3 - 1) * 0.35f, -1.0f);
@@ -441,7 +440,7 @@ public class ChipMenuScript : MonoBehaviour
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(LootBackground.transform);
             instance.tag = "LootChip";
-            instance.GetComponent<Button>().onClick.AddListener(() => HandleLootChip(instance));
+            instance.GetComponent<Button>().onClick.AddListener(() => HandleLootChip(tempInt));
             instance.SetActive(true);
             DisplayedLootChips.Add(instance);
 
