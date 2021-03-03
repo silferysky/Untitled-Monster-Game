@@ -79,6 +79,9 @@ public class DoDamageScript : MonoBehaviour
                 if (EnableMelee)
                     DoParry();
             }
+
+            if (EnableRanged)
+                DrawRangedGuideline();
         }
 
         ActuallyDoDamage();
@@ -233,5 +236,23 @@ public class DoDamageScript : MonoBehaviour
         return meleeBasicCooldownTimer;
     }
 
-    
+    void DrawRangedGuideline()
+    {
+        Vector3 endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        endPos.z = 0.0f;
+        Vector3 velocity = endPos - RangedAttackPos.position;
+        velocity.z = 0.0f; // So that normalize will ignore the magnitude of z
+        velocity.Normalize();
+        Vector3 maxDistVec3 = velocity * ProjectileSpeed * ProjectileLifetime;
+
+        Vector3[] points = new Vector3[2];
+        points[0] = RangedAttackPos.position;
+
+        if (Vector3.Distance(endPos, RangedAttackPos.position) > maxDistVec3.magnitude)
+            points[1] = RangedAttackPos.position + maxDistVec3;
+        else
+            points[1] = endPos;
+
+        GetComponent<LineRenderer>().SetPositions(points);
+    }
 }
