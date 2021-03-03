@@ -20,7 +20,10 @@ public class DoFollowerAbilityScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            playerScript.activeAbility.CallAbility();
+            if (playerScript.activeAbility)
+                playerScript.activeAbility.CallAbility();
+            else
+                print("Player has no active ability");
         }
     }
 
