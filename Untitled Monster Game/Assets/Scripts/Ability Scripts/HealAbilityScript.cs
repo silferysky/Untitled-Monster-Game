@@ -55,6 +55,16 @@ class HealAbilityScript : IAbility
         }
     }
 
+    public override void SetIsActive(bool set)
+    {
+        base.SetIsActive(set); // Must have this
+
+        if (set)
+            PlayerModel.activeAbility = this;
+        else
+            PlayerModel.activeAbility = null;
+    }
+
     public override void Start()
     {
         wasCalled = false;

@@ -11,14 +11,9 @@ public abstract class IAbility : MonoBehaviour
         return isActive;
     }
 
-    public void SetIsActive(bool set)
+    public virtual void SetIsActive(bool set)
     {
         isActive = set;
-        
-        foreach (PlayerScript playerScript in GetComponents<PlayerScript>())
-        {
-            playerScript.activeAbility = this;
-        }
     }
 
     public abstract void CallAbility();
