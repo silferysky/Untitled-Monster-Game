@@ -62,6 +62,13 @@ public class PlayerScript : MonoBehaviour
                         chipMenu.DisplayLoot(other.gameObject);
                         chipMenu.LastDeadboi = other.gameObject;
                     }
+                    else
+                    {
+                        chipMenu.OpenMenu();
+                        chipMenu.OpenLootInventory();
+                        chipMenu.DisplayLoot(other.gameObject);
+                        chipMenu.LastDeadboi = other.gameObject;
+                    }
                     
                 }
             }

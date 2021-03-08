@@ -139,7 +139,8 @@ public class DoDamageScript : MonoBehaviour
 
                         foreach (Collider2D player in enemiesToDamage)
                         {
-                            if (!player.GetComponent<HealthScript>().GetAlive())
+                            if (player.GetComponent<HealthScript>() != null &&
+                                !player.GetComponent<HealthScript>().GetAlive())
                             {
                                 movement.isAttacking = false;
                             }

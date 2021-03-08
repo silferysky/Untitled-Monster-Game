@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -128,6 +129,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -205,6 +207,7 @@ GameObject:
   - component: {fileID: 3859316824975134682}
   - component: {fileID: 1701577768122263861}
   - component: {fileID: 3963859236947122140}
+  - component: {fileID: 8752341888211361350}
   m_Layer: 10
   m_Name: Ranged Follower
   m_TagString: AI
@@ -243,6 +246,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -357,8 +361,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 20
+  moveVec: {x: 0, y: 0, z: 0}
   movementTimer: 0
   duration: 0
+  isMovingRight: 0
   isFacingRight: 1
   isAttacking: 0
   AttackPos: {fileID: 7869615557490164571}
@@ -396,22 +402,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca56663191b394797f7f1cd8fa14e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 256
+  animator: {fileID: 6519191892302614131}
   EnableRanged: 1
   RangedDamage: 1
   EnableMelee: 0
   MeleeDamage: 1
-  BasicAttackCooldown: 1
-  BACooldownTimer: 0
-  EnemyMask:
-    serializedVersion: 2
-    m_Bits: 256
+  RangedBasicAttackCooldown: 1
+  MeleeBasicAttackCooldown: 1
   MeleeAttackPos: {fileID: 0}
   MeleeAttackRadius: 0
   RangedAttackPos: {fileID: 3689343083915795300}
   RangedAttackRadius: 1
-  animator: {fileID: 6519191892302614131}
   projectile: {fileID: 6785574707469092835, guid: 3f37397b319846b419d458698fd2b4e4,
     type: 3}
   ProjectileSpeed: 10
   ProjectileLifetime: 2
-  player: {fileID: 0}
+  ProjectileLayerForParrying:
+    serializedVersion: 2
+    m_Bits: 0
+  ParryDuration: 0.5
+  ParryCooldown: 1
+--- !u!114 &8752341888211361350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573471591250942724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f88d37f6350439fe104efb67332c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Chips: []

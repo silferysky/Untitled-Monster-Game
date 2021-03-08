@@ -423,7 +423,7 @@ public class ChipMenuScript : MonoBehaviour
 
         Holder chipHolder = holder.GetComponent<Holder>();
         int loop = 0;
-        foreach (Chip c in LootChips)//chipHolder.Chips)
+        foreach (Chip c in chipHolder.Chips /*LootChips*/)
         {
             GameObject toInstantiate = LootChipTemplate;
             switch (c.ChipType)

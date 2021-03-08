@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -124,6 +125,7 @@ GameObject:
   - component: {fileID: 4205853034626920744}
   - component: {fileID: 4205853034626920747}
   - component: {fileID: 4205853034626920746}
+  - component: {fileID: 8898737284079477649}
   m_Layer: 10
   m_Name: Melee Follower
   m_TagString: AI
@@ -161,6 +163,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -339,3 +342,16 @@ MonoBehaviour:
     m_Bits: 0
   ParryDuration: 0.5
   ParryCooldown: 1
+--- !u!114 &8898737284079477649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4205853034626920749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f88d37f6350439fe104efb67332c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Chips: []

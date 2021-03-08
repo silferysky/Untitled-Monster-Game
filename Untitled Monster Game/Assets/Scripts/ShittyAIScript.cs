@@ -106,7 +106,8 @@ public class ShittyAIScript : MonoBehaviour
 
         foreach (Collider2D otherCollider in other)
         {
-            if (!otherCollider.GetComponent<HealthScript>().GetAlive())
+            if (otherCollider.GetComponent<HealthScript>() != null && 
+                !otherCollider.GetComponent<HealthScript>().GetAlive())
             {
                 isAttacking = false;
             }
