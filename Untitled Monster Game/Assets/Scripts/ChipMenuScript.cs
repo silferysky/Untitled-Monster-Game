@@ -162,15 +162,14 @@ public class ChipMenuScript : MonoBehaviour
                 LootChips.Add(newChip);
                 AttachedChips.RemoveAt(selectedChip);
 
-                if (newChip.ChipType == 1)
+                if (newChip.ChipType == Chip.CType.STAT)
                 {
                     UpdateStatsChips();
                 }
-                else if (newChip.ChipType == 2)
+                else if (newChip.ChipType == Chip.CType.UI)
                 {
                     UpdateUIChips();
                 }
-
 
                 DisplayChips();
                 DisplayLoot(LastDeadboi);
@@ -194,11 +193,11 @@ public class ChipMenuScript : MonoBehaviour
         //Debug.Log(selectedChip);
 
         AddChip(LootChips[selectedChip]);
-        if (chip.ChipType == 2)
+        if (chip.ChipType == Chip.CType.UI)
         {
             UpdateUIChips();
         }
-        else if (chip.ChipType == 1)
+        else if (chip.ChipType == Chip.CType.STAT)
         {
             UpdateStatsChips();
         }
@@ -274,14 +273,14 @@ public class ChipMenuScript : MonoBehaviour
 
             switch (c.ChipType)
             {
-                case 0:
+                case Chip.CType.ATK:
                     toInstantiate.GetComponent<Image>().color = new Color(0.55f, 0.21f, 0.25f);
                     break;
-                case 1:
-                    toInstantiate.GetComponent<Image>().color = new Color(0.45f, 0.41f, 0.27f);
-                    break;
-                case 2:
+                case Chip.CType.UI:
                     toInstantiate.GetComponent<Image>().color = new Color(0.5f, 0.55f, 0.47f);
+                    break;
+                case Chip.CType.STAT:
+                    toInstantiate.GetComponent<Image>().color = new Color(0.45f, 0.41f, 0.27f);
                     break;
                 default:
                     toInstantiate.GetComponent<Image>().color = Color.white;
@@ -336,25 +335,25 @@ public class ChipMenuScript : MonoBehaviour
 
     void GenerateChipLibrary()
     {
-        //STATS CHIPS
-        ChipLibraryStats.Add(new Chip(0, 1, 1, 1, "MELEE ATK UP"));
-        ChipLibraryStats.Add(new Chip(0, 2, 2, 1, "MELEE ATK UP+"));
-        ChipLibraryStats.Add(new Chip(1, 1, 1, 1, "MELEE SPD UP"));
-        ChipLibraryStats.Add(new Chip(1, 2, 2, 1, "MELEE SPD UP+"));
-        ChipLibraryStats.Add(new Chip(2, 1, 1, 1, "PROJ ATK UP"));
-        ChipLibraryStats.Add(new Chip(2, 2, 2, 1, "PROJ ATK UP+"));
-        ChipLibraryStats.Add(new Chip(3, 1, 1, 1, "PROJ SPD UP"));
-        ChipLibraryStats.Add(new Chip(3, 2, 2, 1, "PROJ SPD UP+"));
+        //ATTACK CHIPS
+        ChipLibraryAttacks.Add(new Chip(4, 1, 1, Chip.CType.ATK, "HEAL"));
+        ChipLibraryAttacks.Add(new Chip(5, 1, 1, Chip.CType.ATK, "SHIELD"));
+        ChipLibraryAttacks.Add(new Chip(6, 1, 1, Chip.CType.ATK, "LIGHTNING"));
 
         //UI CHIPS
-        ChipLibraryUI.Add(new Chip(0, 1, 2, 2, "SELF STATUS"));
-        ChipLibraryUI.Add(new Chip(1, 1, 2, 2, "COOLDOWN STATUS"));
-        ChipLibraryUI.Add(new Chip(2, 1, 2, 2, "WEAPON MODE STATUS"));
+        ChipLibraryUI.Add(new Chip(0, 1, 2, Chip.CType.UI, "SELF STATUS"));
+        ChipLibraryUI.Add(new Chip(1, 1, 2, Chip.CType.UI, "COOLDOWN STATUS"));
+        ChipLibraryUI.Add(new Chip(2, 1, 2, Chip.CType.UI, "WEAPON MODE STATUS"));
 
-        //ATTACK CHIPS
-        ChipLibraryAttacks.Add(new Chip(4, 1, 1, 1, "HEAL"));
-        ChipLibraryAttacks.Add(new Chip(5, 1, 1, 1, "SHIELD"));
-        ChipLibraryAttacks.Add(new Chip(6, 1, 1, 1, "LIGHTNING"));
+        //STATS CHIPS
+        ChipLibraryStats.Add(new Chip(0, 1, 1, Chip.CType.STAT, "MELEE ATK UP"));
+        ChipLibraryStats.Add(new Chip(0, 2, 2, Chip.CType.STAT, "MELEE ATK UP+"));
+        ChipLibraryStats.Add(new Chip(1, 1, 1, Chip.CType.STAT, "MELEE SPD UP"));
+        ChipLibraryStats.Add(new Chip(1, 2, 2, Chip.CType.STAT, "MELEE SPD UP+"));
+        ChipLibraryStats.Add(new Chip(2, 1, 1, Chip.CType.STAT, "PROJ ATK UP"));
+        ChipLibraryStats.Add(new Chip(2, 2, 2, Chip.CType.STAT, "PROJ ATK UP+"));
+        ChipLibraryStats.Add(new Chip(3, 1, 1, Chip.CType.STAT, "PROJ SPD UP"));
+        ChipLibraryStats.Add(new Chip(3, 2, 2, Chip.CType.STAT, "PROJ SPD UP+"));
     }
 
     public void GenerateLoot(GameObject holder)
@@ -429,14 +428,14 @@ public class ChipMenuScript : MonoBehaviour
             GameObject toInstantiate = LootChipTemplate;
             switch (c.ChipType)
             {
-                case 0:
+                case Chip.CType.ATK:
                     toInstantiate.GetComponent<Image>().color = new Color(0.55f, 0.21f, 0.25f);
                     break;
-                case 1:
-                    toInstantiate.GetComponent<Image>().color = new Color(0.45f, 0.41f, 0.27f);
-                    break;
-                case 2:
+                case Chip.CType.UI:
                     toInstantiate.GetComponent<Image>().color = new Color(0.5f, 0.55f, 0.47f);
+                    break;
+                case Chip.CType.STAT:
+                    toInstantiate.GetComponent<Image>().color = new Color(0.45f, 0.41f, 0.27f);
                     break;
                 default:
                     toInstantiate.GetComponent<Image>().color = Color.white;
@@ -469,7 +468,7 @@ public class ChipMenuScript : MonoBehaviour
 
         foreach (Chip c in AttachedChips)
         {
-            if (c.ChipType != 2)
+            if (c.ChipType != Chip.CType.UI)
                 continue;
 
             //Refer to GenerateChipLibrary
@@ -500,7 +499,7 @@ public class ChipMenuScript : MonoBehaviour
 
         foreach (Chip c in AttachedChips)
         {
-            if (c.ChipType != 1)
+            if (c.ChipType != Chip.CType.STAT)
                 continue;
 
             switch (c.ChipID)
@@ -564,11 +563,11 @@ public class ChipMenuScript : MonoBehaviour
     {
         AttachedChips.Clear();
 
-        AttachedChips.Add(new Chip(0, 1, 1, 0, "First"));
-        AttachedChips.Add(new Chip(0, 1, 2, 1, "Second"));
-        AttachedChips.Add(new Chip(0, 1, 3, 2, "Third"));
-        AttachedChips.Add(new Chip(0, 1, 2, 0, "Fourth"));
-        AttachedChips.Add(new Chip(0, 1, 1, 0, "Fifth"));
+        AttachedChips.Add(new Chip(0, 1, 1, Chip.CType.ATK, "First"));
+        AttachedChips.Add(new Chip(0, 1, 2, Chip.CType.UI, "Second"));
+        AttachedChips.Add(new Chip(0, 1, 3, Chip.CType.STAT, "Third"));
+        AttachedChips.Add(new Chip(0, 1, 2, Chip.CType.ATK, "Fourth"));
+        AttachedChips.Add(new Chip(0, 1, 1, Chip.CType.UI, "Fifth"));
 
 
         foreach (Chip c in AttachedChips)
@@ -584,12 +583,12 @@ public class ChipMenuScript : MonoBehaviour
     {
         if (SelectedChipInventory != -1)
         {
-            int type = AttachedChips[SelectedChipInventory].ChipType;
+            Chip.CType type = AttachedChips[SelectedChipInventory].ChipType;
             AttachedChips.RemoveAt(SelectedChipInventory);
 
-            if (type == 2)
+            if (type == Chip.CType.UI)
                 UpdateUIChips();
-            else if (type == 1)
+            else if (type == Chip.CType.STAT)
                 UpdateStatsChips();
 
             DisplayChips();

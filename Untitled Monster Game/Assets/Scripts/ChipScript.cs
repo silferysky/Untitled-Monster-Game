@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class ChipScript : MonoBehaviour, IComparable<ChipScript>
 {
-	public int ChipID;
+    public enum CType { ATK, UI, STAT }
+
+    public int ChipID;
 	public int ChipLevel;
 	public int ChipSize;
-	public int ChipType; //0 = Atk, 1 = Stat, 2 = UI
+	public CType ChipType; //0 = Atk, 1 = Stat, 2 = UI
 	public string ChipName;
     public int ChipPoints; //Used for ChipMenu calculations
 
@@ -24,7 +26,7 @@ public class ChipScript : MonoBehaviour, IComparable<ChipScript>
         ChipPoints = -1;
     }
 
-    public ChipScript(int id, int level, int size, int type, string name)
+    public ChipScript(int id, int level, int size, CType type, string name)
     {
         ChipID = id;
         ChipLevel = level;
@@ -48,7 +50,7 @@ public class ChipScript : MonoBehaviour, IComparable<ChipScript>
     public void EvaluateChip()
     {
         //ChipType > ChipSize > ChipLevel > ChipID
-        ChipPoints = 1000 * (3 - ChipType) + 100 * (ChipSize) + 10 * (ChipLevel) + 1 * (ChipID);
+        ChipPoints = 1000 * (3 - (int)ChipType) + 100 * (ChipSize) + 10 * (ChipLevel) + 1 * (ChipID);
     }
 
     // Start is called before the first frame update
