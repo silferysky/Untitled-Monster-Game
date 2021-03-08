@@ -194,11 +194,11 @@ public class ChipMenuScript : MonoBehaviour
         //Debug.Log(selectedChip);
 
         AddChip(LootChips[selectedChip]);
-        if (LootChips[selectedChip].ChipType == 2)
+        if (chip.ChipType == 2)
         {
             UpdateUIChips();
         }
-        else if (LootChips[selectedChip].ChipType == 1)
+        else if (chip.ChipType == 1)
         {
             UpdateStatsChips();
         }
