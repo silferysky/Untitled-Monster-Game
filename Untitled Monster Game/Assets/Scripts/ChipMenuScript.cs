@@ -189,7 +189,8 @@ public class ChipMenuScript : MonoBehaviour
 
     void HandleLootChip(int selectedChip)
     {
-        Chip chip = LootChips[selectedChip];
+        //Chip chip = LootChips[selectedChip];
+        Chip chip = LastDeadboi.GetComponent<ChipHolder>().Chips[selectedChip];
         //Debug.Log(selectedChip);
 
         AddChip(LootChips[selectedChip]);
