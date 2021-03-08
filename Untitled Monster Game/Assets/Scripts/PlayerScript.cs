@@ -55,21 +55,14 @@ public class PlayerScript : MonoBehaviour
                         //Generate Loot
                         other_hs.IsLooted = true;
                         chipMenu.GenerateLoot(other.gameObject);
+                    }
 
-                        //Move this to outside if statement once decide to actually code re-visiting bodies
-                        chipMenu.OpenMenu();
-                        chipMenu.OpenLootInventory();
-                        chipMenu.DisplayLoot(other.gameObject);
-                        chipMenu.LastDeadboi = other.gameObject;
-                    }
-                    else
-                    {
-                        chipMenu.OpenMenu();
-                        chipMenu.OpenLootInventory();
-                        chipMenu.DisplayLoot(other.gameObject);
-                        chipMenu.LastDeadboi = other.gameObject;
-                    }
-                    
+                    //Move this to outside if statement once decide to actually code re-visiting bodies
+                    chipMenu.OpenMenu();
+                    chipMenu.OpenLootInventory();
+                    chipMenu.DisplayLoot(other.gameObject);
+                    chipMenu.LastDeadboi = other.gameObject;
+
                 }
             }
         }
