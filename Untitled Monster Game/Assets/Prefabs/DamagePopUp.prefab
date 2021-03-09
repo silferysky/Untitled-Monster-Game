@@ -249,4 +249,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TextObj: {fileID: 749024604661487480}
-  Force: {x: 0, y: 2}
+  Force: {x: 0, y: 3}
+  Lifetime: 1
+  FadeDuration: 1
