@@ -180,6 +180,9 @@ public class HealthScript : MonoBehaviour
 
     void InstantiateDamagePopup(int damage)
     {
+        if (GameObject.FindGameObjectWithTag("Main").GetComponent<Toggles>().DamagePopUps == false)
+            return;
+
         GameObject popup;
         Quaternion dummy = new Quaternion();
         dummy.eulerAngles = new Vector3(0, 0, 0);

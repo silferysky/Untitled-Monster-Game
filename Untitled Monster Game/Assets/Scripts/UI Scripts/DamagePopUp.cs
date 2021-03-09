@@ -31,7 +31,7 @@ public class DamagePopUp : MonoBehaviour
 
         if (lifeTimer >= Lifetime)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
 
