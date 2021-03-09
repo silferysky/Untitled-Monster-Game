@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthScript : MonoBehaviour
 {
     public Animator animator;
+    public GameObject DamagePopUpPrefab;
 
     public int HP_Max = 10;
     public int HP_Current;
@@ -100,6 +101,9 @@ public class HealthScript : MonoBehaviour
         }
         else
             isAlive = true;
+
+        if (damage > 0)
+            InstantiateDamagePopup(damage);
     }
 
     public bool GetAlive()
@@ -172,5 +176,15 @@ public class HealthScript : MonoBehaviour
     {
         ignoreDamage = true;
         ignoreDamageTimer = duration;
+    }
+
+    void InstantiateDamagePopup(int damage)
+    {
+        GameObject popup;
+        Quaternion dummy = new Quaternion();
+        dummy.eulerAngles = new Vector3(0, 0, 0);
+        Vector2 position = new Vector2(transform.position.x, transform.position.y + 2.0f);
+        popup = Instantiate(DamagePopUpPrefab, position, dummy);
+        popup.GetComponent<DamagePopUp>().SetParams(damage);
     }
 }

@@ -47,12 +47,10 @@ class LightningAbility : IAbility
 
         if (targets.Count < MaxTargets)
         {
-            print("1: " + targets.Count);
             return targets.GetRange(0, targets.Count);
         }
         else
         {
-            print("2: " + MaxTargets);
             return targets.GetRange(0, MaxTargets);
         }
     }
