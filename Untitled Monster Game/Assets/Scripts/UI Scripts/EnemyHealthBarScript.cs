@@ -22,6 +22,6 @@ public class EnemyHealthBarScript : MonoBehaviour
     {
         healthbar.value = health.GetHPFraction();
 
-        healthbar.enabled = health.GetAlive(); // idk why this doesnt work
+        healthbar.gameObject.SetActive(health.GetAlive());
     }
 }

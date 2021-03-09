@@ -28,6 +28,12 @@ public class HealthScript : MonoBehaviour
     bool isFlickering;
     float flickerTimer;
 
+    // Flicker on damage function variables
+    Color dmgNewCol = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+    float dmgFlickerDuration = 0.3f;
+    float dmgFlickerTimer;
+    bool isDmgFlickering;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +42,11 @@ public class HealthScript : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         isFlickering = false;
+
+        isDmgFlickering = false;
+        dmgFlickerTimer = 0.0f;
+
+        originalColour = spriteRenderer.color; // Store the original colour
     }
 
     // Update is called once per frame
@@ -43,6 +54,8 @@ public class HealthScript : MonoBehaviour
     {
         if (isFlickering)
             FlickerColour();
+        if (isDmgFlickering)
+            FlickerOnDamage();
 
         if (CompareTag("Player"))
         {
@@ -92,18 +105,27 @@ public class HealthScript : MonoBehaviour
             if (CompareTag("Player"))
                 print("YOU DIED!");
 
-            GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f);
+            spriteRenderer.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<Rigidbody2D>().velocity = new Vector3();
             GetComponent<Rigidbody2D>().gravityScale = 0.0f;
 
+            isFlickering = false;
+            isDmgFlickering = false;
+
             animator.SetTrigger("IsDead");
+
+            return;
         }
         else
             isAlive = true;
 
         if (damage > 0)
+        {
             InstantiateDamagePopup(damage);
+            dmgFlickerTimer = 0.0f;
+            isDmgFlickering = true;
+        }
     }
 
     public bool GetAlive()
@@ -120,7 +142,6 @@ public class HealthScript : MonoBehaviour
     {
         if (spriteRenderer)
         {
-            originalColour = spriteRenderer.color;
             flickerCount = 0;
             isFlickering = true;
             flickerTimer = 0.0f;
@@ -189,5 +210,21 @@ public class HealthScript : MonoBehaviour
         Vector2 position = new Vector2(transform.position.x, transform.position.y + 2.0f);
         popup = Instantiate(DamagePopUpPrefab, position, dummy);
         popup.GetComponent<DamagePopUp>().SetParams(damage);
+    }
+
+    void FlickerOnDamage()
+    {
+        if (dmgFlickerTimer == 0.0)
+        {
+            spriteRenderer.color = dmgNewCol;
+        }
+        else if (dmgFlickerTimer >= dmgFlickerDuration) // Revert back to original colour
+        {
+            spriteRenderer.color = originalColour;
+            isDmgFlickering = false;
+            dmgFlickerTimer = 0.0f;
+        }
+
+        dmgFlickerTimer += Time.deltaTime;
     }
 }
