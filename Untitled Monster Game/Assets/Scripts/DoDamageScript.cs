@@ -194,7 +194,7 @@ public class DoDamageScript : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
             {
                 if ((EnableRanged && rangedBasicCooldownTimer == 0.0f) ||
                     (EnableMelee && meleeBasicCooldownTimer == 0.0f))

@@ -98,6 +98,8 @@ public class HealthScript : MonoBehaviour
 
             animator.SetTrigger("IsDead");
         }
+        else
+            isAlive = true;
     }
 
     public bool GetAlive()

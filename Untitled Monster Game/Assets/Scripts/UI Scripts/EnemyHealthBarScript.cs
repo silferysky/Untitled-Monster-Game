@@ -14,12 +14,14 @@ public class EnemyHealthBarScript : MonoBehaviour
     {
         healthbar = GetComponent<Slider>();
 
-        health = model.GetComponent<HealthScript>(); // Geez
+        health = model.GetComponent<HealthScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
         healthbar.value = health.GetHPFraction();
+
+        healthbar.enabled = health.GetAlive(); // idk why this doesnt work
     }
 }

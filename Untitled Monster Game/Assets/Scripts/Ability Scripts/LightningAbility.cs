@@ -37,20 +37,24 @@ class LightningAbility : IAbility
     List<GameObject> GetTargets()
     {
         List<GameObject> targets = new List<GameObject>();
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(gameObject.transform.position, MaxRange, TargetMask);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(PlayerModel.transform.position, MaxRange, TargetMask);
 
         foreach (Collider2D enemy in enemies)
         {
             targets.Add(enemy.gameObject);
         }
-        targets = targets.SortByDistance(gameObject.transform.position);
+        targets = targets.SortByDistance(PlayerModel.transform.position);
 
         if (targets.Count < MaxTargets)
-            targets.GetRange(0, targets.Count);
+        {
+            print("1: " + targets.Count);
+            return targets.GetRange(0, targets.Count);
+        }
         else
-            targets.GetRange(0, MaxTargets);
-        
-        return targets;
+        {
+            print("2: " + MaxTargets);
+            return targets.GetRange(0, MaxTargets);
+        }
     }
 
     /*
