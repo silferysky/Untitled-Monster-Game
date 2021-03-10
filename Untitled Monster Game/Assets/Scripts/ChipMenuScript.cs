@@ -47,6 +47,16 @@ public class ChipMenuScript : MonoBehaviour
         LootBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3();
         LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.height * 400 / 1080, 1.0f);
 
+        //Accept Btn
+        Buttons[0].gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(startPos.x + Screen.width * 480 / 1920, startPos.y + Screen.height * -310 / 1080, 1.0f);
+        Buttons[0].gameObject.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 250 / 1920, Screen.height * 50 / 1080, 1.0f);
+        Buttons[0].gameObject.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.width * 24 / 1920;
+
+        //Destroy Btn
+        Buttons[1].gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(startPos.x + Screen.width * 480 / 1920, startPos.y + Screen.height * -370 / 1080, 1.0f);
+        Buttons[1].gameObject.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 250 / 1920, Screen.height * 50 / 1080, 1.0f);
+        Buttons[1].gameObject.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.width * 24 / 1920;
+
         GenerateChipLibrary();
         CreateDefaultChips();
 
@@ -418,8 +428,8 @@ public class ChipMenuScript : MonoBehaviour
         }
         DisplayedLootChips.Clear();
 
-        float xDiff = LootBackground.GetComponent<RectTransform>().rect.height * 0.525f;//* 3 / 5;
-        float yDiff = LootBackground.GetComponent<RectTransform>().rect.width * 0.525f;//* 3 / 5;
+        float xDiff = LootBackground.GetComponent<RectTransform>().rect.width * 0.525f;//* 3 / 5;
+        float yDiff = LootBackground.GetComponent<RectTransform>().rect.height * 0.525f;//* 3 / 5;
 
         Holder chipHolder = holder.GetComponent<Holder>();
         int loop = 0;
