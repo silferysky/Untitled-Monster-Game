@@ -6,6 +6,7 @@ public class HealthScript : MonoBehaviour
 {
     public Animator animator;
     public GameObject DamagePopUpPrefab;
+    GameObject DamagePopupBackground;
 
     public int HP_Max = 10;
     public int HP_Current;
@@ -47,6 +48,8 @@ public class HealthScript : MonoBehaviour
         dmgFlickerTimer = 0.0f;
 
         originalColour = spriteRenderer.color; // Store the original colour
+
+        DamagePopupBackground = GameObject.Find("DamagePopup");
     }
 
     // Update is called once per frame
@@ -210,6 +213,7 @@ public class HealthScript : MonoBehaviour
         Vector2 position = new Vector2(transform.position.x, transform.position.y + 2.0f);
         popup = Instantiate(DamagePopUpPrefab, position, dummy);
         popup.GetComponent<DamagePopUp>().SetParams(damage);
+        popup.transform.SetParent(DamagePopupBackground.transform);
     }
 
     void FlickerOnDamage()

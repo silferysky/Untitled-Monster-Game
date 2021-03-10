@@ -354,6 +354,7 @@ public class ChipMenuScript : MonoBehaviour
         ChipLibraryUI.Add(new Chip(0, 1, 2, Chip.CType.UI, "SELF STATUS"));
         ChipLibraryUI.Add(new Chip(1, 1, 2, Chip.CType.UI, "COOLDOWN STATUS"));
         ChipLibraryUI.Add(new Chip(2, 1, 2, Chip.CType.UI, "WEAPON MODE STATUS"));
+        ChipLibraryUI.Add(new Chip(3, 1, 2, Chip.CType.UI, "DAMAGE INDICATOR"));
 
         //STATS CHIPS
         ChipLibraryStats.Add(new Chip(0, 1, 1, Chip.CType.STAT, "MELEE ATK UP"));
@@ -476,6 +477,9 @@ public class ChipMenuScript : MonoBehaviour
             Canvas.GetChild(i).gameObject.SetActive(false);
         }
 
+        //Special case for damage popup
+        Canvas.parent.GetChild(1).gameObject.SetActive(false);
+
         foreach (Chip c in AttachedChips)
         {
             if (c.ChipType != Chip.CType.UI)
@@ -484,17 +488,20 @@ public class ChipMenuScript : MonoBehaviour
             //Refer to GenerateChipLibrary
             switch (c.ChipID)
             {
-                case 0:
+                case 0: //Status Bars
                     Canvas.GetChild(0).gameObject.SetActive(true);
                     Canvas.GetChild(1).gameObject.SetActive(true);
                     break;
-                case 1:
+                case 1: //Cooldowns
                     Canvas.GetChild(2).gameObject.SetActive(true);
                     Canvas.GetChild(3).gameObject.SetActive(true);
                     break;
-                case 2:
+                case 2: //Weapon Type
                     Canvas.GetChild(4).gameObject.SetActive(true);
                     Canvas.GetChild(5).gameObject.SetActive(true);
+                    break;
+                case 3: //Damage Popup
+                    Canvas.parent.GetChild(1).gameObject.SetActive(true);
                     break;
                 default:
                     break;
