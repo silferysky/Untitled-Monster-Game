@@ -12,7 +12,7 @@ public class HealthScript : MonoBehaviour
     public int HP_Current;
     bool isAlive;
 
-    float knockbackMagnitude = 20.0f;
+    float knockbackMagnitude = 12.0f;
     public Vector2 showVel;
 
     public bool IsLooted = false;
@@ -249,7 +249,7 @@ public class HealthScript : MonoBehaviour
 
     void DoKnockBack(Vector2 startpos)
     {
-        return; // uncomment this
+        //return; // uncomment this
 
         float x_direction = transform.position.x - startpos.x;
 
@@ -260,7 +260,7 @@ public class HealthScript : MonoBehaviour
 
         knockback *= knockbackMagnitude;
 
-        GetComponent<Rigidbody2D>().AddForce(new Vector2(knockback, 5.0f), ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(knockback, 2.0f), ForceMode2D.Impulse);
 
         print("Knocked!");
     }
