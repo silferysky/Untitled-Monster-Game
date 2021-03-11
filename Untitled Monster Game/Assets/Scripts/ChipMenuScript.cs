@@ -15,6 +15,8 @@ public class ChipMenuScript : MonoBehaviour
 	public int CurChipSize;
     bool MenuIsOpen = false;
 
+    public GameObject StatsBackground;
+
     public bool LootMenuIsOpen = false;
     public GameObject LootBackground;
     public List<GameObject> DisplayedLootChips = new List<GameObject>();
@@ -53,6 +55,14 @@ public class ChipMenuScript : MonoBehaviour
         LootBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3();
         LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.height * 400 / 1080, 1.0f);
 
+        StatsBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3(Screen.width * 0.25f, 0.0f, 0.0f);
+        StatsBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 320 / 1920, Screen.height * 440 / 1080, 1.0f);
+        foreach (Transform child in StatsBackground.transform)
+        {
+            child.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 160 / 1920, Screen.height * 30 / 1080, 1.0f);
+            child.GetComponent<Text>().fontSize = Screen.width * 18 / 1920;
+        }
+
         //Accept Btn
         Buttons[0].gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(startPos.x + Screen.width * 480 / 1920, startPos.y + Screen.height * -310 / 1080, 1.0f);
         Buttons[0].gameObject.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 250 / 1920, Screen.height * 50 / 1080, 1.0f);
@@ -69,6 +79,7 @@ public class ChipMenuScript : MonoBehaviour
         Buttons[0].onClick.AddListener(ToggleMenu);
         Buttons[1].onClick.AddListener(DestroyChip);
 
+        UpdateAllStatVisualiser();
         //Disable this once chips are in place
         //TestSampleChips();
     }
@@ -81,6 +92,10 @@ public class ChipMenuScript : MonoBehaviour
             ToggleMenu();
         }
 
+        if (LastDeadboi != null && LastDeadboi.GetComponent<ChipHolder>().Chips.Count == 0 && !LootMenuIsOpen)
+        {
+            Destroy(LastDeadboi);
+        }
 
         //if (Input.GetMouseButtonDown(0))
         //{
@@ -128,12 +143,14 @@ public class ChipMenuScript : MonoBehaviour
     {
         MenuIsOpen = true;
         Background.SetActive(true);
+        StatsBackground.SetActive(true);
     }
 
     public void CloseMenu()
     {
         MenuIsOpen = false;
         Background.SetActive(false);
+        StatsBackground.SetActive(false);
         SelectedChipInventory = -1;
         SelectedChipLoot = -1;
     }
@@ -175,7 +192,9 @@ public class ChipMenuScript : MonoBehaviour
             {
                 Chip newChip = new Chip();
                 newChip.CopyChip(AttachedChips[selectedChip]);
-                LootChips.Add(newChip);
+
+                CurChipSize -= newChip.ChipSize;
+                LastDeadboi.GetComponent<ChipHolder>().Chips.Add(newChip);
                 AttachedChips.RemoveAt(selectedChip);
 
                 if (newChip.ChipType == Chip.CType.STAT)
@@ -208,7 +227,11 @@ public class ChipMenuScript : MonoBehaviour
         Chip chip = LastDeadboi.GetComponent<ChipHolder>().Chips[selectedChip];
         //Debug.Log(selectedChip);
 
-        AddChip(LootChips[selectedChip]);
+        bool success = AddChip(LootChips[selectedChip]);
+
+        if (!success)
+            return;
+
         if (chip.ChipType == Chip.CType.UI)
         {
             UpdateUIChips();
@@ -339,14 +362,17 @@ public class ChipMenuScript : MonoBehaviour
         //Debug.Log(chipString);
     }
 
-    public void AddChip(Chip newChip)
+    public bool AddChip(Chip newChip)
     {
         if (CurChipSize + newChip.ChipSize > MaxChipSize)
-            return;
+            return false;
 
         AttachedChips.Add(newChip);
+        CurChipSize += newChip.ChipSize;
         SortChips();
         DisplayChips();
+
+        return true;
     }
 
     void GenerateChipLibrary()
@@ -357,10 +383,10 @@ public class ChipMenuScript : MonoBehaviour
         ChipLibraryAttacks.Add(new Chip(6, 1, 1, Chip.CType.ATK, "LIGHTNING"));
 
         //UI CHIPS
-        ChipLibraryUI.Add(new Chip(0, 1, 2, Chip.CType.UI, "SELF STATUS"));
-        ChipLibraryUI.Add(new Chip(1, 1, 2, Chip.CType.UI, "COOLDOWN STATUS"));
-        ChipLibraryUI.Add(new Chip(2, 1, 2, Chip.CType.UI, "WEAPON MODE STATUS"));
-        ChipLibraryUI.Add(new Chip(3, 1, 2, Chip.CType.UI, "DAMAGE INDICATOR"));
+        ChipLibraryUI.Add(new Chip(0, 1, 1, Chip.CType.UI, "SELF STATUS"));
+        ChipLibraryUI.Add(new Chip(1, 1, 1, Chip.CType.UI, "COOLDOWN STATUS"));
+        ChipLibraryUI.Add(new Chip(2, 1, 1, Chip.CType.UI, "WEAPON MODE STATUS"));
+        ChipLibraryUI.Add(new Chip(3, 1, 1, Chip.CType.UI, "DAMAGE INDICATOR"));
 
         //STATS CHIPS
         ChipLibraryStats.Add(new Chip(0, 1, 1, Chip.CType.STAT, "MELEE ATK UP"));
@@ -520,6 +546,11 @@ public class ChipMenuScript : MonoBehaviour
         int BaseMeleeATK = 2, BaseRangedATK = 1;
         float BaseMeleeCD = 0.3f, BaseRangedCD = 0.3f;
 
+        int MAtkValue = 1;
+        int MAtkSpdValue = 1;
+        int RAtkValue = 1;
+        int RAtkSpdValue = 1;
+
         foreach (Chip c in AttachedChips)
         {
             if (c.ChipType != Chip.CType.STAT)
@@ -528,16 +559,16 @@ public class ChipMenuScript : MonoBehaviour
             switch (c.ChipID)
             {
                 case 0:
-                    BaseMeleeATK += c.ChipLevel;
+                    MAtkValue += c.ChipLevel;
                     break;
                 case 1:
-                    BaseMeleeCD -= 0.05f * c.ChipLevel;
+                    MAtkSpdValue += c.ChipLevel;
                     break;
                 case 2:
-                    BaseRangedATK += c.ChipLevel;
+                    RAtkValue += c.ChipLevel;
                     break;
                 case 3:
-                    BaseRangedCD -= 0.05f * c.ChipLevel;
+                    RAtkSpdValue += c.ChipLevel;
                     break;
                 case 4:
                     AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
@@ -553,17 +584,29 @@ public class ChipMenuScript : MonoBehaviour
             }
         }
 
+        BaseMeleeATK += (MAtkValue - 1);
+        BaseMeleeCD -= 0.05f * (MAtkSpdValue - 1);
+        BaseRangedATK += (RAtkValue - 1);
+        BaseRangedCD -= 0.05f * (RAtkSpdValue - 1);
+
         DoDamageScript damageScript = PlayerStatsObject.GetComponent<DoDamageScript>();
         damageScript.MeleeDamage = BaseMeleeATK;
         damageScript.MeleeBasicAttackCooldown = BaseMeleeCD;
         damageScript.RangedDamage = BaseRangedATK;
         damageScript.RangedBasicAttackCooldown = BaseRangedCD;
 
-        MAtkSpdVisualiser.GetComponent<StatVisualiser>().value = (int)BaseMeleeCD;
-        RAtkSpdVisualiser.GetComponent<StatVisualiser>().value = (int)BaseRangedCD;
+        MAtkSpdVisualiser.GetComponent<StatVisualiser>().UpdateStatUI(MAtkSpdValue);
+        RAtkSpdVisualiser.GetComponent<StatVisualiser>().UpdateStatUI(RAtkSpdValue);
+        MAtkVisualiser.GetComponent<StatVisualiser>().UpdateStatUI(MAtkValue);
+        RAtkVisualiser.GetComponent<StatVisualiser>().UpdateStatUI(RAtkValue);
+    }
 
-        MAtkVisualiser.GetComponent<StatVisualiser>().value = (int)BaseMeleeATK;
-        RAtkVisualiser.GetComponent<StatVisualiser>().value = (int)BaseRangedATK;
+    void UpdateAllStatVisualiser()
+    {
+        MAtkSpdVisualiser.GetComponent<StatVisualiser>().UpdateStatUI();
+        RAtkSpdVisualiser.GetComponent<StatVisualiser>().UpdateStatUI();
+        MAtkVisualiser.GetComponent<StatVisualiser>().UpdateStatUI();
+        RAtkVisualiser.GetComponent<StatVisualiser>().UpdateStatUI();
     }
 
     void CreateDefaultChips()
@@ -571,9 +614,11 @@ public class ChipMenuScript : MonoBehaviour
         Chip newChip;
         foreach (Chip c in ChipLibraryUI)
         {
+            //AddChip is not used here cause SortChips and DisplayChips will be called multiple times. This will be handled manually
             newChip = new Chip();
             newChip.CopyChip(c);
             AttachedChips.Add(newChip);
+            CurChipSize += newChip.ChipSize;
         }
 
         /* foreach (Chip c in ChipLibraryAttacks)
