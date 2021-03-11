@@ -12,6 +12,8 @@ public class HealthScript : MonoBehaviour
     public int HP_Current;
     bool isAlive;
 
+    float knockbackMagnitude = 10.0f;
+
     public bool IsLooted = false;
 
     // Ignore damage variables
@@ -85,6 +87,12 @@ public class HealthScript : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Vector2 no_knockback = new Vector2(0.0f, 0.0f);
+        TakeDamage(damage, no_knockback);
+    }
+
+    public void TakeDamage(int damage, Vector2 knockback_dir)
+    {
         if (!isAlive)
             return;
 
@@ -129,6 +137,9 @@ public class HealthScript : MonoBehaviour
             dmgFlickerTimer = 0.0f;
             isDmgFlickering = true;
         }
+
+        if (knockback_dir != new Vector2(0.0f, 0.0f))
+            DoKnockBack(knockback_dir);
     }
 
     public bool GetAlive()
@@ -230,5 +241,17 @@ public class HealthScript : MonoBehaviour
         }
 
         dmgFlickerTimer += Time.deltaTime;
+    }
+
+    void DoKnockBack(Vector2 direction)
+    {
+        float knockback = 1.0f;
+
+        knockback *= knockbackMagnitude;
+
+        GetComponent<Rigidbody2D>().velocity = new Vector2(-knockback, 5.0f);
+
+        print("Knocked!");
+        print(knockback);
     }
 }
