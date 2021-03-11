@@ -227,7 +227,7 @@ public class DoDamageScript : MonoBehaviour
 
                         foreach (Collider2D enemy in enemiesToDamage)
                         {
-                            enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage);
+                            enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage, transform.position);
                         }
 
                         animator.SetTrigger("IsMeleeing");

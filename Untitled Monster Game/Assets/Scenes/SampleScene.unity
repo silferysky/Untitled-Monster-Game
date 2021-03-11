@@ -11219,12 +11219,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 107387622025685285, guid: b2314ad756710fb448b7fb4a1c793679,
+        type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 107387622025685285, guid: b2314ad756710fb448b7fb4a1c793679,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 107387622025685286, guid: b2314ad756710fb448b7fb4a1c793679,
         type: 3}
       propertyPath: DamagePopUpPrefab
       value: 
       objectReference: {fileID: 749024605214866086, guid: 2d48b02868f40cf4e95129985ab79f04,
         type: 3}
+    - target: {fileID: 107387622025685286, guid: b2314ad756710fb448b7fb4a1c793679,
+        type: 3}
+      propertyPath: KnockbackMagnitude
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 107387622025685289, guid: b2314ad756710fb448b7fb4a1c793679,
         type: 3}
       propertyPath: m_Name
