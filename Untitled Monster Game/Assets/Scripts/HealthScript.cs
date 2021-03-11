@@ -12,7 +12,8 @@ public class HealthScript : MonoBehaviour
     public int HP_Current;
     bool isAlive;
 
-    float knockbackMagnitude = 10.0f;
+    float knockbackMagnitude = 20.0f;
+    public Vector2 showVel;
 
     public bool IsLooted = false;
 
@@ -83,15 +84,18 @@ public class HealthScript : MonoBehaviour
                 ignoreDamage = false;
             }
         }
+
+        if (GetComponent<Rigidbody2D>())
+            showVel = GetComponent<Rigidbody2D>().velocity;
     }
 
     public void TakeDamage(int damage)
     {
-        Vector2 no_knockback = new Vector2(0.0f, 0.0f);
+        Vector2 no_knockback = new Vector2(-9999.9f, -9999.9f);
         TakeDamage(damage, no_knockback);
     }
 
-    public void TakeDamage(int damage, Vector2 knockback_dir)
+    public void TakeDamage(int damage, Vector2 startpos)
     {
         if (!isAlive)
             return;
@@ -138,8 +142,8 @@ public class HealthScript : MonoBehaviour
             isDmgFlickering = true;
         }
 
-        if (knockback_dir != new Vector2(0.0f, 0.0f))
-            DoKnockBack(knockback_dir);
+        if (startpos != new Vector2(-9999.9f, -9999.9f))
+            DoKnockBack(startpos);
     }
 
     public bool GetAlive()
@@ -243,15 +247,21 @@ public class HealthScript : MonoBehaviour
         dmgFlickerTimer += Time.deltaTime;
     }
 
-    void DoKnockBack(Vector2 direction)
+    void DoKnockBack(Vector2 startpos)
     {
+        return; // uncomment this
+
+        float x_direction = transform.position.x - startpos.x;
+
         float knockback = 1.0f;
+
+        if (x_direction < 0.0f)
+            knockback = -knockback;
 
         knockback *= knockbackMagnitude;
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(-knockback, 5.0f);
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(knockback, 5.0f), ForceMode2D.Impulse);
 
         print("Knocked!");
-        print(knockback);
     }
 }

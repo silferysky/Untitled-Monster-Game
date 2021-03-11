@@ -227,8 +227,7 @@ public class DoDamageScript : MonoBehaviour
 
                         foreach (Collider2D enemy in enemiesToDamage)
                         {
-                            Vector2 knockback_dir = MeleeAttackPos.position - transform.position;
-                            enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage, knockback_dir);
+                            enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage, transform.position);
                         }
 
                         animator.SetTrigger("IsMeleeing");
