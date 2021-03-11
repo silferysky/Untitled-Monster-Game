@@ -96,7 +96,7 @@ public class ShittyAIScript : MonoBehaviour
         
         if (other.Length > 0)
         {
-            rigidbody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
+            //rigidbody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
             animator.SetFloat("Velocity", 0.0f);
 
             isAttacking = true;

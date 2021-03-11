@@ -17,9 +17,24 @@ public class StatVisualiser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < value; ++i)
+    }
+
+    public void UpdateStatUI()
+    {
+        for (int i = 0; i < 5; ++i)
         {
-            bars[i].GetComponent<Image>().color = Color.green;
+            if (value - 5 > i)
+                bars[i].GetComponent<Image>().color = Color.red;
+            else if (value > i)
+                bars[i].GetComponent<Image>().color = Color.green;
+            else
+                bars[i].GetComponent<Image>().color = Color.white;
         }
+    }
+
+    public void UpdateStatUI(int newValue)
+    {
+        value = newValue;
+        UpdateStatUI();
     }
 }

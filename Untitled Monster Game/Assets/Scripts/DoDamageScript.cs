@@ -225,9 +225,21 @@ public class DoDamageScript : MonoBehaviour
                     {
                         Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
 
+                        List<GameObject> enemyList = new List<GameObject>();
                         foreach (Collider2D enemy in enemiesToDamage)
                         {
-                            enemy.GetComponent<HealthScript>().TakeDamage(MeleeDamage);
+                            enemyList.Add(enemy.gameObject);
+                        }
+                        enemyList = enemyList.SortByDistance(transform.position);
+
+                        int enemiesPerHit = 1;
+
+                        if (enemyList.Count > 0)
+                        {
+                            for (int i = 0; i < enemiesPerHit; ++i)
+                            {
+                                enemyList[i].GetComponent<HealthScript>().TakeDamage(MeleeDamage, transform.position);
+                            }
                         }
 
                         animator.SetTrigger("IsMeleeing");
