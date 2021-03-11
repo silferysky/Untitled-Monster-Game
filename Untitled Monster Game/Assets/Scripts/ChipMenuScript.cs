@@ -92,6 +92,10 @@ public class ChipMenuScript : MonoBehaviour
             ToggleMenu();
         }
 
+        if (LastDeadboi != null && LastDeadboi.GetComponent<ChipHolder>().Chips.Count == 0 && !LootMenuIsOpen)
+        {
+            Destroy(LastDeadboi);
+        }
 
         //if (Input.GetMouseButtonDown(0))
         //{
