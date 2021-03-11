@@ -48,6 +48,7 @@ public class PlayerScript : MonoBehaviour
             {
                 chipMenu.CloseMenu();
                 chipMenu.CloseLootInventory();
+                GameStateManager.gameState = GameState.Running;
             }
             else if (healthScript.GetAlive())
             {
@@ -55,6 +56,7 @@ public class PlayerScript : MonoBehaviour
 
                 if (other_hs && !other_hs.GetAlive())
                 {
+                    GameStateManager.gameState = GameState.ChipMenu;
                     if (!other_hs.IsLooted)
                     {
                         //Generate Loot
