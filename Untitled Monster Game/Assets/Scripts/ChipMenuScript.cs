@@ -35,6 +35,12 @@ public class ChipMenuScript : MonoBehaviour
 
     public GameObject AbilityScripts;
 
+    public GameObject MAtkSpdVisualiser;
+    public GameObject RAtkSpdVisualiser;
+
+    public GameObject MAtkVisualiser;
+    public GameObject RAtkVisualiser;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -552,6 +558,12 @@ public class ChipMenuScript : MonoBehaviour
         damageScript.MeleeBasicAttackCooldown = BaseMeleeCD;
         damageScript.RangedDamage = BaseRangedATK;
         damageScript.RangedBasicAttackCooldown = BaseRangedCD;
+
+        MAtkSpdVisualiser.GetComponent<StatVisualiser>().value = (int)BaseMeleeCD;
+        RAtkSpdVisualiser.GetComponent<StatVisualiser>().value = (int)BaseRangedCD;
+
+        MAtkVisualiser.GetComponent<StatVisualiser>().value = (int)BaseMeleeATK;
+        RAtkVisualiser.GetComponent<StatVisualiser>().value = (int)BaseRangedATK;
     }
 
     void CreateDefaultChips()

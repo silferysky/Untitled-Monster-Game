@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatVisualiser : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class StatVisualiser : MonoBehaviour
     {
         for (int i = 0; i < value; ++i)
         {
-            bars[i].SetActive(true);
+            bars[i].GetComponent<Image>().color = Color.green;
         }
     }
 }
