@@ -95,6 +95,7 @@ public class ChipMenuScript : MonoBehaviour
         if (LastDeadboi != null && LastDeadboi.GetComponent<ChipHolder>().Chips.Count == 0 && !LootMenuIsOpen)
         {
             Destroy(LastDeadboi);
+            PlayerStatsObject.GetComponent<PlayerScript>().isTouchingAI = false;
         }
 
         //if (Input.GetMouseButtonDown(0))

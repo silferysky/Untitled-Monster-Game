@@ -11,6 +11,9 @@ public class PlayerScript : MonoBehaviour
 
     public IAbility activeAbility = null;//{ get; set; }
 
+    GameObject LastAITouched;
+    public bool isTouchingAI;
+
     // Sprite Flipping
     public bool isFacingRight = true;
 
@@ -35,13 +38,9 @@ public class PlayerScript : MonoBehaviour
             AbilityScripts.GetComponent<ShieldAbilityScript>().SetIsActive(true);
         else if (Input.GetKeyDown(KeyCode.Alpha3))
             AbilityScripts.GetComponent<LightningAbility>().SetIsActive(true);
-    }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        //if (collision.otherCollider.gameObject.tag != "AI")
-        //    isJumping = false;
-        if (Input.GetKeyDown(KeyCode.F))
+
+        if (Input.GetKeyDown(KeyCode.F) && isTouchingAI)
         {
             ChipMenuScript chipMenu = ChipMenu.GetComponent<ChipMenuScript>();
 
@@ -50,9 +49,9 @@ public class PlayerScript : MonoBehaviour
                 chipMenu.CloseMenu();
                 chipMenu.CloseLootInventory();
             }
-            else if (healthScript.GetAlive() && other.tag == "AI")
+            else if (healthScript.GetAlive())
             {
-                HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
+                HealthScript other_hs = LastAITouched.GetComponent<HealthScript>();
 
                 if (other_hs && !other_hs.GetAlive())
                 {
@@ -60,18 +59,43 @@ public class PlayerScript : MonoBehaviour
                     {
                         //Generate Loot
                         other_hs.IsLooted = true;
-                        chipMenu.GenerateLoot(other.gameObject);
+                        chipMenu.GenerateLoot(LastAITouched);
                     }
 
                     //Move this to outside if statement once decide to actually code re-visiting bodies
                     chipMenu.OpenMenu();
                     chipMenu.OpenLootInventory();
-                    chipMenu.DisplayLoot(other.gameObject);
-                    chipMenu.LastDeadboi = other.gameObject;
+                    chipMenu.DisplayLoot(LastAITouched);
+                    chipMenu.LastDeadboi = LastAITouched;
 
                 }
             }
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (healthScript.GetAlive() && other.tag == "AI")
+        {
+            HealthScript other_hs = other.transform.gameObject.GetComponent<HealthScript>();
+
+            if (other_hs && !other_hs.GetAlive())
+            {
+                isTouchingAI = true;
+                LastAITouched = other.gameObject;
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        isTouchingAI = false;
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        //if (collision.otherCollider.gameObject.tag != "AI")
+        //    isJumping = false;
     }
 
     public void FlipSprite(bool face_right_this_frame)
