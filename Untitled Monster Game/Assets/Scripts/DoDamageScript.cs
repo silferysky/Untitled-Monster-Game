@@ -213,16 +213,8 @@ public class DoDamageScript : MonoBehaviour
 
                         // Rotate image of bullet accordingly 
                         PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
-                        if (playerscript.isFacingRight && velocity.x < 0)
-                        {
-                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
-
-                        }
-                        if (!playerscript.isFacingRight && velocity.x > 0)
-                        {
-                            p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
-
-                        }
+                        float angle = Vector2.SignedAngle(new Vector2(1.0f, 0.0f), endPos - RangedAttackPos.position);
+                        p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, angle);
 
                         animator.SetTrigger("IsShooting");
                     }

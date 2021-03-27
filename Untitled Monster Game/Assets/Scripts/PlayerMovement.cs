@@ -107,12 +107,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerPos = transform.position;
 
-        bool isFacingRight;
-        if (cursorPos.x > playerPos.x)
-            isFacingRight = true;
-        else
-            isFacingRight = false;
-
+        bool isFacingRight = IsFacingRight();
 
         if (isFacingRight)
         {
@@ -133,5 +128,12 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
 
+    }
+
+    public bool IsFacingRight()
+    {
+        Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = transform.position;
+        return (cursorPos.x > playerPos.x);
     }
 }

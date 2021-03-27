@@ -4302,10 +4302,10 @@ MonoBehaviour:
     m_Bits: 256
   animator: {fileID: 781627367}
   EnableRanged: 0
-  RangedDamage: 1
+  RangedDamage: 2
   EnableMelee: 1
   MeleeDamage: 2
-  RangedBasicAttackCooldown: 0.3
+  RangedBasicAttackCooldown: 0.6
   MeleeBasicAttackCooldown: 0.3
   MeleeAttackPos: {fileID: 628311346}
   MeleeAttackRadius: 1
@@ -4313,7 +4313,7 @@ MonoBehaviour:
   RangedAttackRadius: 0
   projectile: {fileID: 6785574707469092835, guid: 3f37397b319846b419d458698fd2b4e4,
     type: 3}
-  ProjectileSpeed: 10
+  ProjectileSpeed: 20
   ProjectileLifetime: 2
   ProjectileLayerForParrying:
     serializedVersion: 2

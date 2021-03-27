@@ -32,6 +32,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isFacingRight = transform.parent.GetComponent<PlayerMovement>().IsFacingRight();
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
             AbilityScripts.GetComponent<HealAbilityScript>().SetIsActive(true);
         else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -98,19 +100,5 @@ public class PlayerScript : MonoBehaviour
     {
         //if (collision.otherCollider.gameObject.tag != "AI")
         //    isJumping = false;
-    }
-
-    public void FlipSprite(bool face_right_this_frame)
-    {
-        if (face_right_this_frame && !isFacingRight)
-        {
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
-            isFacingRight = true;
-        }
-        else if (!face_right_this_frame && isFacingRight)
-        {
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
-            isFacingRight = false;
-        }
     }
 }
