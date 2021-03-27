@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 2.0f;
     bool isJumping = false;
 
+    bool wasFacingRightLastFrame = true;
+
     public Animator animator;
 
 
@@ -52,12 +54,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             moveVec.x -= 1.0f;
-            PlayerModel.GetComponent<PlayerScript>().FlipSprite(false);
+            //PlayerModel.GetComponent<PlayerScript>().FlipSprite(false);
         }
         if (Input.GetKey(KeyCode.D))
         {
             moveVec.x += 1.0f;
-            PlayerModel.GetComponent<PlayerScript>().FlipSprite(true);
+            //PlayerModel.GetComponent<PlayerScript>().FlipSprite(true);
         }
 
         float newMoveSpd = MovementSpeed;
@@ -82,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         //For Counterforce
         rigidbody.AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
 
-        animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
+        UpdateSpriteDirection();
     }
 
     public float GetStaminaAsFraction()
@@ -98,5 +100,38 @@ public class PlayerMovement : MonoBehaviour
     public void SetIsJumping(bool set)
     {
         isJumping = set;
+    }
+
+    void UpdateSpriteDirection()
+    {
+        Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = transform.position;
+
+        bool isFacingRight;
+        if (cursorPos.x > playerPos.x)
+            isFacingRight = true;
+        else
+            isFacingRight = false;
+
+
+        if (isFacingRight)
+        {
+            if (wasFacingRightLastFrame != isFacingRight) // Now face right
+            {
+                PlayerModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                wasFacingRightLastFrame = isFacingRight;
+            }
+        }
+        else if (!isFacingRight) // Flip sprite
+        {
+            if (wasFacingRightLastFrame != isFacingRight) // Now face left
+            {
+                PlayerModel.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                wasFacingRightLastFrame = isFacingRight;
+            }
+        }
+
+        animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
+
     }
 }

@@ -209,14 +209,20 @@ public class DoDamageScript : MonoBehaviour
                         GameObject p;
                         p = Instantiate(projectile, RangedAttackPos.position, transform.rotation);
                         p.GetComponent<Projectile>().SetParams(RangedDamage, ProjectileLifetime, EnemyMask);
-
                         p.GetComponent<Rigidbody2D>().velocity = velocity * ProjectileSpeed;
 
+                        // Rotate image of bullet accordingly 
                         PlayerScript playerscript = gameObject.GetComponent<PlayerScript>();
                         if (playerscript.isFacingRight && velocity.x < 0)
+                        {
                             p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 180, 0);
+
+                        }
                         if (!playerscript.isFacingRight && velocity.x > 0)
+                        {
                             p.GetComponent<Transform>().rotation = Quaternion.Euler(0, 0, 0);
+
+                        }
 
                         animator.SetTrigger("IsShooting");
                     }
