@@ -53,7 +53,7 @@ public class ChipMenuScript : MonoBehaviour
         Background.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 300 / 1920, Screen.height * 850 / 1080, 1.0f);
 
         LootBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3();
-        LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.width * 400 / 1920, 1.0f);
+        LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.width * 600 / 1920, 1.0f);
 
         StatsBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3(Screen.width * 0.25f, 0.0f, 0.0f);
         StatsBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 320 / 1920, Screen.height * 440 / 1080, 1.0f);
@@ -73,11 +73,17 @@ public class ChipMenuScript : MonoBehaviour
         Buttons[1].gameObject.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 250 / 1920, Screen.height * 50 / 1080, 1.0f);
         Buttons[1].gameObject.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.width * 24 / 1920;
 
+        //Transfer Btn
+        Buttons[2].gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(startPos.x + Screen.width * 480 / 1920, startPos.y + Screen.height * -330 / 1080, 1.0f);
+        Buttons[2].gameObject.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 250 / 1920, Screen.height * 50 / 1080, 1.0f);
+        Buttons[2].gameObject.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.width * 24 / 1920;
+
         GenerateChipLibrary();
         CreateDefaultChips();
 
         Buttons[0].onClick.AddListener(ToggleMenu);
         Buttons[1].onClick.AddListener(DestroyChip);
+        Buttons[2].onClick.AddListener(TransferChip);
 
         UpdateStatsChips();
         UpdateAllStatVisualiser();
@@ -190,34 +196,14 @@ public class ChipMenuScript : MonoBehaviour
         if (LootMenuIsOpen)
         {
             //Transfer to Loot Menu if selected twice
-            if (SelectedChipInventory == selectedChip)
-            {
-                Chip newChip = new Chip();
-                newChip.CopyChip(AttachedChips[selectedChip]);
-
-                CurChipSize -= newChip.ChipSize;
-                LastDeadboi.GetComponent<ChipHolder>().Chips.Add(newChip);
-                AttachedChips.RemoveAt(selectedChip);
-
-                if (newChip.ChipType == Chip.CType.STAT)
-                {
-                    UpdateStatsChips();
-                }
-                else if (newChip.ChipType == Chip.CType.UI)
-                {
-                    UpdateUIChips();
-                }
-
-                DisplayChips();
-                DisplayLoot(LastDeadboi);
-                SelectedChipInventory = -1;
-                SelectedChipLoot = -1;
-            }
-            else
+            if (SelectedChipInventory != selectedChip)
             {
                 SelectedChipInventory = selectedChip;
                 SelectedChipLoot = -1;
+                return;
             }
+
+            TransferChip();
         }
         else
         {
@@ -236,35 +222,7 @@ public class ChipMenuScript : MonoBehaviour
             return;
         }
 
-        //Chip chip = LootChips[selectedChip];
-        Chip chip = LastDeadboi.GetComponent<ChipHolder>().Chips[selectedChip];
-        //Debug.Log(selectedChip);
-
-        bool success = AddChip(LootChips[selectedChip]);
-
-        if (!success)
-            return;
-
-        if (chip.ChipType == Chip.CType.UI)
-        {
-            UpdateUIChips();
-        }
-        else if (chip.ChipType == Chip.CType.STAT)
-        {
-            UpdateStatsChips();
-        }
-        //instance.GetComponent<ChipHolder>().Chips.RemoveAt(selectedChip);
-        LastDeadboi.GetComponent<ChipHolder>().Chips.RemoveAt(selectedChip);
-        //LootChips.RemoveAt(selectedChip);
-
-        foreach(Chip c in LastDeadboi.GetComponent<ChipHolder>().Chips)
-        {
-            if (c.ChipPosition > selectedChip)
-                --c.ChipPosition;
-        }
-        DisplayLoot(LastDeadboi);
-        SelectedChipInventory = -1;
-        SelectedChipLoot = -1;
+        TransferChip();
     }
 
     bool CheckChipValidity()
@@ -477,7 +435,7 @@ public class ChipMenuScript : MonoBehaviour
         DisplayedLootChips.Clear();
 
         float xDiff = LootBackground.GetComponent<RectTransform>().rect.width * 0.525f;//* 3 / 5;
-        float yDiff = LootBackground.GetComponent<RectTransform>().rect.height * 0.525f;//* 3 / 5;
+        float yDiff = LootBackground.GetComponent<RectTransform>().rect.width * 0.525f;//* 3 / 5;
 
         Holder chipHolder = holder.GetComponent<Holder>();
         int loop = 0;
@@ -502,7 +460,8 @@ public class ChipMenuScript : MonoBehaviour
 
             int tempInt = loop;
             toInstantiate.GetComponent<RectTransform>().sizeDelta = new Vector3(xDiff * 0.6f, yDiff * 0.6f);
-            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position - new Vector3(-xDiff * (loop % 3 - 1) * 0.6f, yDiff * (loop / 3 - 1) * 0.6f, -1.0f);
+            Vector3 curPos = LootBackground.GetComponent<RectTransform>().position + new Vector3(0.0f, xDiff * 0.44f, 0.0f) //Original Position
+                             - new Vector3(-xDiff * (loop % 3 - 1) * 0.6f, yDiff * (loop / 3 - 1) * 0.6f, -1.0f);  //Offset for individual chips
             GameObject instance = Instantiate(toInstantiate, curPos, Quaternion.identity);
             instance.transform.GetChild(0).GetComponent<Text>().text = c.ChipName;
             instance.transform.SetParent(LootBackground.transform);
@@ -682,6 +641,65 @@ public class ChipMenuScript : MonoBehaviour
 
             DisplayChips();
             SelectedChipInventory = -1;
+        }
+    }
+
+    void TransferChip()
+    {
+        if (SelectedChipInventory != - 1)
+        {
+            Chip newChip = new Chip();
+            newChip.CopyChip(AttachedChips[SelectedChipInventory]);
+
+            CurChipSize -= newChip.ChipSize;
+            LastDeadboi.GetComponent<ChipHolder>().Chips.Add(newChip);
+            AttachedChips.RemoveAt(SelectedChipInventory);
+
+            if (newChip.ChipType == Chip.CType.STAT)
+            {
+                UpdateStatsChips();
+            }
+            else if (newChip.ChipType == Chip.CType.UI)
+            {
+                UpdateUIChips();
+            }
+
+            DisplayChips();
+            DisplayLoot(LastDeadboi);
+            SelectedChipInventory = -1;
+            SelectedChipLoot = -1;
+        }
+        else if (SelectedChipLoot != -1)
+        {
+            //Chip chip = LootChips[selectedChip];
+            Chip chip = LastDeadboi.GetComponent<ChipHolder>().Chips[SelectedChipLoot];
+            //Debug.Log(selectedChip);
+
+            bool success = AddChip(LootChips[SelectedChipLoot]);
+
+            if (!success)
+                return;
+
+            if (chip.ChipType == Chip.CType.UI)
+            {
+                UpdateUIChips();
+            }
+            else if (chip.ChipType == Chip.CType.STAT)
+            {
+                UpdateStatsChips();
+            }
+            //instance.GetComponent<ChipHolder>().Chips.RemoveAt(selectedChip);
+            LastDeadboi.GetComponent<ChipHolder>().Chips.RemoveAt(SelectedChipLoot);
+            //LootChips.RemoveAt(selectedChip);
+
+            foreach (Chip c in LastDeadboi.GetComponent<ChipHolder>().Chips)
+            {
+                if (c.ChipPosition > SelectedChipLoot)
+                    --c.ChipPosition;
+            }
+            DisplayLoot(LastDeadboi);
+            SelectedChipInventory = -1;
+            SelectedChipLoot = -1;
         }
     }
 }
