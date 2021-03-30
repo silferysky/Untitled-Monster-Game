@@ -53,7 +53,7 @@ public class ChipMenuScript : MonoBehaviour
         Background.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 300 / 1920, Screen.height * 850 / 1080, 1.0f);
 
         LootBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3();
-        LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.height * 400 / 1080, 1.0f);
+        LootBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 400 / 1920, Screen.width * 400 / 1920, 1.0f);
 
         StatsBackground.GetComponent<RectTransform>().anchoredPosition = new Vector3(Screen.width * 0.25f, 0.0f, 0.0f);
         StatsBackground.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width * 320 / 1920, Screen.height * 440 / 1080, 1.0f);
@@ -210,21 +210,32 @@ public class ChipMenuScript : MonoBehaviour
 
                 DisplayChips();
                 DisplayLoot(LastDeadboi);
+                SelectedChipInventory = -1;
+                SelectedChipLoot = -1;
             }
             else
             {
                 SelectedChipInventory = selectedChip;
+                SelectedChipLoot = -1;
             }
         }
         else
         {
             //Just Select
             SelectedChipInventory = selectedChip;
+            SelectedChipLoot = -1;
         }
     }
 
     void HandleLootChip(int selectedChip)
     {
+        if (SelectedChipLoot != selectedChip)
+        {
+            SelectedChipLoot = selectedChip;
+            SelectedChipInventory = -1;
+            return;
+        }
+
         //Chip chip = LootChips[selectedChip];
         Chip chip = LastDeadboi.GetComponent<ChipHolder>().Chips[selectedChip];
         //Debug.Log(selectedChip);
@@ -252,6 +263,8 @@ public class ChipMenuScript : MonoBehaviour
                 --c.ChipPosition;
         }
         DisplayLoot(LastDeadboi);
+        SelectedChipInventory = -1;
+        SelectedChipLoot = -1;
     }
 
     bool CheckChipValidity()
