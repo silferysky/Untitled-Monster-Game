@@ -79,6 +79,7 @@ public class ChipMenuScript : MonoBehaviour
         Buttons[0].onClick.AddListener(ToggleMenu);
         Buttons[1].onClick.AddListener(DestroyChip);
 
+        UpdateStatsChips();
         UpdateAllStatVisualiser();
         //Disable this once chips are in place
         //TestSampleChips();
@@ -544,8 +545,8 @@ public class ChipMenuScript : MonoBehaviour
 
     void UpdateStatsChips()
     {
-        int BaseMeleeATK = 2, BaseRangedATK = 1;
-        float BaseMeleeCD = 0.3f, BaseRangedCD = 0.3f;
+        int BaseMeleeATK = 2, BaseRangedATK = 3;
+        float BaseMeleeCD = 0.3f, BaseRangedCD = 1.0f;
 
         int MAtkValue = 1;
         int MAtkSpdValue = 1;
