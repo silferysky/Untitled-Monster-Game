@@ -14,8 +14,8 @@ public class DoDamageScript : MonoBehaviour
     public bool EnableMelee = false;
     public int MeleeDamage = 1;
 
-    public float RangedBasicAttackCooldown = 1.0f;
-    public float MeleeBasicAttackCooldown = 1.0f;
+    public float RangedBasicAttackCooldown = 0.5f;
+    public float MeleeBasicAttackCooldown = 0.5f;
 
     public Transform MeleeAttackPos;
     public float MeleeAttackRadius = 0.0f;
@@ -70,14 +70,20 @@ public class DoDamageScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1)) // RMB
             {
-                EnableMelee = !EnableMelee;
-                EnableRanged = !EnableRanged;
+                //EnableMelee = !EnableMelee;
+                //EnableRanged = !EnableRanged;
+
+                EnableMelee = false;
+                EnableRanged = true;
             }
 
             if (Input.GetMouseButtonDown(0)) // LMB
             {
                 if (EnableMelee)
                     DoParry();
+
+                EnableMelee = true;
+                EnableRanged = false;
             }
 
             // Attack guide lines and stuff
@@ -194,12 +200,12 @@ public class DoDamageScript : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            //if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))
             {
-                //if ((EnableRanged && rangedBasicCooldownTimer == 0.0f) ||
-                    //(EnableMelee && meleeBasicCooldownTimer == 0.0f))
+                if ((EnableRanged && rangedBasicCooldownTimer == 0.0f) ||
+                    (EnableMelee && meleeBasicCooldownTimer == 0.0f))
                 {
-                    if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1) && rangedBasicCooldownTimer == 0.0f)
+                    if (EnableRanged)
                     {
                         Vector3 endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         Vector3 velocity = endPos - RangedAttackPos.position;
@@ -219,7 +225,7 @@ public class DoDamageScript : MonoBehaviour
                         animator.SetTrigger("IsShooting");
                     }
 
-                    if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) && meleeBasicCooldownTimer == 0.0f)
+                    if (EnableMelee)
                     {
                         Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(MeleeAttackPos.position, MeleeAttackRadius, EnemyMask);
 
@@ -243,8 +249,10 @@ public class DoDamageScript : MonoBehaviour
                         animator.SetTrigger("IsMeleeing");
                     }
 
-                    rangedBasicCooldownTimer = RangedBasicAttackCooldown;
-                    meleeBasicCooldownTimer = MeleeBasicAttackCooldown;
+                    if (EnableRanged)
+                        rangedBasicCooldownTimer = RangedBasicAttackCooldown;
+                    if (EnableMelee)
+                        meleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
             }
         }

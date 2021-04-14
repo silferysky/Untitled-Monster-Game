@@ -517,8 +517,10 @@ public class ChipMenuScript : MonoBehaviour
 
     void UpdateStatsChips()
     {
-        int BaseMeleeATK = 2, BaseRangedATK = 3;
-        float BaseMeleeCD = 0.3f, BaseRangedCD = 1.0f;
+        DoDamageScript damageScript = PlayerStatsObject.GetComponent<DoDamageScript>();
+
+        int BaseMeleeATK = damageScript.MeleeDamage, BaseRangedATK = damageScript.RangedDamage;
+        float BaseMeleeCD = damageScript.MeleeBasicAttackCooldown, BaseRangedCD = damageScript.RangedBasicAttackCooldown;
 
         int MAtkValue = 1;
         int MAtkSpdValue = 1;
@@ -563,7 +565,6 @@ public class ChipMenuScript : MonoBehaviour
         BaseRangedATK += (RAtkValue - 1);
         BaseRangedCD -= 0.05f * (RAtkSpdValue - 1);
 
-        DoDamageScript damageScript = PlayerStatsObject.GetComponent<DoDamageScript>();
         damageScript.MeleeDamage = BaseMeleeATK;
         damageScript.MeleeBasicAttackCooldown = BaseMeleeCD;
         damageScript.RangedDamage = BaseRangedATK;
