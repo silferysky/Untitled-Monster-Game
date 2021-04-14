@@ -54,6 +54,9 @@ public class ShittyAIScript : MonoBehaviour
 
     void UpdateMovement()
     {
+        if (CompareTag("Follower"))
+            return;
+
         moveVec = Vector3.zero;
 
         movementTimer += Time.deltaTime;

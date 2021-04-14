@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rigidbody;
     public GameObject PlayerModel;
     public GameObject Follower;
+    public GameObject FollowerTag;
     Vector3 m_playerLocation;
 
     public float MovementSpeed = 20.0f;
@@ -44,7 +45,12 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
 
+            Follower.GetComponent<Rigidbody2D>().AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode2D.Impulse);
+
             animator.SetTrigger("IsJumping");
+
+            Follower.GetComponent<Animator>().SetTrigger("IsJumping");
+
             //moveVec.y += 1.0f;
         }
         if (Input.GetKey(KeyCode.S))
@@ -78,11 +84,15 @@ public class PlayerMovement : MonoBehaviour
             else if (sprintTimer < 0.0f)
                 sprintTimer = 0.0f;
         }
-        
+
         rigidbody.AddForce(moveVec * Time.deltaTime * newMoveSpd, ForceMode2D.Impulse);
+
+        Follower.GetComponent<Rigidbody2D>().AddForce(moveVec * Time.deltaTime * newMoveSpd, ForceMode2D.Impulse);
 
         //For Counterforce
         rigidbody.AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
+
+        Follower.GetComponent<Rigidbody2D>().AddForce(rigidbody.velocity * -0.5f, ForceMode2D.Force);
 
         UpdateSpriteDirection();
     }
@@ -114,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
             if (wasFacingRightLastFrame != isFacingRight) // Now face right
             {
                 PlayerModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                Follower.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                FollowerTag.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 wasFacingRightLastFrame = isFacingRight;
             }
         }
@@ -122,11 +134,15 @@ public class PlayerMovement : MonoBehaviour
             if (wasFacingRightLastFrame != isFacingRight) // Now face left
             {
                 PlayerModel.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                Follower.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                FollowerTag.transform.localRotation = Quaternion.Euler(0, 180, 0);
                 wasFacingRightLastFrame = isFacingRight;
             }
         }
 
         animator.SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
+
+        Follower.GetComponent<Animator>().SetFloat("Velocity", Mathf.Abs(rigidbody.velocity.x));
 
     }
 
