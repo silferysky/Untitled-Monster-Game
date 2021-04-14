@@ -9724,6 +9724,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4205853034504462685, guid: a79f80266b1ae81438c67297ff349816,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205853034504462685, guid: a79f80266b1ae81438c67297ff349816,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4205853034626920740, guid: a79f80266b1ae81438c67297ff349816,
         type: 3}
       propertyPath: m_Color.b
@@ -9814,6 +9824,16 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1646322738}
+    - target: {fileID: 4205853034626920744, guid: a79f80266b1ae81438c67297ff349816,
+        type: 3}
+      propertyPath: maxMovementRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205853034626920744, guid: a79f80266b1ae81438c67297ff349816,
+        type: 3}
+      propertyPath: AttackRange
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4205853034626920745, guid: a79f80266b1ae81438c67297ff349816,
         type: 3}
       propertyPath: m_IsTrigger
@@ -9844,8 +9864,7 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Follower
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4205853034626920744, guid: a79f80266b1ae81438c67297ff349816, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a79f80266b1ae81438c67297ff349816, type: 3}
 --- !u!1001 &8808331331575608551
 PrefabInstance:

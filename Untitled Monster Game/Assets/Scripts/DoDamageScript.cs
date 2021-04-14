@@ -108,7 +108,7 @@ public class DoDamageScript : MonoBehaviour
 
     void ActuallyDoDamage()
     {
-        if (CompareTag("AI"))
+        if (CompareTag("AI") || CompareTag("Follower"))
         {
             if (myhealthscript.GetAlive())
             {
@@ -254,6 +254,8 @@ public class DoDamageScript : MonoBehaviour
                     if (EnableMelee)
                         meleeBasicCooldownTimer = MeleeBasicAttackCooldown;
                 }
+
+                GameObject.Find("Melee Follower").GetComponent<ShittyAIScript>().isMovingRight = true;
             }
         }
     }

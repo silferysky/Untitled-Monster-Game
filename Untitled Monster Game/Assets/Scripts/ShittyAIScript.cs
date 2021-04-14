@@ -14,6 +14,8 @@ public class ShittyAIScript : MonoBehaviour
     public float duration;
     public bool isMovingRight;
 
+    public float maxMovementRange = 20.0f;
+
     // Sprite Flipping
     public bool isFacingRight = true;
 
@@ -26,6 +28,11 @@ public class ShittyAIScript : MonoBehaviour
     public Canvas canvas;
 
     public Animator animator;
+
+    public float distBetwAIandPlayer;
+    bool isReturning = false;
+
+    public bool ForceReturn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -45,8 +52,14 @@ public class ShittyAIScript : MonoBehaviour
 
         if (healthscript.GetAlive())
         {
-            if (!isAttacking)
+            distBetwAIandPlayer = (GetComponent<Transform>().position - GameObject.Find("Player").GetComponent<Transform>().position).magnitude;
+            if (ForceReturn)
                 UpdateMovement();
+
+            else if (!isAttacking || (Mathf.Abs(distBetwAIandPlayer) > maxMovementRange))
+                UpdateMovement();
+
+
         }
 
         CheckAttackRange();
@@ -54,12 +67,25 @@ public class ShittyAIScript : MonoBehaviour
 
     void UpdateMovement()
     {
-        if (CompareTag("Follower"))
-            return;
+        //if (CompareTag("Follower"))
+        //    return;
 
         moveVec = Vector3.zero;
 
         movementTimer += Time.deltaTime;
+
+        if ((Mathf.Abs(distBetwAIandPlayer) > maxMovementRange && !isReturning) || ForceReturn)
+        {
+            ResetMovementTimers();
+
+            if (GetComponent<Transform>().position.x > GameObject.Find("Player").GetComponent<Transform>().position.x)
+                isMovingRight = false;
+            else
+                isMovingRight = true;
+
+            isReturning = true;
+            ForceReturn = false;
+        }
 
         if (movementTimer >= duration)
         {
